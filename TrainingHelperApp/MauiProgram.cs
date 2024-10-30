@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using TrainingHelper.Services;
+using TrainingHelperApp.ViewModels;
+using TrainingHelperApp.Views;
 //using SpriteKit;
 
 namespace TrainingHelperApp
@@ -30,19 +33,22 @@ namespace TrainingHelperApp
         {
            
             builder.Services.AddTransient<AppShell>();
+            builder.Services.AddTransient<LoginView>();
+            builder.Services.AddTransient<RegisterView>();
 
             return builder;
         }
 
         public static MauiAppBuilder RegisterDataServices(this MauiAppBuilder builder)
         {
-            
+            builder.Services.AddSingleton<TrainingHelperWebAPIProxy>();
             return builder;
         }
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
         {
-         
-           return builder;
+            builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<RegisterViewModel>();
+            return builder;
         }
     }
 }

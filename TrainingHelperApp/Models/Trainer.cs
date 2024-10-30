@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using TrainingHelperServer.Models;
+using TrainingHelperApp.Models;
 
 namespace TrainingHelperApp.Models
 {

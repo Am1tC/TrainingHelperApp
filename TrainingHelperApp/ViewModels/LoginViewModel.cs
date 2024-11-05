@@ -81,7 +81,7 @@ namespace TrainingHelperApp.ViewModels
             InServerCall = true;
             ErrorMsg = "";
             //Call the server to login
-            LoginInfo loginInfo = new LoginInfo {  Id = id , Password = Password };
+            LoginInfo loginInfo = new LoginInfo {  Id = Id , Password = Password };
             Trainee? u = await this.proxy.LoginAsync(loginInfo);
 
             InServerCall = false;

@@ -1,10 +1,10 @@
-using TrainingHelperApp.Views;
+using TrainingHelperApp.ViewModels;
 
 namespace TrainingHelperApp.Views;
 
 public partial class LoginView : ContentPage
 {
-    public LoginView(LoginView vm)
+    public LoginView(LoginViewModel vm)
     {
         BindingContext = vm;
         InitializeComponent();

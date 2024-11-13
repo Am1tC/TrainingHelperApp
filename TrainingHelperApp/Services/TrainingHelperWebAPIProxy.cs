@@ -98,6 +98,7 @@ namespace TrainingHelper.Services
             string url = $"{this}register";
             try
             {
+                
                 //Call the server API
                 string json = JsonSerializer.Serialize(user);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");

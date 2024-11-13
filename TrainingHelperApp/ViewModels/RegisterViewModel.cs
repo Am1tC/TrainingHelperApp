@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingHelper.Services;
+using TrainingHelperApp.Models;
 
 namespace TrainingHelperApp.ViewModels
 {
@@ -27,7 +28,7 @@ namespace TrainingHelperApp.ViewModels
             LastNameError = "Last name is required";
             EmailError = "Email is required";
             PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
-            PhoneError = "Phone must starts with'05' and have 10 digits";
+            PhoneError = "Phone must starts with 05 and have 10 digits";
         }
         #region Name
         private string name;
@@ -286,6 +287,20 @@ namespace TrainingHelperApp.ViewModels
         #endregion
 
         #region Phone
+
+        private string phone;
+
+        public string Phone
+        {
+            get => phone;
+            set
+            {
+                phone = value;
+                ValidatePhone();
+                OnPropertyChanged("Phone");
+            }
+        }
+
         private bool showPhoneError;
 
         public bool ShowPhoneError
@@ -298,18 +313,7 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
-        private string phone;
-
-        public string Phone
-        {
-            get => phone;
-            set
-            {
-                name = value;
-                ValidatePhone();
-                OnPropertyChanged("Phone");
-            }
-        }
+       
 
         private string phoneError;
 
@@ -318,19 +322,39 @@ namespace TrainingHelperApp.ViewModels
             get => phoneError;
             set
             {
-                nameError = value;
+                phoneError = value;
                 OnPropertyChanged("PhoneError");
             }
         }
 
         private void ValidatePhone()
         {
+            // string p;
+            //p = phone.Trim();
+
+            // if (p.StartsWith("05") && p.Length == 10)
+            // {
+            //     for (int i = 2; i < p.Length; i++)
+            //     {
+            //         if (!Char.IsDigit(p[i]))
+            //         {
+            //             this.ShowPhoneError = true;
+            //         }
+            //     }
+            //     this.ShowPhoneError = false;
+            // }
+            // this.ShowPhoneError = true;
+
             string pattern = @"^05\d{8}$";
 
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-            if(!regex.IsMatch(phone))
+            if (!regex.IsMatch(phone))
             {
-                this.ShowPhoneError = true;               
+                ShowPhoneError = true;
+            }
+            else
+            {
+                ShowPhoneError = false;
             }
         }
         #endregion
@@ -345,7 +369,7 @@ namespace TrainingHelperApp.ViewModels
             }
             set
             {
-                name = value;
+                id = value;
                 ValidateId();
                 OnPropertyChanged("Id");
 
@@ -448,7 +472,7 @@ namespace TrainingHelperApp.ViewModels
             DateTime currentDate = DateTime.Now;
             DateTime tenYearsAgo = currentDate.AddYears(-10);
             if(!(tenYearsAgo >= birthDate))
-                this.ShowNameError = true;
+                this.ShowBirthDateError = true;
         }
         #endregion
 
@@ -526,16 +550,20 @@ namespace TrainingHelperApp.ViewModels
             ValidatePhone();
             ValidateId();
 
-            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !showIdError && !showBirthDateError && !showPhoneError)
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError)
             {
                 //Create a new AppUser object with the data from the registration form
-                var newUser = new AppUser()
+                var newUser = new Models.Trainee()
                 {
-                    UserName = Name,
-                    UserLastName = LastName,
-                    UserEmail = Email,
-                    UserPassword = Password,
-                    IsManager = false
+                    FirstName = Name,
+                    LastName = LastName,
+                    Email = Email,
+                    Password = Password,
+                    Id = Id,
+                    PhoneNum = Phone,
+                    SubscriptionStartDate = DateTime.Now,
+                    SubscriptionEndDate = DateTime.Now.AddYears(1),
+                    BirthDate = DateTime.Now.AddYears(-20),
                 };
 
                 //Call the Register method on the proxy to register the new user
@@ -547,17 +575,17 @@ namespace TrainingHelperApp.ViewModels
                 if (newUser != null)
                 {
                     //UPload profile imae if needed
-                    if (!string.IsNullOrEmpty(LocalPhotoPath))
-                    {
-                        await proxy.LoginAsync(new LoginInfo { Email = newUser.UserEmail, Password = newUser.UserPassword });
-                        AppUser? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
-                        if (updatedUser == null)
-                        {
-                            InServerCall = false;
-                            await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
-                        }
-                    }
-                    InServerCall = false;
+                    //if (!string.IsNullOrEmpty(LocalPhotoPath))
+                    //{
+                    await proxy.LoginAsync(new Models.LoginInfo { Id = newUser.Id, Password = newUser.Password });
+                    //    Trainee? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
+                    //    if (updatedUser == null)
+                    //    {
+                    //        InServerCall = false;
+                    //        await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                    //    }
+                    //}
+                    //InServerCall = false;
 
                     ((App)(Application.Current)).MainPage.Navigation.PopAsync();
                 }

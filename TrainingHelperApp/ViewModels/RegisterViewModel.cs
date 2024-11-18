@@ -181,16 +181,17 @@ namespace TrainingHelperApp.ViewModels
             if (!ShowEmailError)
             {
                 //check if email is in the correct format using regular expression
-                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
-                {
-                    EmailError = "Email is not valid";
-                    ShowEmailError = true;
-                }
-                else
-                {
-                    EmailError = "";
-                    ShowEmailError = false;
-                }
+                //if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                //{
+                //    EmailError = "Email is not valid";
+                //    ShowEmailError = true;
+                //}
+                //else
+                //{
+                //    EmailError = "";
+                //    ShowEmailError = false;
+                //}
+                ShowEmailError = false;
             }
             else
             {

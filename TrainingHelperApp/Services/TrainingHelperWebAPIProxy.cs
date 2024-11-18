@@ -95,7 +95,7 @@ namespace TrainingHelper.Services
         public async Task<Trainee?> Register(Trainee user)
         {
             //Set URI to the specific function API
-            string url = $"{this}register";
+            string url = $"{this.baseUrl}register";
             try
             {
                 

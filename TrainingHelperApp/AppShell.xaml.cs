@@ -18,6 +18,7 @@ namespace TrainingHelperApp
             Routing.RegisterRoute("updateProfileView", typeof(AddTrainerView));
 
 
+
         }
     }
 }

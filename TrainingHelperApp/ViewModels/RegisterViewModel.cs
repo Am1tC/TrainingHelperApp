@@ -330,33 +330,33 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidatePhone()
         {
-            // string p;
+            //string p;
             //p = phone.Trim();
 
-            // if (p.StartsWith("05") && p.Length == 10)
-            // {
-            //     for (int i = 2; i < p.Length; i++)
-            //     {
-            //         if (!Char.IsDigit(p[i]))
-            //         {
-            //             this.ShowPhoneError = true;
-            //         }
-            //     }
-            //     this.ShowPhoneError = false;
-            // }
-            // this.ShowPhoneError = true;
+            //if (p.StartsWith("05") && p.Length == 10)
+            //{
+            //    for (int i = 2; i < p.Length; i++)
+            //    {
+            //        if (!Char.IsDigit(p[i]))
+            //        {
+            //            this.ShowPhoneError = true;
+            //        }
+            //    }
+            //    this.ShowPhoneError = false;
+            //}
+            //this.ShowPhoneError = true;
 
-            string pattern = @"^05\d{8}$";
+            //string pattern = @"^05\d{8}$";
 
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-            if (!regex.IsMatch(phone))
-            {
-                ShowPhoneError = true;
-            }
-            else
-            {
-                ShowPhoneError = false;
-            }
+            //System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+            //if (!regex.IsMatch(phone))
+            //{
+            //    ShowPhoneError = true;
+            //}
+            //else
+            //{
+            //    ShowPhoneError = false;
+            //}
         }
         #endregion
 
@@ -409,7 +409,7 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateId()
         {
-            id = id.Trim().PadLeft(9, '0');
+            id = id.Trim();
             if (id.Length == 9 && long.TryParse(id, out _) && id.Select((c, i) => (c - '0') * (1 + i % 2)).Sum(d => d > 9 ? d - 9 : d) % 10 == 0)
                 showIdError =false;
         }
@@ -477,6 +477,65 @@ namespace TrainingHelperApp.ViewModels
         }
         #endregion
 
+        //#region Photo
+
+        //private string photoURL;
+
+        //public string PhotoURL
+        //{
+        //    get => photoURL;
+        //    set
+        //    {
+        //        photoURL = value;
+        //        OnPropertyChanged("PhotoURL");
+        //    }
+        //}
+
+        //private string localPhotoPath;
+
+        //public string LocalPhotoPath
+        //{
+        //    get => localPhotoPath;
+        //    set
+        //    {
+        //        localPhotoPath = value;
+        //        OnPropertyChanged("LocalPhotoPath");
+        //    }
+        //}
+
+        //public Command UploadPhotoCommand { get; }
+        ////This method open the file picker to select a photo
+        //private async void OnUploadPhoto()
+        //{
+        //    try
+        //    {
+        //        var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+        //        {
+        //            Title = "Please select a photo",
+        //        });
+
+        //        if (result != null)
+        //        {
+        //            // The user picked a file
+        //            this.LocalPhotoPath = result.FullPath;
+        //            this.PhotoURL = result.FullPath;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+
+        //}
+
+        //private void UpdatePhotoURL(string virtualPath)
+        //{
+        //    Random r = new Random();
+        //    PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+        //    LocalPhotoPath = "";
+        //}
+
+        //#endregion
+
         #region Photo
 
         private string photoURL;
@@ -509,6 +568,31 @@ namespace TrainingHelperApp.ViewModels
         {
             try
             {
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Please select a photo",
+                });
+
+                if (result != null)
+                {
+                    // The user picked a file
+                    this.LocalPhotoPath = result.FullPath;
+                    this.PhotoURL = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public Command UploadTakePhotoCommand { get; }
+        //This method open the file picker to select a photo
+        private async void OnUploadTakePhoto()
+        {
+            try
+            {
                 var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
                 {
                     Title = "Please select a photo",
@@ -523,6 +607,7 @@ namespace TrainingHelperApp.ViewModels
             }
             catch (Exception ex)
             {
+
             }
 
         }
@@ -535,6 +620,10 @@ namespace TrainingHelperApp.ViewModels
         }
 
         #endregion
+
+        
+
+    
 
         //Define a command for the register button
         public Command RegisterCommand { get; }
@@ -576,19 +665,19 @@ namespace TrainingHelperApp.ViewModels
                 if (newUser != null)
                 {
                     //UPload profile imae if needed
-                    //if (!string.IsNullOrEmpty(LocalPhotoPath))
-                    //{
-                    await proxy.LoginAsync(new Models.LoginInfo { Id = newUser.Id, Password = newUser.Password });
-                    //    Trainee? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
-                    //    if (updatedUser == null)
-                    //    {
-                    //        InServerCall = false;
-                    //        await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
-                    //    }
-                    //}
-                    //InServerCall = false;
+                    if (!string.IsNullOrEmpty(LocalPhotoPath))
+                        {
+                        Trainee? updatedUser = await proxy.LoginAsync(new Models.LoginInfo { Id = newUser.Id, Password = newUser.Password });
+                    await proxy.UploadProfileImage(LocalPhotoPath);
+                    if (updatedUser == null)
+                    {
+                        InServerCall = false;
+                        await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                    }
+                }
+                InServerCall = false;
 
-                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                ((App)(Application.Current)).MainPage.Navigation.PopAsync();
                 }
                 else
                 {

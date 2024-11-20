@@ -15,7 +15,7 @@ namespace TrainingHelperApp
         private void RegisterRoutes()
         {        
             Routing.RegisterRoute("updateProfileView", typeof(ProfileView));
-            Routing.RegisterRoute("updateProfileView", typeof(AddTrainerView));
+            Routing.RegisterRoute("addTrainerView", typeof(AddTrainerView));
 
 
 

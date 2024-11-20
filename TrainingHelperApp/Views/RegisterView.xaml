@@ -14,27 +14,26 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="theImageBug" Source="{Binding PhotoURL}"  HeightRequest="150"/>
+
+                    <Image x:Name="theImageBug" Source="{Binding PhotoURL}" HeightRequest="150"/>
+
                     <Label Grid.Row="1"
-Text="Click Here To Upload Photo!"
-
-HorizontalOptions="Center"
-VerticalOptions="End">
-
-
+               Text="Click Here To Take a Photo!"
+               HorizontalOptions="Center"
+               VerticalOptions="End">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}"/>
+                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
-
-      
                 </Grid>
             </Frame>
+
+
+
             <!-- First Name -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -42,7 +41,7 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="First Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
             </Grid>
             <Entry Placeholder="Type First Name" Text="{Binding Name}" Style="{StaticResource entryStyle}" />
 
@@ -53,7 +52,7 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="Last Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
             </Grid>
             <Entry Placeholder="Type Last Name" Text="{Binding LastName}" Style="{StaticResource entryStyle}" />
 
@@ -64,7 +63,7 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="Email" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
             </Grid>
             <Entry Placeholder="Type Email" Text="{Binding Email}" Style="{StaticResource entryStyle}" />
 
@@ -75,7 +74,7 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="Phone" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding PhoneError}" IsVisible="{Binding ShowPhoneError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="{Binding PhoneError}" IsVisible="{Binding ShowPhoneError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red"/>
             </Grid>
             <Entry Placeholder="Type Phone" Text="{Binding Phone}" Style="{StaticResource entryStyle}" />
 
@@ -86,7 +85,7 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="Id" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding IdError}" IsVisible="{Binding ShowIdError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="{Binding IdError}" IsVisible="{Binding ShowIdError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
             </Grid>
             <Entry Placeholder="Type ID " Text="{Binding Id}" Style="{StaticResource entryStyle}" />
 
@@ -99,7 +98,7 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="Password" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>

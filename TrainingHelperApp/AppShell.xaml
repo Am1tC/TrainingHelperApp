@@ -8,10 +8,10 @@
     Title="TrainingHelperApp">
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs">
-        <ShellContent
+        <!--<ShellContent
             Title="Profile" Icon="tasks2.png"
-            ContentTemplate="{DataTemplate views:ProfileView}"
-            Route="Profile" />
+            ContentTemplate="{DataTemplate View:updateProfileView}"
+            Route="Profile" />-->
        
 
 

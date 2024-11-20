@@ -22,12 +22,12 @@ namespace TrainingHelperApp.ViewModels
             LocalPhotoPath = "";
             IsPassword = true;
 
-            idError = "Invalid Id";
+            IdError = "Invalid Id";
             BirthDateError = "must be older than 10 years";
             NameError = "Name is required";
             LastNameError = "Last name is required";
             EmailError = "Email is required";
-            PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
+            PasswordError = "Password must contain letters and numbers";
             PhoneError = "Phone must starts with 05 and have 10 digits";
         }
         #region Name
@@ -329,34 +329,19 @@ namespace TrainingHelperApp.ViewModels
         }
 
         private void ValidatePhone()
-        {
-            //string p;
-            //p = phone.Trim();
+        {    
 
-            //if (p.StartsWith("05") && p.Length == 10)
-            //{
-            //    for (int i = 2; i < p.Length; i++)
-            //    {
-            //        if (!Char.IsDigit(p[i]))
-            //        {
-            //            this.ShowPhoneError = true;
-            //        }
-            //    }
-            //    this.ShowPhoneError = false;
-            //}
-            //this.ShowPhoneError = true;
+            string pattern = @"^05\d{8}$";
 
-            //string pattern = @"^05\d{8}$";
-
-            //System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-            //if (!regex.IsMatch(phone))
-            //{
-            //    ShowPhoneError = true;
-            //}
-            //else
-            //{
-            //    ShowPhoneError = false;
-            //}
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+            if (!regex.IsMatch(phone))
+            {
+                ShowPhoneError = true;
+            }
+            else
+            {
+                ShowPhoneError = false;
+            }
         }
         #endregion
 
@@ -409,9 +394,15 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateId()
         {
-            id = id.Trim();
-            if (id.Length == 9 && long.TryParse(id, out _) && id.Select((c, i) => (c - '0') * (1 + i % 2)).Sum(d => d > 9 ? d - 9 : d) % 10 == 0)
-                showIdError =false;
+            if (!string.IsNullOrEmpty(id) && id.Length == 9 && id.All(char.IsDigit))
+            {
+                showIdError = id.Select((c, i) => (c - '0') * (1 + i % 2))
+                               .Sum(d => d > 9 ? d - 9 : d) % 10 != 0;
+            }
+            else
+            {
+                showIdError = true;
+            }
         }
         #endregion
 

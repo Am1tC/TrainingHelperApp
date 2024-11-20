@@ -26,6 +26,7 @@ namespace TrainingHelperApp.ViewModels
             errorMsg = "";
         }
 
+        #region Validation
         private string id;
         private string password;
 
@@ -73,7 +74,7 @@ namespace TrainingHelperApp.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-
+        #endregion
 
         private async void OnLogin()
         {
@@ -102,7 +103,7 @@ namespace TrainingHelperApp.ViewModels
                 ((App)Application.Current).MainPage = shell;
                 Shell.Current.FlyoutIsPresented = false; //close the flyout
                 Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
-            }
+            }     
         }
 
         private void OnRegister()

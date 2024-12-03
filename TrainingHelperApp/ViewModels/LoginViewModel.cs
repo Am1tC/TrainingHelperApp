@@ -97,12 +97,12 @@ namespace TrainingHelperApp.ViewModels
             {
                 ErrorMsg = "";
                 //Navigate to the main page
-                AppShell shell = serviceProvider.GetService<AppShell>();
+               AppShell? shell = serviceProvider.GetService<AppShell>();
                // tasksViewModel = serviceProvider.GetService<TasksViewModel>();
                 //tasksViewModel.Refresh(); //Refresh data and user in the tasksview model as it is a singleton
                 ((App)Application.Current).MainPage = shell;
                 Shell.Current.FlyoutIsPresented = false; //close the flyout
-                Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
+                //Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
             }     
         }
 

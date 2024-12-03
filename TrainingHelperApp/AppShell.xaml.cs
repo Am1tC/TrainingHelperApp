@@ -1,4 +1,5 @@
-﻿using TrainingHelperApp.ViewModels;
+﻿using System.Windows.Input;
+using TrainingHelperApp.ViewModels;
 using TrainingHelperApp.Views;
 
 namespace TrainingHelperApp
@@ -16,9 +17,15 @@ namespace TrainingHelperApp
         {        
             Routing.RegisterRoute("updateProfileView", typeof(ProfileView));
             Routing.RegisterRoute("addTrainerView", typeof(AddTrainerView));
+           // Routing.RegisterRoute("ContactPage", typeof(ContentPageview));
 
 
 
+        }
+        public ICommand LogOutCommand { get; set; }
+        private void OnLogOut()
+        {
+            DisplayAlert("Log out", "Are you sure you want to log out", "Ok");
         }
     }
 }

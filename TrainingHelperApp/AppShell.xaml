@@ -4,15 +4,26 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:TrainingHelperApp"
+    xmlns:Views="clr-namespace:TrainingHelperApp.Views"
     Shell.FlyoutBehavior="Flyout"
     Title="TrainingHelperApp">
 
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs">
-        <!--<ShellContent
-            Title="Profile" Icon="tasks2.png"
-            ContentTemplate="{DataTemplate View:updateProfileView}"
-            Route="Profile" />-->
-       
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs"> 
+        <ShellContent
+           Title="Profile" 
+           ContentTemplate="{DataTemplate Views:ProfileView}"
+           Route="Profile" />
+
+        <ShellContent
+           Title="Events" 
+           ContentTemplate="{DataTemplate Views:EventsView}"
+           Route="Events" />
+
+        <ShellContent
+         Title="Contact" 
+        ContentTemplate="{DataTemplate Views:CantactPageView}"
+        Route="Contact" />
+
 
 
     </FlyoutItem>

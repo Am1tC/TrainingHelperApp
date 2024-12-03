@@ -39,6 +39,8 @@ namespace TrainingHelperApp
             builder.Services.AddTransient<EventsView>();
             builder.Services.AddTransient<OwnerView>();
             builder.Services.AddTransient<ProfileView>();
+            builder.Services.AddTransient<EventsView>();
+          //  builder.Services.AddTransient<conact>();
 
             return builder;
         }
@@ -52,11 +54,12 @@ namespace TrainingHelperApp
         {
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<RegisterViewModel>();
-            builder.Services.AddTransient<RegisterViewModel>();
             builder.Services.AddTransient<AddTrainerViewModel>();
             builder.Services.AddTransient<EventsViewModel>();
             builder.Services.AddTransient<OwnerViewModel>();
             builder.Services.AddTransient<ProfileViewModel>();
+            builder.Services.AddTransient<AppShellViewModel>();
+            builder.Services.AddTransient<ContactPageViewModel>();
             return builder;
         }
     }

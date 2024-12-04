@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -6,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
-using static Java.Util.Jar.Attributes;
+//using static Java.Util.Jar.Attributes;
 
 namespace TrainingHelperApp.ViewModels
 {
     public class ProfileViewModel : ViewModelBase
     {
         private TrainingHelperWebAPIProxy proxy;
-        public EditProfileViewModel(TrainingHelperWebAPIProxy proxy)
+        public ProfileViewModel(TrainingHelperWebAPIProxy proxy)
         {
             Trainee theUser = ((App)App.Current).LoggedInUser;
 
@@ -30,9 +31,9 @@ namespace TrainingHelperApp.ViewModels
             ShowPasswordCommand = new Command(OnShowPassword);
             UploadPhotoCommand = new Command(OnUploadPhoto);
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+
             LocalPhotoPath = "";
             IsPassword = true;
-
             IdError = "Invalid Id";
             BirthDateError = "must be older than 10 years";
             NameError = "Name is required";
@@ -541,8 +542,62 @@ namespace TrainingHelperApp.ViewModels
         #endregion
 
         public Command SaveCommand { get; }
-        public async void OnSave() //same as on register
+        public async void OnSave() //simillar as on register
         {
+            ValidateName();
+            ValidateLastName();
+            ValidateEmail();
+            ValidatePassword();
+            ValidateBirthDate();
+            ValidatePhone();
+            ValidateId();
+
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError)
+            {
+                Trainee theUser = ((App)App.Current).LoggedInUser;
+                theUser.FirstName = Name;
+                theUser.LastName = LastName;
+                theUser.Email = Email;
+                theUser.Password = Password;
+                theUser.BirthDate = birthDate;
+                theUser.PhoneNum = Phone;
+                theUser.Id = Id;
+
+
+                InServerCall = true;
+                bool success = await proxy.UpdateUser(theUser);
+
+                //If the save was successful, navigate to the login page
+                if (success)
+                {
+                    //UPload profile imae if needed
+                    if (!string.IsNullOrEmpty(LocalPhotoPath))
+                    {
+                        Trainee? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
+                        if (updatedUser == null)
+                        {
+                            await Shell.Current.DisplayAlert("Save Profile", "User Data Was Saved BUT Profile image upload failed", "ok");
+                        }
+                        else
+                        {
+                            //theUser.ProfileImagePath = updatedUser.ProfileImagePath;
+                            //UpdatePhotoURL(theUser.ProfileImagePath);
+                        }
+
+                    }
+                    InServerCall = false;
+                    await Shell.Current.DisplayAlert("Save Profile", "Profile saved successfully", "ok");
+                }
+                else
+                {
+                    InServerCall = false;
+                    //If the registration failed, display an error message
+                    string errorMsg = "Save Profile failed. Please try again.";
+                    await Shell.Current.DisplayAlert("Save Profile", errorMsg, "ok");
+                }
+
+
+            }
         }
     }
 }

@@ -191,6 +191,41 @@ namespace TrainingHelper.Services
             }
         }
 
+        public async Task<List<Training?>> ShowTrainings(DateTime date)
+        {
+            string url = $"{this.baseUrl}ShowTrainings";
+            try
+            {
+                string json = JsonSerializer.Serialize(date);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Training>? result = JsonSerializer.Deserialize<List<Training?>>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+
+
+
+        }
+
 
 
 

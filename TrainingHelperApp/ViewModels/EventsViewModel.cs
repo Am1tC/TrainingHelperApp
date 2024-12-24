@@ -93,6 +93,18 @@ namespace TrainingHelperApp.ViewModels
 
         #endregion
 
+        private DateTime selectedDate = DateTime.Now;
+        public DateTime SelectedDate
+        {
+            get => selectedDate;
+            set
+            {
+                selectedDate = value;
+                filterTrainings(selectedDate); // Filter trainings when the date changes
+                OnPropertyChanged();
+            }
+        }
+
         private void filterTrainings(DateTime date)
         {
             trainings.Clear();

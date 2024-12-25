@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TrainingHelperApp;
 using TrainingHelperApp.Models;
 //using Windows.System;
 
@@ -99,7 +100,7 @@ namespace TrainingHelper.Services
             string url = $"{this.baseUrl}register";
             try
             {
-                
+
                 //Call the server API
                 string json = JsonSerializer.Serialize(user);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -256,11 +257,52 @@ namespace TrainingHelper.Services
                 return null;
             }
         }
+        public async Task<bool> SignUpForTraining(int trainingNumber)
+        {
+            // Set URI to the specific function API
+            string url = $"{this.baseUrl}SignUpForTraining";
+
+            try
+            {
+                // Create the payload object
+                var payload = new
+                {
+                    TraineeId = ((App)Application.Current).LoggedInUser.TraineeId, // Replace with logic to get the logged-in user's ID
+                    TrainingNumber = trainingNumber
+                };
+
+                // Serialize the payload to JSON
+                string jsonPayload = JsonSerializer.Serialize(payload);
+
+                // Create the HTTP content with JSON and set headers
+                StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send POST request
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                // Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in SignUpForTraining: {ex.Message}");
+                return false;
+            }
 
 
+
+
+
+
+        }
 
 
     }
-
-
 }

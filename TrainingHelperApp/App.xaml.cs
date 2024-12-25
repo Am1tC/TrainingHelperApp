@@ -6,7 +6,7 @@ namespace TrainingHelperApp
 {
     public partial class App : Application
     {
-        public Trainee? LoggedInUser { get; set; }
+        public  Trainee? LoggedInUser { get; set; }
         
         private TrainingHelperWebAPIProxy proxy;
         public App(IServiceProvider serviceProvider, TrainingHelperWebAPIProxy proxy)

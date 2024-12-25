@@ -15,11 +15,11 @@ namespace TrainingHelperApp
 
         private void RegisterRoutes()
         {        
-            Routing.RegisterRoute("updateProfileView", typeof(ProfileView));
+            Routing.RegisterRoute("Profile", typeof(ProfileView));
             Routing.RegisterRoute("addTrainerView", typeof(AddTrainerView));
            // Routing.RegisterRoute("ContactPage", typeof(ContentPageview));
-
-
+           Routing.RegisterRoute("TrainingView", typeof(TrainingView));
+            Routing.RegisterRoute("Events", typeof(EventsView));
 
         }
         public ICommand LogOutCommand { get; set; }

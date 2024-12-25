@@ -25,6 +25,8 @@
         ContentTemplate="{DataTemplate Views:CantactPageView}"
         Route="Contact" />
 
+        <!--<ShellContent Title="Training Details" Route="TrainingDetails" ContentTemplate="{DataTemplate Views:AddTrainerView}" />-->
+
 
 
     </FlyoutItem>

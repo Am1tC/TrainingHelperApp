@@ -16,6 +16,9 @@ namespace TrainingHelperApp.ViewModels
         public EventsViewModel(TrainingHelperWebAPIProxy proxy) 
         {
             this.proxy = proxy;
+            Trainings = new ObservableCollection<Training>();
+            unfilterdtrainings = new List<Training>();
+            ReadTrainings();
         }
         private List<Training> unfilterdtrainings;
 
@@ -33,17 +36,7 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
-        //private DatePicker filter;
-        //public string Filter
-        //{
-        //    get => filter;
-        //    set
-        //    {
-        //        filter = value;
-        //        filterTrainings();
-        //        OnPropertyChanged();
-        //    }
-        //}
+     
 
 
         private async void ReadTrainings()
@@ -53,7 +46,9 @@ namespace TrainingHelperApp.ViewModels
             //{
             //    p.PostPicturePath = proxy.GetImagesBaseAddress() + p.PostPicturePath;
             //}
-            this.Trainings = new ObservableCollection<Training>(list);
+            if (list != null)
+                this.unfilterdtrainings = list;
+            filterTrainings();
         }
 
 
@@ -71,7 +66,7 @@ namespace TrainingHelperApp.ViewModels
             {
                 this.selectedTraining = value;
                 OnSingleSelectTraining(selectedTraining);
-                OnPropertyChanged();
+                OnPropertyChanged("SelectedTraining");
             }
         }
 
@@ -86,7 +81,7 @@ namespace TrainingHelperApp.ViewModels
                     {"selectedTraining",t }
                 };
                 await Shell.Current.GoToAsync("TrainingView", navParam);
-                //SelectedTraining = null;
+                SelectedTraining = null;
 
             }
         }
@@ -100,17 +95,18 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 selectedDate = value;
-                filterTrainings(selectedDate); // Filter trainings when the date changes
+                filterTrainings(); // Filter trainings when the date changes
                 OnPropertyChanged();
             }
         }
 
-        private void filterTrainings(DateTime date)
+        private void filterTrainings()
         {
+            DateTime date = SelectedDate;
             trainings.Clear();
             foreach (var training in unfilterdtrainings)
             {
-                if(training.Date == date)
+                if (training.Date.HasValue && training.Date.Value.Date == date.Date)
                 {
                     trainings.Add(new Training()
                     {

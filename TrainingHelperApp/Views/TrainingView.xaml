@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrainingHelperApp.Views.TrainingView"
+             Title="Training Details">
+    <VerticalStackLayout Padding="10">
+        <!-- Training Details -->
+        <Image Source="{Binding Picture}" HeightRequest="200" Aspect="AspectFill" />
+        <Label Text="{Binding Place}" FontSize="Large" FontAttributes="Bold" />
+        <Label Text="{Binding Date, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" />
+        <Label Text="Trainer:" FontAttributes="Bold" />
+        <Label Text="{Binding Trainer.FirstName}" />
+        <Label Text="Duration:" FontAttributes="Bold" />
+        <Label Text="{Binding Duration}" />
+        <Label Text="Max Participants:" FontAttributes="Bold" />
+        <Label Text="{Binding MaxParticipants}" />
+
+        <!-- Sign-Up Button -->
+        <Button Text="Sign Up" Command="{Binding SignUpCommand}" BackgroundColor="Green" TextColor="White" />
+    </VerticalStackLayout>
+</ContentPage>

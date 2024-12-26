@@ -259,49 +259,26 @@ namespace TrainingHelper.Services
         }
         public async Task<bool> SignUpForTraining(int trainingNumber)
         {
-            // Set URI to the specific function API
             string url = $"{this.baseUrl}SignUpForTraining";
 
             try
             {
-                // Create the payload object
-                var payload = new
-                {
-                    TraineeId = ((App)Application.Current).LoggedInUser.TraineeId, // Replace with logic to get the logged-in user's ID
-                    TrainingNumber = trainingNumber
-                };
-
-                // Serialize the payload to JSON
+                var payload = new { TrainingNumber = trainingNumber };
                 string jsonPayload = JsonSerializer.Serialize(payload);
 
-                // Create the HTTP content with JSON and set headers
                 StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
-                // Send POST request
                 HttpResponseMessage response = await client.PostAsync(url, content);
 
-                // Check status
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in SignUpForTraining: {ex.Message}");
                 return false;
             }
-
-
-
-
-
-
         }
+
+       //public async Task<bool> SignUpForTraining(int )
 
 
     }

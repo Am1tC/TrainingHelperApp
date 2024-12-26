@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:TrainingHelperApp"
     xmlns:Views="clr-namespace:TrainingHelperApp.Views"
+    Shell.TabBarForegroundColor="LightBlue"
+    Shell.TabBarTitleColor="LightBlue"
     Shell.FlyoutBehavior="Flyout"
     Title="TrainingHelperApp">
 
@@ -13,23 +15,26 @@
         <ShellContent
            Title="Profile" 
            ContentTemplate="{DataTemplate Views:ProfileView}"
-           Route="Profile" />
+           Route="Profile" 
+           Icon="profile_icon.png" />
 
         <ShellContent
            Title="Events" 
            ContentTemplate="{DataTemplate Views:EventsView}"
-           Route="Events" />
+           Route="Events" 
+           Icon="calander_icon.png" />
 
         <ShellContent
-         Title="Contact" 
-        ContentTemplate="{DataTemplate Views:CantactPageView}"
-        Route="Contact" />
+           Title="Contact" 
+           ContentTemplate="{DataTemplate Views:CantactPageView}"
+           Route="Contact"
+           Icon="contact_icon.png" />
 
         <!--<ShellContent Title="Training Details" Route="TrainingDetails" ContentTemplate="{DataTemplate Views:AddTrainerView}" />-->
 
 
 
     </FlyoutItem>
-    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" />
+    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" IconImageSource="exit_icon.png"/>
 
 </Shell>

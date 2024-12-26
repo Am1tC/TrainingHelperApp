@@ -16,6 +16,7 @@ namespace TrainingHelperApp.ViewModels
         public TrainingViewModel(TrainingHelperWebAPIProxy proxy)
         {
             this.proxy = proxy;
+            selectedTraining = new Training();
         }
 
         private Training selectedTraining;

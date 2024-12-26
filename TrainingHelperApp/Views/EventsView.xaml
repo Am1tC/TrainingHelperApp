@@ -23,31 +23,31 @@
             Format="D" />
 
         <!--  Trainings List  -->
-        <ListView
+        <CollectionView
             Margin="0,10"
-            HasUnevenRows="True"
             ItemsSource="{Binding Trainings}"
-            SelectedItem="{Binding SelectedTraining}"
-            SelectionMode="Single">
-
-            <ListView.ItemTemplate>
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedTraining}">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="10" Orientation="Vertical">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                Text="{Binding Trainer}" />
-                            <Label
-                                FontSize="14"
-                                Text="{Binding Place}"
-                                TextColor="Gray" />
-                            <Label FontSize="14" Text="{Binding Duration, StringFormat='Duration: {0}'}" />
-                            <Label FontSize="14" Text="{Binding MaxParticipants, StringFormat='Max Participants: {0}'}" />
-                        </StackLayout>
-                    </ViewCell>
+                    <StackLayout Padding="10" Orientation="Vertical">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding Trainer}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding Place}"
+                            TextColor="Gray" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding Duration, StringFormat='Duration: {0}'}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding MaxParticipants, StringFormat='Max Participants: {0}'}" />
+                    </StackLayout>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

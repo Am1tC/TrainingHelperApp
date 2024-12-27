@@ -31,6 +31,7 @@ namespace TrainingHelperApp.Models
         public Trainee() { }
         public Trainee(Models.Trainee trainee) 
         {
+            this.Password = trainee.Password;
             this.TraineeId = trainee.TraineeId;
             this.FirstName = trainee.FirstName;
             this.LastName = trainee.LastName;
@@ -57,6 +58,7 @@ namespace TrainingHelperApp.Models
             t.PhoneNum = this.PhoneNum;
             t.Email = this.Email;
             t.Picture = this.Picture;
+            t.Password = this.Password;
             return t;
         }
 

@@ -24,6 +24,14 @@ namespace TrainingHelperApp.ViewModels
             LastName = theUser.LastName;
             Email = theUser.Email;
             Password = theUser.Password;
+            Phone = theUser.PhoneNum;
+            Id = theUser.Id;
+            BirthDate = theUser.BirthDate.Value;
+
+
+
+
+
 
 
 

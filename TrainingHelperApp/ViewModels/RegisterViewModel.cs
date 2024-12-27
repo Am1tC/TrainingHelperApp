@@ -16,17 +16,20 @@ namespace TrainingHelperApp.ViewModels
             this.proxy = proxy;
             RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
-            ShowPasswordCommand = new Command(OnShowPassword);
+            LogInCommand = new Command(OnLogIn);
+
+           
             UploadPhotoCommand = new Command(OnUploadPhoto);
+            UploadTakePhotoCommand = new Command(OnUploadTakePhoto);
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             IsPassword = true;
 
             IdError = "Invalid Id";
             BirthDateError = "must be older than 10 years";
-            NameError = "Name is required";
-            LastNameError = "Last name is required";
-            EmailError = "Email is required";
+            NameError = "Invalid Name";
+            LastNameError = "Invalid Last name ";
+            EmailError = "Email must be in the correct format";
             PasswordError = "Password must contain letters and numbers";
             PhoneError = "Phone must starts with 05 and have 10 digits";
         }
@@ -79,7 +82,7 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateName()
         {
-            this.ShowNameError = string.IsNullOrEmpty(Name);
+            this.ShowNameError = name.Any(char.IsDigit);
         }
         #endregion
 
@@ -123,7 +126,7 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateLastName()
         {
-            this.ShowLastNameError = string.IsNullOrEmpty(LastName);
+            this.ShowLastNameError = lastName.Any(char.IsDigit);
         }
         #endregion
 
@@ -177,20 +180,20 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateEmail()
         {
-            this.ShowEmailError = string.IsNullOrEmpty(Email);
+           
             if (!ShowEmailError)
             {
-                //check if email is in the correct format using regular expression
-                //if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
-                //{
-                //    EmailError = "Email is not valid";
-                //    ShowEmailError = true;
-                //}
-                //else
-                //{
-                //    EmailError = "";
-                //    ShowEmailError = false;
-                //}
+               // check if email is in the correct format using regular expression
+                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                {
+                    EmailError = "Email is not valid";
+                    ShowEmailError = true;
+                }
+                else
+                {
+                    EmailError = "";
+                    ShowEmailError = false;
+                }
                 ShowEmailError = false;
             }
             else
@@ -250,9 +253,8 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidatePassword()
         {
-            //Password must include characters and numbers and be longer than 4 characters
-            if (string.IsNullOrEmpty(password) ||
-                password.Length < 4 ||
+            //Password must include characters and numbers 
+            if (string.IsNullOrEmpty(password) ||                
                 !password.Any(char.IsDigit) ||
                 !password.Any(char.IsLetter))
             {
@@ -275,14 +277,15 @@ namespace TrainingHelperApp.ViewModels
                 OnPropertyChanged("IsPassword");
             }
         }
+
         //This command will trigger on pressing the password eye icon
-        public Command ShowPasswordCommand { get; }
-        //This method will be called when the password eye icon is pressed
-        public void OnShowPassword()
-        {
-            //Toggle the password visibility
-            IsPassword = !IsPassword;
-        }
+        //public Command ShowPasswordCommand { get; }
+        ////This method will be called when the password eye icon is pressed
+        //public void OnShowPassword()
+        //{
+        //    //Toggle the password visibility
+        //    IsPassword = !IsPassword;
+        //}
 
 
         #endregion
@@ -329,19 +332,17 @@ namespace TrainingHelperApp.ViewModels
         }
 
         private void ValidatePhone()
-        {    
+        {
 
-            string pattern = @"^05\d{8}$";
-
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-            if (!regex.IsMatch(phone))
-            {
-                ShowPhoneError = true;
-            }
-            else
+            if (phone.StartsWith("05") && phone.Length == 10 && phone.All(char.IsDigit))
             {
                 ShowPhoneError = false;
             }
+            else
+            {
+                ShowPhoneError = true;
+            }
+
         }
         #endregion
 
@@ -394,15 +395,17 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateId()
         {
-            if (!string.IsNullOrEmpty(id) && id.Length == 9 && id.All(char.IsDigit))
+            if (string.IsNullOrEmpty(id) ||
+                  id.Length != 9 ||
+                  !id.All(char.IsDigit))
             {
-                showIdError = id.Select((c, i) => (c - '0') * (1 + i % 2))
-                               .Sum(d => d > 9 ? d - 9 : d) % 10 != 0;
+                this.ShowIdError = true;
             }
             else
             {
-                showIdError = true;
+                this.ShowIdError = false;
             }
+
         }
         #endregion
 
@@ -468,64 +471,64 @@ namespace TrainingHelperApp.ViewModels
         }
         #endregion
 
-        #region Photo
+        //#region Photo
 
-        private string photoURL;
+        //private string photoURL;
 
-        public string PhotoURL
-        {
-            get => photoURL;
-            set
-            {
-                photoURL = value;
-                OnPropertyChanged("PhotoURL");
-            }
-        }
+        //public string PhotoURL
+        //{
+        //    get => photoURL;
+        //    set
+        //    {
+        //        photoURL = value;
+        //        OnPropertyChanged("PhotoURL");
+        //    }
+        //}
 
-        private string localPhotoPath;
+        //private string localPhotoPath;
 
-        public string LocalPhotoPath
-        {
-            get => localPhotoPath;
-            set
-            {
-                localPhotoPath = value;
-                OnPropertyChanged("LocalPhotoPath");
-            }
-        }
+        //public string LocalPhotoPath
+        //{
+        //    get => localPhotoPath;
+        //    set
+        //    {
+        //        localPhotoPath = value;
+        //        OnPropertyChanged("LocalPhotoPath");
+        //    }
+        //}
 
-        public Command UploadPhotoCommand { get; }
-        //This method open the file picker to select a photo
-        private async void OnUploadPhoto()
-        {
-            try
-            {
-                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-                {
-                    Title = "Please select a photo",
-                });
+        //public Command UploadPhotoCommand { get; }
+        ////This method open the file picker to select a photo
+        //private async void OnUploadPhoto()
+        //{
+        //    try
+        //    {
+        //        var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+        //        {
+        //            Title = "Please select a photo",
+        //        });
 
-                if (result != null)
-                {
-                    // The user picked a file
-                    this.LocalPhotoPath = result.FullPath;
-                    this.PhotoURL = result.FullPath;
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+        //        if (result != null)
+        //        {
+        //            // The user picked a file
+        //            this.LocalPhotoPath = result.FullPath;
+        //            this.PhotoURL = result.FullPath;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
 
-        }
+        //}
 
-        private void UpdatePhotoURL(string virtualPath)
-        {
-            Random r = new Random();
-            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
-            LocalPhotoPath = "";
-        }
+        //private void UpdatePhotoURL(string virtualPath)
+        //{
+        //    Random r = new Random();
+        //    PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+        //    LocalPhotoPath = "";
+        //}
 
-        #endregion
+        //#endregion
 
         //#region Photo
 
@@ -612,11 +615,99 @@ namespace TrainingHelperApp.ViewModels
 
         //#endregion
 
-        
 
-    
 
-        //Define a command for the register button
+
+
+        // Define a command for the register button
+
+        #region Photo
+
+        private string photoURL;
+
+        public string PhotoURL
+        {
+            get => photoURL;
+            set
+            {
+                photoURL = value;
+                OnPropertyChanged("PhotoURL");
+            }
+        }
+
+        private string localPhotoPath;
+
+        public string LocalPhotoPath
+        {
+            get => localPhotoPath;
+            set
+            {
+                localPhotoPath = value;
+                OnPropertyChanged("LocalPhotoPath");
+            }
+        }
+
+        public Command UploadPhotoCommand { get; }
+        //This method open the file picker to select a photo
+        private async void OnUploadPhoto()
+        {
+            try
+            {
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Please select a photo",
+                });
+
+                if (result != null)
+                {
+                    // The user picked a file
+                    this.LocalPhotoPath = result.FullPath;
+                    this.PhotoURL = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public Command UploadTakePhotoCommand { get; }
+        //This method open the file picker to select a photo
+        private async void OnUploadTakePhoto()
+        {
+            try
+            {
+                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Please select a photo",
+                });
+
+                if (result != null)
+                {
+                    // The user picked a file
+                    this.LocalPhotoPath = result.FullPath;
+                    this.PhotoURL = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        private void UpdatePhotoURL(string virtualPath)
+        {
+            Random r = new Random();
+            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+            LocalPhotoPath = "";
+        }
+
+        #endregion
+
+      
+        public Command LogInCommand { get; }
         public Command RegisterCommand { get; }
         public Command CancelCommand { get; }
 
@@ -625,7 +716,7 @@ namespace TrainingHelperApp.ViewModels
         {
             ValidateName();
             ValidateLastName();
-            ValidateEmail();
+            ValidateEmail(); 
             ValidatePassword();
             ValidateBirthDate();
             ValidatePhone();
@@ -682,6 +773,14 @@ namespace TrainingHelperApp.ViewModels
 
         //Define a method that will be called upon pressing the cancel button
         public void OnCancel()
+        {
+            //Navigate back to the login page
+            ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+        }
+
+
+
+        public void OnLogIn()
         {
             //Navigate back to the login page
             ((App)(Application.Current)).MainPage.Navigation.PopAsync();

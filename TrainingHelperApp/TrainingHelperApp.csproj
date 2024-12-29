@@ -62,12 +62,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\ContactPageView.xaml.cs">
-	    <DependentUpon>ContactPageView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\AddTrainerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -3,10 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrainingHelperApp.Views.ProfileView"
              Title="Profile">
-    <VerticalStackLayout>
-        <Label 
-            Text="Profile info n picture"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Grid.Row="0" Padding="10">
+            <Label 
+                
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                FontSize="Large"
+                FontAttributes="Bold" />
+
+            <!-- First Name -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="First Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Entry Placeholder="Type First Name" Text="{Binding Name}" Style="{StaticResource entryStyle}" />
+
+            <!-- Last Name -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Last Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Entry Placeholder="Type Last Name" Text="{Binding LastName}" Style="{StaticResource entryStyle}" />
+
+            <!-- Email -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Email" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Entry Placeholder="Type Email" Text="{Binding Email}" Style="{StaticResource entryStyle}" />
+
+            <!-- Phone -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Phone" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding PhoneError}" IsVisible="{Binding ShowPhoneError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Entry Placeholder="Type Phone" Text="{Binding Phone}" Style="{StaticResource entryStyle}" />
+
+            <!-- Id -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="ID" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding IdError}" IsVisible="{Binding ShowIdError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Entry Placeholder="Type ID" Text="{Binding Id}" Style="{StaticResource entryStyle}" />
+
+            <!-- Password -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Password" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="True" Style="{StaticResource entryStyle}" />
+                <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
+            </Grid>
+
+            <!-- Save Button -->
+            <Button Text="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding NotInServerCall}"  />
+        </VerticalStackLayout>
+
+        <!-- Centered ActivityIndicator -->
+        <ActivityIndicator IsRunning="{Binding InServerCall}" 
+                           Color="Red" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center"
+                           Grid.Row="1" />
+    </Grid>
 </ContentPage>

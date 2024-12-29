@@ -39,10 +39,10 @@ namespace TrainingHelperApp.ViewModels
             // SelectedTraining = await proxy.GetTrainingById(training.TrainingNumber);
         }
 
-        private ICommand signUpCommand;
-        public ICommand SignUpCommand => signUpCommand ??= new Command(async () => await SignUpForTraining());
+        private ICommand orderCommand;
+        public ICommand OrderCommand => orderCommand ??= new Command(async () => await OrderTraining());
 
-        private async Task SignUpForTraining()
+        private async Task OrderTraining()
         {
             try
             {
@@ -53,7 +53,7 @@ namespace TrainingHelperApp.ViewModels
                 }
 
                 // Call the proxy to handle sign-up
-                bool success = await proxy.SignUpForTraining(SelectedTraining.TrainingNumber);
+                bool success = await proxy.OrderTraining(SelectedTraining.TrainingNumber);
 
                 if (success)
                 {

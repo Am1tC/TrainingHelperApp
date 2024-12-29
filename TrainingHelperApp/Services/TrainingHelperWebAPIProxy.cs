@@ -278,8 +278,26 @@ namespace TrainingHelper.Services
             }
         }
 
-       //public async Task<bool> SignUpForTraining(int )
+        public async Task<bool> OrderTraining(int trainingNumber)
+        {
+            string url = $"{this.baseUrl}OrderTraining";
+            try
+            {
+                var payload = new { TrainingNumber = trainingNumber };
+                string jsonPayload = JsonSerializer.Serialize(payload);
+
+                StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in OrderTraining: {ex.Message}");
+                return false;
+            }
 
 
+        }
     }
 }

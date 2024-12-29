@@ -25,8 +25,10 @@ namespace TrainingHelperApp.ViewModels
             Email = theUser.Email;
             Password = theUser.Password;
             Phone = theUser.PhoneNum;
-            Id = theUser.Id;
+            Id = theUser.Id;            
             BirthDate = theUser.BirthDate.Value;
+            subscriptionstart = theUser.SubscriptionStartDate.Value;
+            subscriptionend = theUser.SubscriptionEndDate.Value;
 
 
 
@@ -50,6 +52,36 @@ namespace TrainingHelperApp.ViewModels
             PasswordError = "Password must contain letters and numbers";
             PhoneError = "Phone must starts with 05 and have 10 digits";
         }
+
+        #region subscription
+        private DateTime subscriptionstart;
+        public DateTime SubscriptionStart
+        {
+            get
+            {
+                return this.subscriptionstart;
+            }
+            set
+            {
+                subscriptionstart = value;
+                OnPropertyChanged("SubscriptionStart");
+            }
+        }
+
+        private DateTime subscriptionend;
+        public DateTime SubscriptionEnd
+        {
+            get
+            {
+                return this.subscriptionend;
+            }
+            set
+            {
+                subscriptionend = value;
+                OnPropertyChanged("SubscriptionEnd");
+            }
+        }
+        #endregion //only for display
 
 
         #region Name
@@ -558,7 +590,6 @@ namespace TrainingHelperApp.ViewModels
             ValidatePassword();
             ValidateBirthDate();
             ValidatePhone();
-            ValidateId();
 
             if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError)
             {

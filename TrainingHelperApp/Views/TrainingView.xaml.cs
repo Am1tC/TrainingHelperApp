@@ -6,9 +6,9 @@ public partial class TrainingView : ContentPage
 {
 
 
-    public TrainingView()
+    public TrainingView(TrainingViewModel vm)
     {
         InitializeComponent();
-        //BindingContext=vm;
+        BindingContext=vm;
     }
 }

@@ -78,7 +78,7 @@ namespace TrainingHelperApp.ViewModels
             {
                 var navParam = new Dictionary<string, object>
                 {
-                    {"selectedTraining",t }
+                    {"SelectedTraining",t }
                 };
                 await Shell.Current.GoToAsync("TrainingView", navParam);
                 SelectedTraining = null;
@@ -106,21 +106,11 @@ namespace TrainingHelperApp.ViewModels
             trainings.Clear();
             foreach (var training in unfilterdtrainings)
             {
-                if (training.Date.HasValue && training.Date.Value.Date == date.Date)
+                if (training.Date.Day == date.Date.Day &&
+                    training.Date.Month == date.Date.Month &&
+                    training.Date.Year == date.Date.Year)
                 {
-                    trainings.Add(new Training()
-                    {
-                        TrainerId =training.TrainerId,
-                        Duration = training.Duration,
-                        MaxParticipants = training.MaxParticipants,
-                        Picture = training.Picture,
-                        Place = training.Place,
-                        Trainer = training.Trainer,
-                        TrainingPictures = training.TrainingPictures,
-
-
-                            
-                    });
+                    trainings.Add(training);
                 }
             }
 

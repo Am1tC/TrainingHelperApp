@@ -283,7 +283,7 @@ namespace TrainingHelper.Services
             string url = $"{this.baseUrl}OrderTraining";
             try
             {
-                var payload = new { TrainingNumber = trainingNumber };
+                var payload = trainingNumber;
                 string jsonPayload = JsonSerializer.Serialize(payload);
 
                 StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");

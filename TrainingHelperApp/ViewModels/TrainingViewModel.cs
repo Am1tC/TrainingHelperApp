@@ -9,6 +9,7 @@ using TrainingHelperApp.Models;
 
 namespace TrainingHelperApp.ViewModels
 {
+    [QueryProperty("SelectedTraining", "SelectedTraining")]
     public class TrainingViewModel : ViewModelBase
     {
         private readonly TrainingHelperWebAPIProxy proxy;

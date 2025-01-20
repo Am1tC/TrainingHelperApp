@@ -26,7 +26,7 @@
 
         <ShellContent
            Title="Contact" 
-           ContentTemplate="{DataTemplate Views:CantactPageView}"
+           ContentTemplate="{DataTemplate Views:ContactPageView}"
            Route="Contact"
            Icon="contact_icon.png" />
 

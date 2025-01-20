@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using TrainingHelper.Services;
+using TrainingHelperApp.Services;
 using TrainingHelperApp.ViewModels;
 using TrainingHelperApp.Views;
 //using SpriteKit;
@@ -40,7 +41,7 @@ namespace TrainingHelperApp
             builder.Services.AddTransient<OwnerView>();
             builder.Services.AddTransient<ProfileView>();
             builder.Services.AddTransient<EventsView>();
-            //  builder.Services.AddTransient<conact>();
+            builder.Services.AddTransient<ContactPageView>();
             builder.Services.AddTransient<TrainingView>();
 
             return builder;
@@ -49,6 +50,7 @@ namespace TrainingHelperApp
         public static MauiAppBuilder RegisterDataServices(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<TrainingHelperWebAPIProxy>();
+            builder.Services.AddSingleton<SendEmailService>();
             return builder;
         }
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)

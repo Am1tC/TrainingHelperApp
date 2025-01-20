@@ -1,12 +1,77 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TrainingHelperApp.Views.CantactPageView"
+             x:Class="TrainingHelperApp.Views.ContactPageView"
              Title="Contact Us">
-    <VerticalStackLayout>
-        <Label 
-            Text="Here we can contact the staff"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+      
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <!-- Page Title -->
+            <Label Text="Contact us and we will reach back as soon sa we can!" 
+                   FontSize="24" 
+                   HorizontalOptions="Center" 
+                   FontAttributes="Bold" 
+                  />
+
+            <!-- From Field -->
+            <Label Text="From:" />
+            <Entry Text="{Binding From}" 
+                   Placeholder="Enter your email" 
+                   Keyboard="Email" />
+
+            <!-- To Field -->
+            <Label Text="To:" />
+            <Entry Text="{Binding To}" 
+                   Placeholder="Enter recipient's email" 
+                   Keyboard="Email" />
+
+            <!-- Subject Field -->
+            <Label Text="Subject:" />
+            <Entry Text="{Binding Subject}" 
+                   Placeholder="Enter email subject" />
+
+            <!-- Body Field -->
+            <Label Text="Body:" />
+            <Editor Text="{Binding Body}" 
+                    Placeholder="Enter email body" 
+                    AutoSize="TextChanges" 
+                    HeightRequest="100" />
+
+            <!-- Status Message -->
+            <Label Text="{Binding StatusMessage}" 
+                   TextColor="Red" 
+                   FontAttributes="Italic" />
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Send Email" 
+                        Command="{Binding SendEmailCommand}" 
+                        WidthRequest="100" />
+                <Button Text="Load Emails" 
+                        Command="{Binding LoadEmailsCommand}" 
+                        WidthRequest="100" />
+            </HorizontalStackLayout>
+
+            <!-- Sent Emails List --><!--
+            <Label Text="Sent Emails:" 
+                   FontAttributes="Bold" />
+            <CollectionView ItemsSource="{Binding SentEmails}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="5">
+                            <Label Text="{Binding Subject}" 
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding Body}" 
+                                   FontSize="12" 
+                                   TextColor="Gray" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

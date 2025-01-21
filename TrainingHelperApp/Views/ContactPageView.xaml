@@ -24,9 +24,8 @@
 
             <!-- To Field -->
             <Label Text="To:" />
-            <Entry Text="{Binding To}" 
-                   Placeholder="Enter recipient's email" 
-                   Keyboard="Email" />
+            <Entry Text="Helper@gmail.com" 
+                    />
 
             <!-- Subject Field -->
             <Label Text="Subject:" />

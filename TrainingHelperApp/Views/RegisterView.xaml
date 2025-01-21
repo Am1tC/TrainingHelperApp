@@ -136,6 +136,15 @@ VerticalOptions="End">
                 <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" Style="{StaticResource buttonStyle} " BackgroundColor="Green"/>
                 <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0" Style="{StaticResource buttonStyle}" BackgroundColor="Red" />
             </Grid>
+            <Label 
+  Text="Owner?"
+  TextColor="Blue"
+  HorizontalOptions="Center"
+  VerticalOptions="End" IsEnabled="{Binding NotInServerCall}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OwnerCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
         </VerticalStackLayout>
         <!-- Centered ActivityIndicator -->
         <ActivityIndicator IsRunning="{Binding InServerCall}" 

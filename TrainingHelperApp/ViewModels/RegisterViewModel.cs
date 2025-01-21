@@ -1,24 +1,30 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
+using TrainingHelperApp.Views;
 
 namespace TrainingHelperApp.ViewModels
 {
     public class RegisterViewModel : ViewModelBase
     {
         private TrainingHelperWebAPIProxy proxy;
+        private IServiceProvider serviceProvider;
+
         public RegisterViewModel(TrainingHelperWebAPIProxy proxy)
         {
+            this.serviceProvider = serviceProvider;
             this.proxy = proxy;
             RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
             LogInCommand = new Command(OnLogIn);
+            OwnerCommand = new Command(onOwner);
 
-           
+
             UploadPhotoCommand = new Command(OnUploadPhoto);
             UploadTakePhotoCommand = new Command(OnUploadTakePhoto);
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
@@ -706,7 +712,7 @@ namespace TrainingHelperApp.ViewModels
 
         #endregion
 
-      
+        public Command OwnerCommand { get; }
         public Command LogInCommand { get; }
         public Command RegisterCommand { get; }
         public Command CancelCommand { get; }
@@ -784,6 +790,12 @@ namespace TrainingHelperApp.ViewModels
         {
             //Navigate back to the login page
             ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+        }
+
+        public void onOwner()
+        {
+
+            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<OwnerLoginView>());
         }
     }
 }

@@ -15,11 +15,14 @@ namespace TrainingHelperApp
 
         private void RegisterRoutes()
         {        
-            Routing.RegisterRoute("Profile", typeof(ProfileView));
-            Routing.RegisterRoute("addTrainerView", typeof(AddTrainerView));
-           // Routing.RegisterRoute("ContactPage", typeof(ContentPageview));
-           Routing.RegisterRoute("TrainingView", typeof(TrainingView));
+            Routing.RegisterRoute("Profile", typeof(ProfileView));              // disabled when owner comes up
+            Routing.RegisterRoute("ContactPage", typeof(ContactPageView));
+            Routing.RegisterRoute("TrainingView", typeof(TrainingView));
             Routing.RegisterRoute("Events", typeof(EventsView));
+
+            Routing.RegisterRoute("Owner", typeof(OwnerView));                   //
+            Routing.RegisterRoute("AddTrainer", typeof(AddTrainerView));         // these are only owner visible
+            Routing.RegisterRoute("CreateTraining", typeof(CreateTrainingView)); //
 
         }
         public ICommand LogOutCommand { get; set; }

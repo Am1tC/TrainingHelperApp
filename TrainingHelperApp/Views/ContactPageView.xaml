@@ -10,7 +10,7 @@
         <VerticalStackLayout Padding="20" Spacing="10">
 
             <!-- Page Title -->
-            <Label Text="Contact us and we will reach back as soon sa we can!" 
+            <Label Text="Contact us and we will reach back as soon as we can!" 
                    FontSize="24" 
                    HorizontalOptions="Center" 
                    FontAttributes="Bold" 
@@ -19,23 +19,23 @@
             <!-- From Field -->
             <Label Text="From:" />
             <Entry Text="{Binding From}" 
-                   Placeholder="Enter your email" 
+                   Placeholder="Enter your name" 
                    Keyboard="Email" />
 
-            <!-- To Field -->
+            <!-- To Field --><!--
             <Label Text="To:" />
             <Entry Text="Helper@gmail.com" 
-                    />
+                    />-->
 
             <!-- Subject Field -->
             <Label Text="Subject:" />
             <Entry Text="{Binding Subject}" 
-                   Placeholder="Enter email subject" />
+                   Placeholder="Enter message subject" />
 
             <!-- Body Field -->
             <Label Text="Body:" />
             <Editor Text="{Binding Body}" 
-                    Placeholder="Enter email body" 
+                    Placeholder="Enter message body" 
                     AutoSize="TextChanges" 
                     HeightRequest="100" />
 
@@ -49,9 +49,9 @@
                 <Button Text="Send Email" 
                         Command="{Binding SendEmailCommand}" 
                         WidthRequest="100" />
-                <Button Text="Load Emails" 
+                <!--<Button Text="Load Emails" 
                         Command="{Binding LoadEmailsCommand}" 
-                        WidthRequest="100" />
+                        WidthRequest="100" />-->
             </HorizontalStackLayout>
 
             <!-- Sent Emails List --><!--

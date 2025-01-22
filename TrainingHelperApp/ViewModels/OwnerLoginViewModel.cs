@@ -77,17 +77,18 @@ namespace TrainingHelperApp.ViewModels
             //Call the server to login
             LoginInfo loginInfo = new LoginInfo { Id = Id, Password = Password };
             Owner? u = await this.proxy.OwnerLoginAsync(loginInfo);
-
+            ((App)Application.Current).OwnerIn = true;//set owner user
             InServerCall = false;
 
             //Set the application logged in user to be whatever user returned (null or real user)
             ((App)Application.Current).LoggedInOwner= u;
             if (u == null)
             {
-                ErrorMsg = "Invalid Id or password";
+                ErrorMsg = "Invalid Id or Mail";
             }
             else
             {
+
                 ErrorMsg = "";
                 //Navigate to the main page
                 AppShell? shell = serviceProvider.GetService<AppShell>();

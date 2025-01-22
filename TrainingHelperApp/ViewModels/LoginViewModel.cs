@@ -84,6 +84,8 @@ namespace TrainingHelperApp.ViewModels
             //Call the server to login
             LoginInfo loginInfo = new LoginInfo {  Id = Id , Password = Password };
             Trainee? u = await this.proxy.LoginAsync(loginInfo);
+            ((App)Application.Current).OwnerIn = false;//set owner user false
+            ((App)Application.Current).TraineeIn = true;//
 
             InServerCall = false;
 
@@ -98,8 +100,9 @@ namespace TrainingHelperApp.ViewModels
                 ErrorMsg = "";
                 //Navigate to the main page
                AppShell? shell = serviceProvider.GetService<AppShell>();
-               // tasksViewModel = serviceProvider.GetService<TasksViewModel>();
+                // tasksViewModel = serviceProvider.GetService<TasksViewModel>();
                 //tasksViewModel.Refresh(); //Refresh data and user in the tasksview model as it is a singleton
+               
                 ((App)Application.Current).MainPage = shell;
                 Shell.Current.FlyoutIsPresented = false; //close the flyout
                 //Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page

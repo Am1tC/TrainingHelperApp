@@ -11,8 +11,8 @@
      Text="{Binding Id}" IsEnabled="{Binding NotInServerCall}"/>
 
         <Entry 
-     Placeholder="Mail"
-     IsPassword="True"
+     Placeholder="Password"
+     IsPassword="False"
      Text="{Binding Password}" IsEnabled="{Binding NotInServerCall}"/>
 
         <Button 

@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using TrainingHelperApp;
 using TrainingHelperApp.Models;
+using Windows.System;
 //using Windows.System;
 
 // using TrainingHelperApp.;
@@ -328,6 +329,43 @@ namespace TrainingHelper.Services
             {
                 Console.WriteLine($"Error in OrderTraining: {ex.Message}");
                 return false;
+            }
+
+        }
+
+
+        public async Task<Training?> CreateTrainingAsync(Training training)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}CreateTraining";
+            try
+            {
+
+                //Call the server API
+                string json = JsonSerializer.Serialize(training);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    Training? result = JsonSerializer.Deserialize<Training>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
 
 

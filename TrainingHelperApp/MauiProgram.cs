@@ -44,6 +44,7 @@ namespace TrainingHelperApp
             builder.Services.AddTransient<ContactPageView>();
             builder.Services.AddTransient<TrainingView>();
             builder.Services.AddTransient<OwnerLoginView>();
+            builder.Services.AddTransient<CreateTrainingView>();
 
             return builder;
         }
@@ -66,6 +67,7 @@ namespace TrainingHelperApp
             builder.Services.AddTransient<ContactPageViewModel>();
             builder.Services.AddTransient<TrainingViewModel>();
             builder.Services.AddTransient<OwnerLoginViewModel>();
+            builder.Services.AddTransient<CreateTrainingViewModel>();
 
             return builder;
         }

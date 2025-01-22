@@ -15,7 +15,7 @@ namespace TrainingHelperApp.ViewModels
         private TrainingHelperWebAPIProxy proxy;
         private IServiceProvider serviceProvider;
 
-        public RegisterViewModel(TrainingHelperWebAPIProxy proxy)
+        public RegisterViewModel(TrainingHelperWebAPIProxy proxy, IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             this.proxy = proxy;
@@ -794,8 +794,13 @@ namespace TrainingHelperApp.ViewModels
 
         public void onOwner()
         {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider), "Service provider cannot be null.");
+            }
 
-            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<OwnerLoginView>());
+       ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<OwnerLoginView>());
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,38 @@ namespace TrainingHelperApp.ViewModels
             this.serviceProvider = serviceProvider;
             this.currentUser = ((App)Application.Current).LoggedInUser;
         }
+
+        private bool isOwner = ((App)Application.Current).OwnerIn;
+        private bool isTrainer = ((App)Application.Current).TrainerIn;
+        private bool isTrainee = ((App)Application.Current).TraineeIn;
+
+        public bool IsOwner
+        {
+            get
+            {
+                return this.isOwner;
+            }
+            set { this.isOwner = value; }        
+        }
+
+        public bool IsTrainer
+        {
+            get
+            {
+                return this.isTrainer;
+            }
+            set { this.isTrainer = value; }
+        }
+
+        public bool IsTrainee
+        {
+            get
+            {
+                return this.isTrainee;
+            }
+            set { this.isTrainee = value; }
+        }
+      
 
         //public bool IsTrainer
         //{
@@ -38,6 +71,8 @@ namespace TrainingHelperApp.ViewModels
         public void OnLogout()
         {
             ((App)Application.Current).LoggedInUser = null;
+            ((App)Application.Current).LoggedInOwner = null;
+            ((App)Application.Current).LoggedInTrainer = null;
 
             ((App)Application.Current).MainPage = new NavigationPage(serviceProvider.GetService<LoginView>());
         }

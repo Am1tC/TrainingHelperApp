@@ -64,6 +64,7 @@ namespace TrainingHelperApp.ViewModels
                 {
                     await App.Current.MainPage.DisplayAlert("Error", "Failed to sign up for the training. Please try again.", "OK");
                 }
+
             }
             catch (Exception ex)
             {

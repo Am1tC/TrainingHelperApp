@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using TrainingHelperApp;
 using TrainingHelperApp.Models;
-using Windows.System;
+
 //using Windows.System;
 
 // using TrainingHelperApp.;
@@ -58,6 +58,8 @@ namespace TrainingHelper.Services
         {
             return $"{TrainingHelperWebAPIProxy.ImageBaseAddress}/profileImages/default.png";
         }
+
+
 
 
         public async Task<Trainee?> LoginAsync(LoginInfo userInfo)
@@ -126,6 +128,40 @@ namespace TrainingHelper.Services
                 return null;
             }
         }
+        public async Task<Trainer?> TrainerLoginAsync(LoginInfo userInfo)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}trainerlogin";
+            try
+            {
+                //Call the server API
+                string json = JsonSerializer.Serialize(userInfo);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    Trainer? result = JsonSerializer.Deserialize<Trainer>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
 
         public async Task<Trainee?> Register(Trainee user)
@@ -150,6 +186,41 @@ namespace TrainingHelper.Services
                         PropertyNameCaseInsensitive = true
                     };
                     Trainee? result = JsonSerializer.Deserialize<Trainee>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Trainer?> RegisterTrainerAsync(Trainer user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}registertrainer";
+            try
+            {
+
+                //Call the server API
+                string json = JsonSerializer.Serialize(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    Trainer? result = JsonSerializer.Deserialize<Trainer>(resContent, options);
                     return result;
                 }
                 else

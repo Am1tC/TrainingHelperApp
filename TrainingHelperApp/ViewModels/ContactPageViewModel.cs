@@ -9,6 +9,7 @@ using TrainingHelperApp.ViewModels;
 using System.Collections.ObjectModel;
 using TrainingHelperApp.Models;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace TrainingHelperApp.ViewModels
@@ -38,8 +39,12 @@ namespace TrainingHelperApp.ViewModels
             get => from;
             set
             {
-                from = value;
-                OnPropertyChanged(nameof(From));
+                if (((App)Application.Current).OwnerIn == true)
+                    from = "Owner";
+                else
+                    from = ((App)Application.Current).LoggedInUser.FirstName + " " +((App)Application.Current).LoggedInUser.LastName;
+
+                //OnPropertyChanged(nameof(From));
             }
         }
 
@@ -49,7 +54,7 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 to = value;
-                OnPropertyChanged(nameof(To));
+                //OnPropertyChanged(nameof(To));
             }
         }
 
@@ -91,7 +96,8 @@ namespace TrainingHelperApp.ViewModels
 
         public async Task SendEmailAsync()
         {
-            if (string.IsNullOrWhiteSpace(From) || string.IsNullOrWhiteSpace(To) || string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
+
+            if (string.IsNullOrWhiteSpace(From)  || string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
             {
                 StatusMessage = "All fields are required to send an email.";
                 return;
@@ -110,8 +116,12 @@ namespace TrainingHelperApp.ViewModels
                 bool isSent = await sendEmailService.Send(emailData);
                 if (isSent)
                 {
-                    StatusMessage = "Email sent successfully.";
+                    await App.Current.MainPage.DisplayAlert("Success", "You have successfully sent the message.", "OK");
+                    StatusMessage = "";
                     sentEmails.Add(emailData);
+                    From = "";
+                    Subject = "";
+                    Body = "";
                 }
                 else
                 {

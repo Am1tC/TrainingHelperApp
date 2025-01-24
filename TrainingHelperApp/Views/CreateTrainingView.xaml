@@ -2,11 +2,45 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrainingHelperApp.Views.CreateTrainingView"
-             Title="CreateTrainingView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Create Training"
+             xmlns:vm="clr-namespace:TrainingHelperApp.ViewModels">
+
+    
+        <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Trainer ID -->
+            <Label Text="Trainer ID" />
+            <Entry Text="{Binding TrainerId, Mode=TwoWay}" Keyboard="Numeric" />
+            <Label Text="{Binding TrainerError}" TextColor="Red" IsVisible="{Binding ShowTrainerError}" />
+
+            <!-- Max Participants -->
+            <Label Text="Max Participants" />
+            <Entry Text="{Binding MaxParticipants, Mode=TwoWay}" Keyboard="Numeric" />
+            <Label Text="{Binding MaxParticipantsError}" TextColor="Red" IsVisible="{Binding ShowMaxParticipantsError}" />
+
+            <!-- Place -->
+            <Label Text="Place" />
+            <Entry Text="{Binding Place, Mode=TwoWay}" />
+            <Label Text="{Binding PlaceError}" TextColor="Red" IsVisible="{Binding ShowPlaceError}" />
+
+            <!-- Date -->
+            <Label Text="Date" />
+            <DatePicker Date="{Binding Date, Mode=TwoWay}" />
+            <Label Text="{Binding DateError}" TextColor="Red" IsVisible="{Binding ShowDateError}" />
+
+            <!-- Duration -->
+            <Label Text="Duration" />
+            <Entry Text="{Binding Duration, Mode=TwoWay}" />
+            <Label Text="{Binding DurationError}" TextColor="Red" IsVisible="{Binding ShowDurationError}" />
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="15">
+                <Button Text="Create" Command="{Binding CreateTrainingCommand}"  />
+                <Button Text="Clear" Command="{Binding CancelCommand}" BackgroundColor="Red" />
+            </HorizontalStackLayout>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

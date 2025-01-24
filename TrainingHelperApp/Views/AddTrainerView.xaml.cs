@@ -1,9 +1,12 @@
+using TrainingHelperApp.ViewModels;
+
 namespace TrainingHelperApp.Views;
 
 public partial class AddTrainerView : ContentPage
 {
-	public AddTrainerView()
+	public AddTrainerView(AddTrainerViewModel vm)
 	{
-		InitializeComponent();
+        this.BindingContext = vm;
+        InitializeComponent();
 	}
 }

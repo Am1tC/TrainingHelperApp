@@ -105,7 +105,7 @@ namespace TrainingHelperApp.ViewModels
                
                 ((App)Application.Current).MainPage = shell;
                 Shell.Current.FlyoutIsPresented = false; //close the flyout
-                //Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
+                //Shell.Current.GoToAsync(""); //Navigate to the wanted tab page
             }     
         }
 

@@ -16,11 +16,11 @@
                    FontAttributes="Bold" 
                   />
 
-            <!-- From Field -->
+            <!-- From Field --><!--
             <Label Text="From:" />
             <Entry Text="{Binding From}" 
                    Placeholder="Enter your name" 
-                   Keyboard="Email" />
+                   Keyboard="Email" />-->
 
             <!-- To Field --><!--
             <Label Text="To:" />
@@ -45,14 +45,16 @@
                    FontAttributes="Italic" />
 
             <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10">
-                <Button Text="Send Email" 
+          
+                <Button Text="Send " 
+                          HorizontalOptions="FillAndExpand"
                         Command="{Binding SendEmailCommand}" 
                         WidthRequest="100" />
+            
                 <!--<Button Text="Load Emails" 
                         Command="{Binding LoadEmailsCommand}" 
                         WidthRequest="100" />-->
-            </HorizontalStackLayout>
+           
 
             <!-- Sent Emails List --><!--
             <Label Text="Sent Emails:" 

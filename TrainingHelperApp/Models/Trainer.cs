@@ -24,6 +24,8 @@ namespace TrainingHelperApp.Models
 
         public string Email { get; set; } = null!;
 
+        public string Password { get; set; } = null!;
+
         public string? Picture { get; set; }
 
         //public virtual ICollection<Training> Training { get; set; } = new List<Training>();

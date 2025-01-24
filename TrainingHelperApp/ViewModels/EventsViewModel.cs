@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
 
@@ -19,8 +20,13 @@ namespace TrainingHelperApp.ViewModels
             Trainings = new ObservableCollection<Training>();
             unfilterdtrainings = new List<Training>();
             ReadTrainings();
+           // DateOptions = new ObservableCollection<DateTime>();//
+
+
         }
         private List<Training> unfilterdtrainings;
+
+        //public ObservableCollection<DateTime> DateOptions { get; private set; } //
 
         private ObservableCollection<Training> trainings;
         public ObservableCollection<Training> Trainings
@@ -36,7 +42,14 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
-     
+        //private void InitializeDateOptions()
+        //{
+        //    // Generate a range of dates (e.g., 7 days starting from today)
+        //    for (int i = 0; i < 7; i++)
+        //    {
+        //        DateOptions.Add(DateTime.Now.AddDays(i));
+        //    }
+        //}
 
 
         private async void ReadTrainings()

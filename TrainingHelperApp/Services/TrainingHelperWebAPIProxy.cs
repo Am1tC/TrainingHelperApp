@@ -328,8 +328,6 @@ namespace TrainingHelper.Services
             }
 
 
-
-
         }
         public async Task<List<Training>> GetTrainings()
         {
@@ -362,26 +360,9 @@ namespace TrainingHelper.Services
                 return null;
             }
         }
-        public async Task<bool> SignUpForTraining(int trainingNumber)
-        {
-            string url = $"{this.baseUrl}SignUpForTraining";
 
-            try
-            {
-                var payload = new { TrainingNumber = trainingNumber };
-                string jsonPayload = JsonSerializer.Serialize(payload);
 
-                StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(url, content);
 
-                return response.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in SignUpForTraining: {ex.Message}");
-                return false;
-            }
-        }
 
         public async Task<bool> OrderTraining(int trainingNumber)
         {
@@ -403,6 +384,38 @@ namespace TrainingHelper.Services
             }
 
         }
+
+        public async Task<List<Training>> GetUserEvents()
+        {
+            string url = $"{this.baseUrl}GetUserEvents";
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Training>? result = JsonSerializer.Deserialize<List<Training>>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetUserEvents: {ex.Message}");
+                return null;
+            }
+        }
+
+
 
 
         public async Task<Training?> CreateTrainingAsync(Training training)

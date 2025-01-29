@@ -23,6 +23,7 @@ namespace TrainingHelperApp.ViewModels
         {
             this.proxy = proxy;
             this.sendEmailService = sendEmailService;
+            To = ((App)Application.Current).LoggedInUser.Email;
             sentEmails = new ObservableCollection<EmailData>();
         }
 
@@ -97,7 +98,7 @@ namespace TrainingHelperApp.ViewModels
         public async Task SendEmailAsync()
         {
 
-            if (string.IsNullOrWhiteSpace(From)  || string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
+            if ( string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
             {
                 StatusMessage = "All fields are required to send an email.";
                 return;

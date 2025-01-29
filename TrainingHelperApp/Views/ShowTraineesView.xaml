@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrainingHelperApp.Views.ShowTraineesView"
+             Title="ShowTraineesView">
+    
+
+    <StackLayout Padding="20">
+        <Label Text="Trainee List"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <!-- List of trainees -->
+        <ListView ItemsSource="{Binding Trainees}"
+                  SelectedItem="{Binding SelectedTrainee}"
+                  HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           Command="{Binding BindingContext.DeleteCommand, Source={x:Reference Name=ShowTraineesPage}}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeView.LeftItems>
+
+                            <!-- Trainee details display -->
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Name}" FontSize="18"/>
+                                <Label Text="{Binding Age}" FontSize="16"/>
+                            </StackLayout>
+                        </SwipeView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+</ContentPage>

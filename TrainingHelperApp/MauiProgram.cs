@@ -45,6 +45,8 @@ namespace TrainingHelperApp
             builder.Services.AddTransient<TrainingView>();
             builder.Services.AddTransient<OwnerLoginView>();
             builder.Services.AddTransient<CreateTrainingView>();
+            builder.Services.AddTransient<ShowTraineesView>();
+            builder.Services.AddTransient<ShowTrainersView>();
 
             return builder;
         }
@@ -68,6 +70,8 @@ namespace TrainingHelperApp
             builder.Services.AddTransient<TrainingViewModel>();
             builder.Services.AddTransient<OwnerLoginViewModel>();
             builder.Services.AddTransient<CreateTrainingViewModel>();
+            builder.Services.AddTransient<ShowTraineesViewModel>();
+            builder.Services.AddTransient<ShowTrainersViewModel>();
 
             return builder;
         }

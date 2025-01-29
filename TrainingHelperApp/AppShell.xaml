@@ -3,55 +3,72 @@
     x:Class="TrainingHelperApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:TrainingHelperApp"
     xmlns:Views="clr-namespace:TrainingHelperApp.Views"
-    Shell.TabBarForegroundColor="LightBlue"
-    Shell.TabBarTitleColor="LightBlue"
+    xmlns:local="clr-namespace:TrainingHelperApp"
+    Title="TrainingHelperApp"
     Shell.FlyoutBehavior="Flyout"
-    Title="TrainingHelperApp">
+    Shell.TabBarForegroundColor="LightBlue"
+    Shell.TabBarTitleColor="LightBlue">
 
 
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs"> 
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs">
         <ShellContent
-           Title="Profile" 
-           ContentTemplate="{DataTemplate Views:ProfileView}"
-           Route="Profile" 
-           Icon="profile_icon.png" 
-           IsVisible="{Binding IsTrainee}"
-           IsEnabled="{Binding IsTrainee}"/>
-
-        <ShellContent
-           Title="Events" 
-           ContentTemplate="{DataTemplate Views:EventsView}"
-           Route="Events" 
-           Icon="calander_icon.png" />
+            Title="Profile"
+            ContentTemplate="{DataTemplate Views:ProfileView}"
+            Icon="profile_icon.png"
+            IsEnabled="{Binding IsTrainee}"
+            IsVisible="{Binding IsTrainee}"
+            Route="Profile" />
 
         <ShellContent
-           Title="Contact" 
-           ContentTemplate="{DataTemplate Views:ContactPageView}"
-           Route="Contact"
-           Icon="contact_icon.png" />
+            Title="Events"
+            ContentTemplate="{DataTemplate Views:EventsView}"
+            Icon="calander_icon.png"
+            Route="Events" />
+
+        <ShellContent
+            Title="Contact"
+            ContentTemplate="{DataTemplate Views:ContactPageView}"
+            Icon="contact_icon.png"
+            Route="Contact" />
 
         <ShellContent
             Title="OwnerPage"
             ContentTemplate="{DataTemplate Views:OwnerView}"
-            Route="OwnerPage"
             Icon="owner_icon.png"
-            IsVisible="{Binding IsOwner}" /> <!--This is the binding that will show the OwnerPage only if the user is an owner-->
+            IsVisible="{Binding IsOwner}"
+            Route="OwnerPage" /> 
+        <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->
 
         <ShellContent
             Title="CreateTraining"
             ContentTemplate="{DataTemplate Views:CreateTrainingView}"
-            Route="CreateTraining"
             Icon="training_icon.png"
-            IsVisible="{Binding IsOwner}" />  <!--This is the binding that will show the OwnerPage only if the user is an owner-->
+            IsVisible="{Binding IsOwner}"
+            Route="CreateTraining" />  
+        <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->
 
         <ShellContent
             Title="AddTrainer"
             ContentTemplate="{DataTemplate Views:AddTrainerView}"
-            Route="AddTrainer"
             Icon="trainer_icon.png"
-            IsVisible="{Binding IsOwner}" />  <!--This is the binding that will show the OwnerPage only if the user is an owner-->
+            IsVisible="{Binding IsOwner}"
+            Route="AddTrainer" />  
+        <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->
+
+        <ShellContent
+            Title="ShowTrainersView"
+            ContentTemplate="{DataTemplate Views:ShowTrainersView}"
+            IsVisible="{Binding IsOwner}"
+            Route="ShowTrainersView" />
+
+        <ShellContent
+            Title="ShowTraineesView"
+            ContentTemplate="{DataTemplate Views:ShowTraineesView}"
+            IsVisible="{Binding IsOwner}"
+            Route="ShowTraineesView" />
+
+        <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->
 
 
 
@@ -60,6 +77,9 @@
 
 
     </FlyoutItem>
-    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" IconImageSource="exit_icon.png"/>
+    <MenuItem
+        Command="{Binding LogoutCommand}"
+        IconImageSource="exit_icon.png"
+        Text="Logout" />
 
 </Shell>

@@ -22,7 +22,10 @@ namespace TrainingHelperApp
 
             Routing.RegisterRoute("Owner", typeof(OwnerView));                   //
             Routing.RegisterRoute("AddTrainer", typeof(AddTrainerView));         // these are only owner visible
-            Routing.RegisterRoute("CreateTraining", typeof(CreateTrainingView)); //
+            Routing.RegisterRoute("CreateTraining", typeof(CreateTrainingView));//
+            Routing.RegisterRoute("ShowTrainees", typeof(ShowTraineesView));
+            Routing.RegisterRoute("ShowTrainers", typeof(ShowTrainersView));
+
 
         }
         public ICommand LogOutCommand { get; set; }

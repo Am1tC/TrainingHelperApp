@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,19 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 selectedTraining = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<Trainee> trainees;
+        public ObservableCollection<Trainee> Trainees
+        {
+            get
+            {
+                return this.trainees;
+            }
+            set
+            {
+                this.trainees = value;
                 OnPropertyChanged();
             }
         }

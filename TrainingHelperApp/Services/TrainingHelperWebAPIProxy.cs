@@ -362,9 +362,92 @@ namespace TrainingHelper.Services
         }
 
 
+        public async Task<List<Trainee>> GetTrainees()
+        {
+
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}GetTrainees";
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Trainee>? result = JsonSerializer.Deserialize<List<Trainee>>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<bool> DeleteTrainee(string traineeNumber)
+        {
+            string url = $"{this.baseUrl}DeleteTrainee";
+            try
+            {
+                var payload = traineeNumber;
+                string jsonPayload = JsonSerializer.Serialize(payload);
+
+                StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in DeleteTrainee: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<List<Trainer>> GetTrainers()
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}GetTrainers";
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Trainer>? result = JsonSerializer.Deserialize<List<Trainer>>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
 
 
-        public async Task<bool> OrderTraining(int trainingNumber)
+
+            public async Task<bool> OrderTraining(int trainingNumber)
         {
             string url = $"{this.baseUrl}OrderTraining";
             try

@@ -3,39 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrainingHelperApp.Views.ShowTraineesView"
              Title="ShowTraineesView">
-    
 
-    <StackLayout Padding="20">
-        <Label Text="Trainee List"
-               FontSize="24"
-               HorizontalOptions="Center" />
 
-        <!-- List of trainees -->
-        <ListView ItemsSource="{Binding Trainees}"
-                  SelectedItem="{Binding SelectedTrainee}"
-                  HasUnevenRows="True">
 
-            <ListView.ItemTemplate>
+        <CollectionView Margin="0,10" ItemsSource="{Binding Trainees}" SelectionMode="Single">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <SwipeView>
-                            <SwipeView.LeftItems>
-                                <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"
-                                           Command="{Binding BindingContext.DeleteCommand, Source={x:Reference Name=ShowTraineesPage}}"
-                                           CommandParameter="{Binding .}" />
-                            </SwipeView.LeftItems>
-
-                            <!-- Trainee details display -->
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Name}" FontSize="18"/>
-                                <Label Text="{Binding Age}" FontSize="16"/>
-                            </StackLayout>
-                        </SwipeView>
-                    </ViewCell>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" BackgroundColor="Red" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout Padding="10" Orientation="Vertical">
+                            <Label FontAttributes="Bold" FontSize="18" Text="{Binding FirstName}" />
+                            <Label FontSize="18" Text="{Binding LastName}" />
+                            <Label FontSize="14" Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}" TextColor="Gray" />
+                            <Label FontSize="14" Text="{Binding Gender, StringFormat='Gender: {0}'}" />
+                            <Label FontSize="14" Text="{Binding PhoneNum, StringFormat='Phone: {0}'}" />
+                            <Label FontSize="14" Text="{Binding Email, StringFormat='Email: {0}'}" />
+                            <Label FontSize="14" Text="{Binding SubscriptionStartDate, StringFormat='Start Date: {0:yyyy-MM-dd}'}" />
+                            <Label FontSize="14" Text="{Binding SubscriptionEndDate, StringFormat='End Date: {0:yyyy-MM-dd}'}" />
+                        </StackLayout>
+                    </SwipeView>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-
-        </ListView>
-    </StackLayout>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+  
 </ContentPage>

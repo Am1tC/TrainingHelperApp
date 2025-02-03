@@ -27,6 +27,12 @@
             Route="Events" />
 
         <ShellContent
+       Title="MyEvents"
+       ContentTemplate="{DataTemplate Views:OrderedTrainingView}"
+      
+       Route="OrderedTraining" />
+        
+        <ShellContent
             Title="Contact"
             ContentTemplate="{DataTemplate Views:ContactPageView}"
             Icon="contact_icon.png"

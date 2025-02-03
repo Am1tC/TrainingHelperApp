@@ -83,6 +83,9 @@
 	  <MauiXaml Update="Views\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\OrderedTrainingView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\OwnerLoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

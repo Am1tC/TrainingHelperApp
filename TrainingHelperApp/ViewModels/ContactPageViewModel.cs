@@ -23,6 +23,7 @@ namespace TrainingHelperApp.ViewModels
         {
             this.proxy = proxy;
             this.sendEmailService = sendEmailService;
+            
             To = ((App)Application.Current).LoggedInUser.Email;
             sentEmails = new ObservableCollection<EmailData>();
         }

@@ -445,9 +445,28 @@ namespace TrainingHelper.Services
 
         }
 
+        public async Task<bool> DeleteTrainer(string traineeNumber)
+        {
+            string url = $"{this.baseUrl}DeleteTrainer";
+            try
+            {
+                var payload = traineeNumber;
+                string jsonPayload = JsonSerializer.Serialize(payload);
+
+                StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in DeleteTrainee: {ex.Message}");
+                return false;
+            }
+        }
 
 
-            public async Task<bool> OrderTraining(int trainingNumber)
+        public async Task<bool> OrderTraining(int trainingNumber)
         {
             string url = $"{this.baseUrl}OrderTraining";
             try

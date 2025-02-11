@@ -22,10 +22,10 @@
                    Placeholder="Enter your name" 
                    Keyboard="Email" />-->
 
-            <!-- To Field --><!--
-            <Label Text="To:" />
-            <Entry Text="Helper@gmail.com" 
-                    />-->
+             <!--To Field-->
+            <Label Text="To:" IsEnabled="{Binding OwnerIn}" />
+            <Entry Text="{Binding To}"  Placeholder="Enter recipient"  IsEnabled="{Binding OwnerIn}  "
+                    />
 
             <!-- Subject Field -->
             <Label Text="Subject:" />

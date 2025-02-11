@@ -32,6 +32,7 @@ namespace TrainingHelperApp
         private void OnLogOut()
         {
             DisplayAlert("Log out", "Are you sure you want to log out", "Ok");
+            
         }
     }
 }

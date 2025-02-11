@@ -29,7 +29,8 @@
         <ShellContent
        Title="MyEvents"
        ContentTemplate="{DataTemplate Views:OrderedTrainingView}"
-      
+       IsEnabled="{Binding Both}"
+       IsVisible="{Binding Both}"
        Route="OrderedTraining" />
         
         <ShellContent

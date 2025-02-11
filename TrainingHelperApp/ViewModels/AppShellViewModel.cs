@@ -22,6 +22,9 @@ namespace TrainingHelperApp.ViewModels
         private bool isOwner = ((App)Application.Current).OwnerIn;
         private bool isTrainer = ((App)Application.Current).TrainerIn;
         private bool isTrainee = ((App)Application.Current).TraineeIn;
+        private bool both;
+        
+        
 
         public bool IsOwner
         {
@@ -49,15 +52,19 @@ namespace TrainingHelperApp.ViewModels
             }
             set { this.isTrainee = value; }
         }
-      
+        public bool Both
+        {
+            get
+            {
+                if (IsTrainee || IsTrainer)
+                    return true;
+                else
+                    return false;
+            }
+            set { this.both = value; }
+        }
 
-        //public bool IsTrainer
-        //{
-        //    get
-        //    {
-        //        return this.currentUser.IsManager;
-        //    }
-        //}
+
 
         //this command will be used for logout menu item
         public Command LogoutCommand
@@ -73,6 +80,9 @@ namespace TrainingHelperApp.ViewModels
             ((App)Application.Current).LoggedInUser = null;
             ((App)Application.Current).LoggedInOwner = null;
             ((App)Application.Current).LoggedInTrainer = null;
+            ((App)Application.Current).OwnerIn = false;
+            ((App)Application.Current).TraineeIn = false;
+            ((App)Application.Current).TrainerIn = false;
 
             ((App)Application.Current).MainPage = new NavigationPage(serviceProvider.GetService<LoginView>());
         }

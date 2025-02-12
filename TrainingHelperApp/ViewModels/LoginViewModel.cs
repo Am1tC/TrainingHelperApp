@@ -14,6 +14,7 @@ namespace TrainingHelperApp.ViewModels
     {
         private TrainingHelperWebAPIProxy proxy;
         private IServiceProvider serviceProvider;
+       
         public LoginViewModel(TrainingHelperWebAPIProxy proxy, IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -55,7 +56,7 @@ namespace TrainingHelperApp.ViewModels
                 }
             }
         }
-
+    
         private string errorMsg;
         public string ErrorMsg
         {
@@ -69,6 +70,7 @@ namespace TrainingHelperApp.ViewModels
                 }
             }
         }
+
 
 
         public ICommand LoginCommand { get; }

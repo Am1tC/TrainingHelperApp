@@ -29,9 +29,17 @@
         <ShellContent
        Title="MyEvents"
        ContentTemplate="{DataTemplate Views:OrderedTrainingView}"
-       IsEnabled="{Binding Both}"
-       IsVisible="{Binding Both}"
+       IsEnabled="{Binding IsTrainee}"
+       IsVisible="{Binding IsTrainee}"
        Route="OrderedTraining" />
+        
+
+        <ShellContent
+        Title="MyEvents"
+        ContentTemplate="{DataTemplate Views:TrainerTrainingsView}"
+        IsEnabled="{Binding IsTrainer}"
+        IsVisible="{Binding IsTrainer}"
+        Route="TrainerTrainingsView" />
         
         <ShellContent
             Title="Contact"

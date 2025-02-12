@@ -517,7 +517,36 @@ namespace TrainingHelper.Services
             }
         }
 
+        public async Task<List<Training>> GetTrainerEvents()
+        {
+            string url = $"{this.baseUrl}GetTrainerEvents";
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Training>? result = JsonSerializer.Deserialize<List<Training>>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return null;
+            }
 
+        }
 
 
         public async Task<Training?> CreateTrainingAsync(Training training)

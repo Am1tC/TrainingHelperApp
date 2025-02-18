@@ -145,6 +145,15 @@ VerticalOptions="End">
                     <TapGestureRecognizer Command="{Binding OwnerCommand}"/>
                 </Label.GestureRecognizers>
             </Label>
+            <Label 
+  Text="Trainer?"
+  TextColor="Blue"
+  HorizontalOptions="Center"
+  VerticalOptions="End" IsEnabled="{Binding NotInServerCall}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TrainerCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
         </VerticalStackLayout>
         <!-- Centered ActivityIndicator -->
         <ActivityIndicator IsRunning="{Binding InServerCall}" 

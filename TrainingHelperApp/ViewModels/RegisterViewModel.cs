@@ -23,6 +23,7 @@ namespace TrainingHelperApp.ViewModels
             CancelCommand = new Command(OnCancel);
             LogInCommand = new Command(OnLogIn);
             OwnerCommand = new Command(onOwner);
+            TrainerCommand = new Command(onTrainer);
 
 
             UploadPhotoCommand = new Command(OnUploadPhoto);
@@ -711,7 +712,7 @@ namespace TrainingHelperApp.ViewModels
         }
 
         #endregion
-
+        public Command TrainerCommand { get; }
         public Command OwnerCommand { get; }
         public Command LogInCommand { get; }
         public Command RegisterCommand { get; }
@@ -799,7 +800,16 @@ namespace TrainingHelperApp.ViewModels
                 throw new ArgumentNullException(nameof(serviceProvider), "Service provider cannot be null.");
             }
 
-       ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<OwnerLoginView>());
+        ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<OwnerLoginView>());
+        }
+        public void onTrainer()
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider), "Service provider cannot be null.");
+            }
+
+        ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<TrainerLoginView>());
         }
 
     }

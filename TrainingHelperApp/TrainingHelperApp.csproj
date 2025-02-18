@@ -68,12 +68,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\TrainerLoginView.xaml.cs">
-	    <DependentUpon>TrainerLoginView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\AddTrainerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

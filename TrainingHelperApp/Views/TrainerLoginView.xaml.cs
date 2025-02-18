@@ -1,9 +1,12 @@
+using TrainingHelperApp.ViewModels;
+
 namespace TrainingHelperApp.Views;
 
-public partial class TrainerLogin : ContentPage
+public partial class TrainerLoginView : ContentPage
 {
-	public TrainerLogin()
+	public TrainerLoginView(TrainerLoginViewModel vm)
 	{
+		this.BindingContext = vm;
 		InitializeComponent();
 	}
 }

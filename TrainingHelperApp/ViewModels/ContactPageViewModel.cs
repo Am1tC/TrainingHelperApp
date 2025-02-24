@@ -19,6 +19,7 @@ namespace TrainingHelperApp.ViewModels
         private TrainingHelperWebAPIProxy proxy;
         private SendEmailService sendEmailService;
         public bool OwnerIn = ((App)Application.Current).OwnerIn;
+        public bool TrainerIn = ((App)Application.Current).TrainerIn;
 
         public ContactPageViewModel (TrainingHelperWebAPIProxy proxy, SendEmailService sendEmailService)
         {
@@ -26,6 +27,8 @@ namespace TrainingHelperApp.ViewModels
             this.sendEmailService = sendEmailService;
             if(!OwnerIn)
              To = ((App)Application.Current).LoggedInUser.Email;
+            else if(TrainerIn)
+                To = ((App)Application.Current).LoggedInTrainer.Email;
 
             sentEmails = new ObservableCollection<EmailData>();
         }

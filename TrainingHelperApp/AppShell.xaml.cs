@@ -34,5 +34,16 @@ namespace TrainingHelperApp
             DisplayAlert("Log out", "Are you sure you want to log out", "Ok");
             
         }
+
+        public T? GetTabPage<T>(string route) where T : Page
+        {
+            
+            ShellContent? item = this.Items.OfType<ShellItem>().SelectMany(item => item.Items)
+                                                 .OfType<ShellSection>()
+                                                 .SelectMany(section => section.Items)
+                                                 .FirstOrDefault(content => content.Route == route);
+
+            return item?.Content as T;
+        }
     }
 }

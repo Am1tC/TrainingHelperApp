@@ -14,6 +14,8 @@
                    Margin="0,20" />-->
 
             <!-- CollectionView to display the trainings -->
+            <Label Text="{Binding Error}"></Label>
+               
             <CollectionView ItemsSource="{Binding Trainings}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

@@ -23,7 +23,7 @@
         <ShellContent
             Title="Events"
             ContentTemplate="{DataTemplate Views:EventsView}"
-            Icon="calander_icon.png"
+            Icon="events_icon.png"
             Route="Events" />
 
         <ShellContent
@@ -31,6 +31,7 @@
        ContentTemplate="{DataTemplate Views:OrderedTrainingView}"
        IsEnabled="{Binding IsTrainee}"
        IsVisible="{Binding IsTrainee}"
+       Icon="calander_icon.png"
        Route="OrderedTraining" />
         
 
@@ -39,6 +40,7 @@
         ContentTemplate="{DataTemplate Views:TrainerTrainingsView}"
         IsEnabled="{Binding IsTrainer}"
         IsVisible="{Binding IsTrainer}"
+        Icon="calander_icon.png"
         Route="TrainerTrainingsView" />
         
         <ShellContent
@@ -72,15 +74,17 @@
         <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->
 
         <ShellContent
-            Title="ShowTrainersView"
+            Title="Trainers"
             ContentTemplate="{DataTemplate Views:ShowTrainersView}"
             IsVisible="{Binding IsOwner}"
+            Icon="magnifying_icon.png"
             Route="ShowTrainersView" />
 
         <ShellContent
-            Title="ShowTraineesView"
+            Title="Trainees"
             ContentTemplate="{DataTemplate Views:ShowTraineesView}"
             IsVisible="{Binding IsOwner}"
+            Icon="magnifying_icon.png"
             Route="ShowTraineesView" />
 
         <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->

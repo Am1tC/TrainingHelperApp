@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
+using TrainingHelperApp.Views;
 
 namespace TrainingHelperApp.ViewModels
 {
@@ -15,11 +16,13 @@ namespace TrainingHelperApp.ViewModels
     {
         private readonly TrainingHelperWebAPIProxy proxy;
 
+
         public TrainingViewModel(TrainingHelperWebAPIProxy proxy)
         {
             this.proxy = proxy;
             selectedTraining = new Training();
         }
+        private bool isTrainee = ((App)Application.Current).TraineeIn;
 
         private Training selectedTraining;
         public Training SelectedTraining
@@ -61,6 +64,19 @@ namespace TrainingHelperApp.ViewModels
         {
             try
             {
+                //Test
+                AppShell shell = (AppShell)(Shell.Current);
+                //AppShellViewModel shellVM = (AppShellViewModel)(shell.BindingContext);
+                //Object? refreshVM = shellVM.GetTabViewModel(typeof(OrderedTrainingViewModel));
+                OrderedTrainingView? refreshV = shell.GetTabPage<OrderedTrainingView>("OrderedTraining");
+                if (refreshV != null)
+                {
+                    OrderedTrainingViewModel vm = (OrderedTrainingViewModel)refreshV.BindingContext;
+                    //Call Refresh
+                }
+                
+
+                //****************
                 if (SelectedTraining == null)
                 {
                     await App.Current.MainPage.DisplayAlert("Error", "No training selected!", "OK");

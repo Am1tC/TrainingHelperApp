@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -86,5 +87,7 @@ namespace TrainingHelperApp.ViewModels
 
             ((App)Application.Current).MainPage = new NavigationPage(serviceProvider.GetService<LoginView>());
         }
+
+        
     }
 }

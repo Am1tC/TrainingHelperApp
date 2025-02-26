@@ -27,6 +27,7 @@
         <Button
             BackgroundColor="Green"
             Command="{Binding OrderCommand}"
+            IsEnabled="{Binding isTrainee}"
             Text="Order"
             TextColor="White" />
     </VerticalStackLayout>

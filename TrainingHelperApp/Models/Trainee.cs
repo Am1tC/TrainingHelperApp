@@ -27,6 +27,7 @@ namespace TrainingHelperApp.Models
 
         public string Password { get; set; } = null!;
         public string? Picture { get; set; }
+        public bool IsActive { get; set; }
 
         public Trainee() { }
         public Trainee(Models.Trainee trainee) 
@@ -42,6 +43,8 @@ namespace TrainingHelperApp.Models
             this.PhoneNum = trainee.PhoneNum;
             this.Email = trainee.Email;
             this.Picture = trainee.Picture;
+            this.IsActive = trainee.IsActive;
+
 
         }
 
@@ -59,6 +62,7 @@ namespace TrainingHelperApp.Models
             t.Email = this.Email;
             t.Picture = this.Picture;
             t.Password = this.Password;
+            t.IsActive = this.IsActive;
             return t;
         }
 

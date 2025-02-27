@@ -23,9 +23,9 @@
                    Keyboard="Email" />-->
 
              <!--To Field-->
-            <Label Text="To:" IsEnabled="{Binding OwnerIn}" />
+            <!--<Label Text="To:" IsEnabled="{Binding OwnerIn}" />
             <Entry Text="{Binding To}"  Placeholder="Enter recipient"  IsEnabled="{Binding OwnerIn}  "
-                    />
+                    />-->
 
             <!-- Subject Field -->
             <Label Text="Subject:" />
@@ -47,7 +47,8 @@
             <!-- Buttons -->
           
                 <Button Text="Send " 
-                          HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        IsEnabled="{Binding InServerCall}"
                         Command="{Binding SendEmailCommand}" 
                         WidthRequest="100" />
             
@@ -72,7 +73,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>-->
-
+            <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

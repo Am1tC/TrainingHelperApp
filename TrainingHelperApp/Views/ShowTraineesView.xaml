@@ -12,7 +12,7 @@
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Delete" BackgroundColor="Red" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}" />
+                            <SwipeItem Text="DeActivate" BackgroundColor="Red" Command="{Binding DeleteCommand}"  CommandParameter="{Binding}" BindingContext="ShowTraineesViewModel" />
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <StackLayout Padding="10" Orientation="Vertical">

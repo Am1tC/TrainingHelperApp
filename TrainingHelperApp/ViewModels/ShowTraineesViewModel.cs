@@ -14,56 +14,41 @@ namespace TrainingHelperApp.ViewModels
 {
     public class ShowTraineesViewModel : ViewModelBase
     {
-        //  [QueryProperty("SelectedTraining", "SelectedTraining")]
-        //private readonly TrainingHelperWebAPIProxy proxy;
-        //public ShowTraineesViewModel(TrainingHelperWebAPIProxy proxy)
+        #region Single Selection
+
+
+        private Trainee selectedTrainee;
+        public Trainee SelectedTrainee
+        {
+            get
+            {
+                return this.selectedTrainee;
+            }
+            set
+            {
+                this.selectedTrainee = value;
+                DeleteTraineeAsync(selectedTrainee);
+                OnPropertyChanged("SelectedTrainee");
+            }
+        }
+
+
+
+        //private async void OnSingleSelectTraining(Trainee t)
         //{
-        //    this.proxy = proxy;
-        //    selectedTrainee = new Trainee();
-        //}
-        //private Trainee selectedTrainee;
-        //public Trainee SelectedTrainee
-        //{
-        //    get => selectedTrainee;
-        //    set
+        //    if (t != null)
         //    {
-        //        selectedTrainee = value;
-        //        OnPropertyChanged();
+        //        var navParam = new Dictionary<string, object>
+        //        {
+        //            {"SelectedTraining",t }
+        //        };
+        //        await Shell.Current.GoToAsync("TrainingView", navParam);
+        //        SelectedTraining = null;
+
         //    }
         //}
 
-        //public async Task InitializeAsync(Trainee trainee)
-        //{
-        //    selectedTrainee = trainee;
-
-        //}
-        //private ICommand deleteCommand;
-        //public ICommand DeleteCommand => deleteCommand ??= new Command(async () => await taskDeleteCommand());
-
-        //private async Task taskDeleteCommand()
-        //{
-        //    try
-        //    {
-        //        if (SelectedTrainee == null)
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Error", "No trainee selected!", "OK");
-        //            return;
-        //        }
-        //        bool success = await proxy.DeleteTrainee(SelectedTrainee.Id);
-        //        if (success)
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Success", "Trainee deleted!", "OK");
-        //        }
-        //        else
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Error", "Failed to delete trainee!", "OK");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await App.Current.MainPage.DisplayAlert("Error", $"Failed to delete trainee: {ex.Message}", "OK");
-        //    }
-        //}
+        #endregion
 
         private readonly TrainingHelperWebAPIProxy proxy;
 
@@ -97,11 +82,11 @@ namespace TrainingHelperApp.ViewModels
             if (success)
             {
                 Trainees.Remove(trainee);
-                await App.Current.MainPage.DisplayAlert("Success", "Trainee deleted!", "OK");
+                await App.Current.MainPage.DisplayAlert("Success", "Trainee Deactivated!", "OK");
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Failed to delete trainee!", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Failed to Deactivated trainee!", "OK");
             }
         }
 

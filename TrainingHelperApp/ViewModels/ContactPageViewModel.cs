@@ -25,45 +25,43 @@ namespace TrainingHelperApp.ViewModels
         {
             this.proxy = proxy;
             this.sendEmailService = sendEmailService;
-            if(!OwnerIn)
-             To = ((App)Application.Current).LoggedInUser.Email;
-            else if(TrainerIn)
-                To = ((App)Application.Current).LoggedInTrainer.Email;
-
-            sentEmails = new ObservableCollection<EmailData>();
+            //if(!OwnerIn)
+            // To = ((App)Application.Current).LoggedInUser.Email;
+            //else if(TrainerIn)
+            //    To = ((App)Application.Current).LoggedInTrainer.Email;
+            if (OwnerIn)
+                from = "Owner"; // Always enforce "Owner" when OwnerIn is true.
+            else if (!TrainerIn)
+                from = $"{((App)Application.Current).LoggedInUser.FirstName} {((App)Application.Current).LoggedInUser.LastName}";
+            else
+                from = $"{((App)Application.Current).LoggedInTrainer.FirstName} {((App)Application.Current).LoggedInTrainer.LastName}";
+            InServerCall = false;
+          //  sentEmails = new ObservableCollection<EmailData>();
         }
 
         private string from;
-        private string to;
+   
         private string subject;
         private string body;
         private string statusMessage;
         private ObservableCollection<EmailData> sentEmails; //if i want to see history
 
         #region properties
+
         public string From
         {
             get => from;
             set
-            {
-                if (OwnerIn)
-                    from = "Owner";
-                else
-                    from = ((App)Application.Current).LoggedInUser.FirstName + " " +((App)Application.Current).LoggedInUser.LastName;
+            {             
 
-                //OnPropertyChanged(nameof(From));
+                OnPropertyChanged(nameof(From));
             }
         }
 
-        public string To
-        {
-            get => to;
-            set
-            {
-                to = value;
-                //OnPropertyChanged(nameof(To));
-            }
-        }
+
+
+
+       
 
         public string Subject
         {
@@ -95,7 +93,7 @@ namespace TrainingHelperApp.ViewModels
             }
         }
         #endregion
-        public ObservableCollection<EmailData> SentEmails => sentEmails;
+      
 
         // Commands or Actions
         private ICommand sendEmailCommand;
@@ -113,25 +111,28 @@ namespace TrainingHelperApp.ViewModels
             var emailData = new EmailData
             {
                 From = From,
-                To = To,
+                To = "traininghelperofficial@gmail.com",
                 Subject = Subject,
                 Body = Body
             };
 
             try
             {
+                InServerCall = true;
                 bool isSent = await sendEmailService.Send(emailData);
                 if (isSent)
                 {
+                    InServerCall = false;
                     await App.Current.MainPage.DisplayAlert("Success", "You have successfully sent the message.", "OK");
                     StatusMessage = "";
-                    sentEmails.Add(emailData);
-                    From = "";
+                    //sentEmails.Add(emailData);
+                   // From = "";
                     Subject = "";
                     Body = "";
                 }
                 else
                 {
+                    InServerCall = false;
                     StatusMessage = "Failed to send email.";
                 }
             }

@@ -27,6 +27,7 @@ namespace TrainingHelperApp.Models
         public string Password { get; set; } = null!;
 
         public string? Picture { get; set; }
+        public bool IsActive { get; set; }
 
         //public virtual ICollection<Training> Training { get; set; } = new List<Training>();
 
@@ -41,6 +42,7 @@ namespace TrainingHelperApp.Models
             this.PhoneNum = tr.PhoneNum;
             this.Email = tr.Email;
             this.Picture = tr.Picture;
+            this.IsActive = tr.IsActive;
         }
 
         public Models.Trainer GetModel()
@@ -54,6 +56,7 @@ namespace TrainingHelperApp.Models
             tr.PhoneNum = this.PhoneNum;
             tr.Email = this.Email;
             tr.Picture = this.Picture;
+            tr.IsActive = this.IsActive;
             return tr;
         }
 

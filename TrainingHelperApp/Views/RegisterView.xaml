@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrainingHelperApp.Views.RegisterView"
              Title="Register">
+    <ScrollView>
     <Grid>
 
 
@@ -123,9 +124,35 @@ VerticalOptions="End">
                 <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="True" Style="{StaticResource entryStyle}" />
                 <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
             </Grid>
-            
-            
-            
+            <!-- Gender Selection -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Gender" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding GenderError}" IsVisible="{Binding ShowGenderError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <Picker ItemsSource="{Binding GenderOptions}" 
+        SelectedItem="{Binding SelectedGender}" 
+        Title="Select Gender" 
+        Style="{StaticResource entryStyle}" />
+
+            <!-- Birthdate Selection -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Birthdate" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding BirthdateError}" IsVisible="{Binding ShowBirthdateError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+            </Grid>
+            <DatePicker Date="{Binding Birthdate}"           
+            Format="dd/MM/yyyy"
+            Style="{StaticResource entryStyle}" />
+
+
+
 
             <!-- Register and Cancel Buttons -->
             <Grid>
@@ -133,8 +160,8 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" Style="{StaticResource buttonStyle} " BackgroundColor="Green"/>
-                <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0" Style="{StaticResource buttonStyle}" BackgroundColor="Red" />
+                <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" BackgroundColor="Green"/>
+                <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0"  BackgroundColor="Red" />
             </Grid>
             <Label 
   Text="Owner?"
@@ -161,4 +188,5 @@ VerticalOptions="End">
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" />
     </Grid>
+    </ScrollView>
 </ContentPage>

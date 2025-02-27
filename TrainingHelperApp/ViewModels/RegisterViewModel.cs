@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
 using TrainingHelperApp.Views;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TrainingHelperApp.ViewModels
 {
@@ -31,6 +33,7 @@ namespace TrainingHelperApp.ViewModels
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             IsPassword = true;
+            GenderOptions = new List<string> { "Male", "Female", "Other" };
 
             IdError = "Invalid Id";
             BirthDateError = "must be older than 10 years";
@@ -39,6 +42,7 @@ namespace TrainingHelperApp.ViewModels
             EmailError = "Email must be in the correct format";
             PasswordError = "Password must contain letters and numbers";
             PhoneError = "Phone must starts with 05 and have 10 digits";
+            GenderError = "Please select a gender.";
         }
         #region Name
         private string name;
@@ -89,7 +93,14 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateName()
         {
-            this.ShowNameError = name.Any(char.IsDigit);
+            if (string.IsNullOrEmpty(this.name) || name.Any(char.IsDigit))
+            {
+                this.ShowNameError = true;
+            }
+            else
+            {
+                this.ShowNameError = false;
+            }
         }
         #endregion
 
@@ -133,7 +144,14 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateLastName()
         {
-            this.ShowLastNameError = lastName.Any(char.IsDigit);
+            if (string.IsNullOrEmpty(this.lastName) || lastName.Any(char.IsDigit))
+            {
+                this.ShowLastNameError = true;
+            }
+            else
+            {
+                this.ShowLastNameError = false;
+            }
         }
         #endregion
 
@@ -188,25 +206,20 @@ namespace TrainingHelperApp.ViewModels
         private void ValidateEmail()
         {
            
-            if (!ShowEmailError)
-            {
-               // check if email is in the correct format using regular expression
-                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+         
+                // Check if email is in the correct format using regular expression
+                if (string.IsNullOrEmpty(this.lastName) || !System.Text.RegularExpressions.Regex.IsMatch(Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
                 {
-                    EmailError = "Email is not valid";
+
                     ShowEmailError = true;
                 }
                 else
-                {
-                    EmailError = "";
+                {                 
                     ShowEmailError = false;
                 }
-                ShowEmailError = false;
-            }
-            else
-            {
-                EmailError = "Email is required";
-            }
+
+         
+          
         }
         #endregion
 
@@ -402,31 +415,88 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateId()
         {
-            if (string.IsNullOrEmpty(id) ||
-                  id.Length != 9 ||
-                  !id.All(char.IsDigit))
+            // Validate the ID number
+            if (string.IsNullOrEmpty(id) || id.Length != 9 || !id.All(char.IsDigit) || !IsIsraeliIdNumberValid(id))
             {
-                this.ShowIdError = true;
+                // If the ID is invalid (empty, wrong length, contains non-digits, or fails checksum validation)
+                ShowIdError = true;
+                IdError = "Invalid ID number"; // Set the error message
             }
             else
             {
-                this.ShowIdError = false;
+                // If the ID is valid, hide the error
+                ShowIdError = false;
+                IdError = "";
             }
 
+
         }
+        private bool IsIsraeliIdNumberValid(string id)
+        {
+            // Ensure the ID is 9 digits (prepend zeros if necessary)
+            id = id.PadLeft(9, '0');
+
+            // Checksum validation logic for Israeli ID number
+            int sum = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                int digit = int.Parse(id[i].ToString());
+                if (i % 2 == 1) // Multiply digits at odd positions by 2
+                {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9; // If the result is greater than 9, subtract 9
+                }
+                sum += digit;
+            }
+
+            return sum % 10 == 0; // Valid ID if the sum is divisible by 10
+        }
+
+
         #endregion
 
         #region Gender
 
-        private char gender;
-        public char Gender
+        public List<string> GenderOptions { get; }
+        private string gender;
+        public string Gender
         {
             get => gender;
             set
             {
+                ValidateGender();
                 gender = value;
                 OnPropertyChanged("Gender");
             }
+        }
+        private string genderError;
+        public string GenderError
+        {
+            get => genderError;
+            set
+            {
+                genderError = value;
+                OnPropertyChanged("GenderError");
+            }
+        }
+        private bool showGenderError;
+        public bool ShowGenderError
+        {
+            get => showGenderError;
+            set
+            {
+                showGenderError = value;
+                OnPropertyChanged("ShowGenderError");
+            }
+        }
+
+        private void ValidateGender()
+        {
+            if (gender == null)
+                this.ShowGenderError = true;
+            else
+                this.ShowGenderError = false;
+
         }
 
         #endregion
@@ -473,160 +543,14 @@ namespace TrainingHelperApp.ViewModels
         {
             DateTime currentDate = DateTime.Now;
             DateTime tenYearsAgo = currentDate.AddYears(-10);
-            if(!(tenYearsAgo >= birthDate))
+            if (birthDate == null || !(tenYearsAgo >= birthDate))
                 this.ShowBirthDateError = true;
+            else
+                this.showBirthDateError = false;
         }
         #endregion
 
-        //#region Photo
-
-        //private string photoURL;
-
-        //public string PhotoURL
-        //{
-        //    get => photoURL;
-        //    set
-        //    {
-        //        photoURL = value;
-        //        OnPropertyChanged("PhotoURL");
-        //    }
-        //}
-
-        //private string localPhotoPath;
-
-        //public string LocalPhotoPath
-        //{
-        //    get => localPhotoPath;
-        //    set
-        //    {
-        //        localPhotoPath = value;
-        //        OnPropertyChanged("LocalPhotoPath");
-        //    }
-        //}
-
-        //public Command UploadPhotoCommand { get; }
-        ////This method open the file picker to select a photo
-        //private async void OnUploadPhoto()
-        //{
-        //    try
-        //    {
-        //        var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-        //        {
-        //            Title = "Please select a photo",
-        //        });
-
-        //        if (result != null)
-        //        {
-        //            // The user picked a file
-        //            this.LocalPhotoPath = result.FullPath;
-        //            this.PhotoURL = result.FullPath;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-
-        //}
-
-        //private void UpdatePhotoURL(string virtualPath)
-        //{
-        //    Random r = new Random();
-        //    PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
-        //    LocalPhotoPath = "";
-        //}
-
-        //#endregion
-
-        //#region Photo
-
-        //private string photoURL;
-
-        //public string PhotoURL
-        //{
-        //    get => photoURL;
-        //    set
-        //    {
-        //        photoURL = value;
-        //        OnPropertyChanged("PhotoURL");
-        //    }
-        //}
-
-        //private string localPhotoPath;
-
-        //public string LocalPhotoPath
-        //{
-        //    get => localPhotoPath;
-        //    set
-        //    {
-        //        localPhotoPath = value;
-        //        OnPropertyChanged("LocalPhotoPath");
-        //    }
-        //}
-
-        //public Command UploadPhotoCommand { get; }
-        ////This method open the file picker to select a photo
-        //private async void OnUploadPhoto()
-        //{
-        //    try
-        //    {
-        //        var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
-        //        {
-        //            Title = "Please select a photo",
-        //        });
-
-        //        if (result != null)
-        //        {
-        //            // The user picked a file
-        //            this.LocalPhotoPath = result.FullPath;
-        //            this.PhotoURL = result.FullPath;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-
-        //}
-
-        //public Command UploadTakePhotoCommand { get; }
-        ////This method open the file picker to select a photo
-        //private async void OnUploadTakePhoto()
-        //{
-        //    try
-        //    {
-        //        var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-        //        {
-        //            Title = "Please select a photo",
-        //        });
-
-        //        if (result != null)
-        //        {
-        //            // The user picked a file
-        //            this.LocalPhotoPath = result.FullPath;
-        //            this.PhotoURL = result.FullPath;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-
-        //}
-
-        //private void UpdatePhotoURL(string virtualPath)
-        //{
-        //    Random r = new Random();
-        //    PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
-        //    LocalPhotoPath = "";
-        //}
-
-        //#endregion
-
-
-
-
-
-        // Define a command for the register button
+      
 
         #region Photo
 
@@ -728,8 +652,10 @@ namespace TrainingHelperApp.ViewModels
             ValidateBirthDate();
             ValidatePhone();
             ValidateId();
+            ValidateBirthDate();
+            ValidateGender();
 
-            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError)
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError&& !showGenderError&&!showGenderError)
             {
                 //Create a new AppUser object with the data from the registration form
                 var newUser = new Models.Trainee()
@@ -776,7 +702,13 @@ namespace TrainingHelperApp.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
                 }
             }
+            else
+            {
+                string errorMsg = "Registration failed. Please fill fields appropriatly";
+                await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+            }
         }
+        
 
         //Define a method that will be called upon pressing the cancel button
         public void OnCancel()

@@ -3,15 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrainingHelperApp.Views.CreateTrainingView"
              Title="Create Training"
-             xmlns:vm="clr-namespace:TrainingHelperApp.ViewModels">
+             xmlns:vm="clr-namespace:TrainingHelperApp.ViewModels"
+       >
 
-    
-        <ScrollView>
+    <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
-            <!-- Trainer ID -->
-            <Label Text="Trainer ID" />
-            <Entry Text="{Binding TrainerId, Mode=TwoWay}" Keyboard="Numeric" />
+            <!-- Trainer -->
+            <Label Text="Trainer" />
+            <Picker x:Name="TrainerPicker"
+                    Title="Select a Trainer"
+                    ItemsSource="{Binding Trainers}"
+                    ItemDisplayBinding="{Binding FirstName}"
+                    SelectedItem="{Binding SelectedTrainer, Mode=TwoWay}">
+            </Picker>
             <Label Text="{Binding TrainerError}" TextColor="Red" IsVisible="{Binding ShowTrainerError}" />
 
             <!-- Max Participants -->
@@ -21,7 +26,10 @@
 
             <!-- Place -->
             <Label Text="Place" />
-            <Entry Text="{Binding Place, Mode=TwoWay}" />
+            <Picker ItemsSource="{Binding Places}"
+                    SelectedItem="{Binding SelectedPlace, Mode=TwoWay}"
+                    Title="Select Studio">
+            </Picker>
             <Label Text="{Binding PlaceError}" TextColor="Red" IsVisible="{Binding ShowPlaceError}" />
 
             <!-- Date -->
@@ -31,16 +39,19 @@
 
             <!-- Duration -->
             <Label Text="Duration" />
-            <Entry Text="{Binding Duration, Mode=TwoWay}" />
+            <Picker ItemsSource="{Binding Durations}"
+        SelectedItem="{Binding SelectedDuration, Mode=TwoWay}"
+        Title="Select Duration">
+            </Picker>
             <Label Text="{Binding DurationError}" TextColor="Red" IsVisible="{Binding ShowDurationError}" />
+
 
             <!-- Buttons -->
             <HorizontalStackLayout Spacing="15">
-                <Button Text="Create" Command="{Binding CreateTrainingCommand}"  />
+                <Button Text="Create" Command="{Binding CreateTrainingCommand}" />
                 <Button Text="Clear" Command="{Binding CancelCommand}" BackgroundColor="Red" />
             </HorizontalStackLayout>
-            
+
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

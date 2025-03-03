@@ -1,146 +1,171 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
-using TrainingHelperApp.Views;
+using Microsoft.Maui.Controls;
 
 namespace TrainingHelperApp.ViewModels
 {
     public class CreateTrainingViewModel : ViewModelBase
     {
-        private TrainingHelperWebAPIProxy proxy;
+        private readonly TrainingHelperWebAPIProxy proxy;
+        public ObservableCollection<Trainer> Trainers { get; set; }
+        public Command CreateTrainingCommand { get; }
+        public Command CancelCommand { get; }
+
         public CreateTrainingViewModel(TrainingHelperWebAPIProxy proxy)
         {
             this.proxy = proxy;
+            Trainers = new ObservableCollection<Trainer>();
             CreateTrainingCommand = new Command(OnCreateTraining);
             CancelCommand = new Command(OnCancel);
-          //  UploadPhotoCommand = new Command(OnUploadPhoto);
-
-
+            LoadTrainers();
+            LoadPlaces();
+            LoadDurations();
         }
 
-        #region Properties      
-
-        #region Trainer
-
-        private int trainerId;
-        public int TrainerId
+        private async void LoadTrainers()
         {
-            get => trainerId;
+            var trainers = await proxy.GetTrainers();
+            Trainers.Clear();
+            foreach (var trainer in trainers)
+            {
+                Trainers.Add(trainer);
+            }
+        }
+        public ObservableCollection<string> Durations { get; set; }
+
+        private string selectedDuration;
+        public string SelectedDuration
+        {
+            get => selectedDuration;
             set
             {
-                if (trainerId != value)
+                if (selectedDuration != value)
                 {
-                    trainerId = value;
-                    OnPropertyChanged(nameof(TrainerId));
+                    selectedDuration = value;
+                    OnPropertyChanged(nameof(SelectedDuration)); // Notify the UI
+                }
+            }
+        }
+
+        private void LoadDurations()
+        {
+            Durations = new ObservableCollection<string>
+    {
+        "45m",   // 45 minutes
+        "1h",    // 1 hour
+        "1.5h",  // 1.5 hours
+        "2h",    // 2 hours
+        "2.5h",  // 2.5 hours
+        "3h"     // 3 hours
+    };
+
+            // Set the default selected duration to "45m"
+            SelectedDuration = Durations.FirstOrDefault();
+
+            OnPropertyChanged(nameof(Durations));  // Notify the UI
+        }
+
+        public ObservableCollection<string> Places { get; set; }
+
+        private string selectedPlace;
+        public string SelectedPlace
+        {
+            get => selectedPlace;
+            set
+            {
+                if (selectedPlace != value)
+                {
+                    selectedPlace = value;
+                    OnPropertyChanged(nameof(SelectedPlace)); // Notify the UI
+                }
+            }
+        }
+
+        private void LoadPlaces()
+        {
+            Places = new ObservableCollection<string>
+    {
+        "Studio A", "Studio B", "Studio C", "Studio D", "Studio E"
+    };
+            OnPropertyChanged(nameof(Places));  // Notify the UI
+        }
+
+
+        private Trainer selectedTrainer;
+        public Trainer SelectedTrainer
+        {
+            get => selectedTrainer;
+            set
+            {
+                if (selectedTrainer != value)
+                {
+                    selectedTrainer = value;
+                    OnPropertyChanged(nameof(SelectedTrainer));
                 }
             }
         }
 
         private bool showTrainerError;
-
         public bool ShowTrainerError
         {
             get => showTrainerError;
             set
             {
                 showTrainerError = value;
-                OnPropertyChanged("ShowTrainerError");
+                OnPropertyChanged(nameof(ShowTrainerError));
             }
         }
 
         private string trainerError;
-
         public string TrainerError
         {
             get => trainerError;
             set
             {
                 trainerError = value;
-                OnPropertyChanged("TrainerError");
+                OnPropertyChanged(nameof(TrainerError));
             }
         }
-        //makes sure the trainer is valid before creating the training and exsists in the database - Is done in controller
-        private void validateTrainer()// 
-        {
-            if (TrainerId < 1000)
-            {
-                ShowTrainerError = true;
-                TrainerError = "Trainer ID is invalid";
-            }
-            else
-            {
-                ShowTrainerError = false;
-                TrainerError = "";
-            }
 
-        }
-
-        #endregion
-
-        #region MaxParticipants
-
-
-        private int Maxparticipants;
+        private int maxParticipants;
         public int MaxParticipants
         {
-            get => Maxparticipants;
+            get => maxParticipants;
             set
             {
-                if (Maxparticipants != value)
+                if (maxParticipants != value)
                 {
-                    Maxparticipants = value;
-                    OnPropertyChanged(nameof(TrainerId));
+                    maxParticipants = value;
+                    OnPropertyChanged(nameof(MaxParticipants));
                 }
             }
         }
 
         private bool showMaxParticipantsError;
-
         public bool ShowMaxParticipantsError
         {
             get => showMaxParticipantsError;
             set
             {
                 showMaxParticipantsError = value;
-                OnPropertyChanged("ShowMaxParticipantsError");
+                OnPropertyChanged(nameof(ShowMaxParticipantsError));
             }
         }
 
-        private string MaxparticipantsError;
-
+        private string maxParticipantsError;
         public string MaxParticipantsError
         {
-            get => MaxparticipantsError;
+            get => maxParticipantsError;
             set
             {
-                MaxparticipantsError = value;
-                OnPropertyChanged("MaxParticipantsError");
+                maxParticipantsError = value;
+                OnPropertyChanged(nameof(MaxParticipantsError));
             }
         }
 
-        private void validateParticipants()// 
-        {
-            if (MaxParticipants < 1)
-            {
-                ShowMaxParticipantsError = true;
-                MaxParticipantsError = "Participants must be at least 1";
-            }
-            else
-            {
-                ShowMaxParticipantsError = false;
-                MaxParticipantsError = "";
-            }
-
-        }
-
-        #endregion
-
-        #region place
         private string place;
         public string Place
         {
@@ -162,7 +187,7 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 showPlaceError = value;
-                OnPropertyChanged("ShowPlaceError");
+                OnPropertyChanged(nameof(ShowPlaceError));
             }
         }
 
@@ -173,28 +198,11 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 placeError = value;
-                OnPropertyChanged("PlaceError");
+                OnPropertyChanged(nameof(PlaceError));
             }
         }
 
-        private void validatePlace()// 
-        {
-            if (string.IsNullOrEmpty(Place))
-            {
-                ShowPlaceError = true;
-                PlaceError = "Place must be filled out";
-            }
-            else
-            {
-                ShowPlaceError = false;
-                PlaceError = "";
-            }
-        }
-
-        #endregion
-
-        #region Date
-        private DateTime date;
+        private DateTime date = DateTime.Now;
         public DateTime Date
         {
             get => date;
@@ -207,6 +215,7 @@ namespace TrainingHelperApp.ViewModels
                 }
             }
         }
+
         private string dateError;
         public string DateError
         {
@@ -214,7 +223,7 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 dateError = value;
-                OnPropertyChanged("DateError");
+                OnPropertyChanged(nameof(DateError));
             }
         }
 
@@ -225,27 +234,10 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 showDateError = value;
-                OnPropertyChanged("ShowDateError");
+                OnPropertyChanged(nameof(ShowDateError));
             }
         }
 
-        private void validateDate()// 
-        {
-            if (Date < DateTime.Now)
-            {
-                ShowDateError = true;
-                DateError = "Date must be in the future";
-            }
-            else
-            {
-                ShowDateError = false;
-                DateError = "";
-            }
-        }
-
-        #endregion
-
-        #region Duration
         private string duration;
         public string Duration
         {
@@ -259,6 +251,7 @@ namespace TrainingHelperApp.ViewModels
                 }
             }
         }
+
         private string durationError;
         public string DurationError
         {
@@ -266,7 +259,7 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 durationError = value;
-                OnPropertyChanged("DurationError");
+                OnPropertyChanged(nameof(DurationError));
             }
         }
 
@@ -277,93 +270,126 @@ namespace TrainingHelperApp.ViewModels
             set
             {
                 showDurationError = value;
-                OnPropertyChanged("ShowDurationError");
+                OnPropertyChanged(nameof(ShowDurationError));
             }
         }
 
-        public void validateDuration()// 
+        private void ValidateTrainer()
         {
-            if (string.IsNullOrEmpty(Duration))
+            if (SelectedTrainer == null)
             {
-                showDurationError = true;
-                DurationError = "Duration must be filled out";
+                ShowTrainerError = true;
+                TrainerError = "Please select a trainer.";
             }
             else
             {
-                showDurationError = false;
+                ShowTrainerError = false;
+                TrainerError = "";
+            }
+        }
+
+        private void ValidateMaxParticipants()
+        {
+            if (MaxParticipants < 1)
+            {
+                ShowMaxParticipantsError = true;
+                MaxParticipantsError = "Participants must be at least 1.";
+            }
+            else
+            {
+                ShowMaxParticipantsError = false;
+                MaxParticipantsError = "";
+            }
+        }
+
+        private void ValidatePlace()
+        {
+            if (string.IsNullOrEmpty(SelectedPlace) || SelectedPlace == "Select Studio")
+            {
+                ShowPlaceError = true;
+                PlaceError = "Please select a valid studio.";
+            }
+            else
+            {
+                ShowPlaceError = false;
+                PlaceError = "";
+            }
+        }
+
+
+        private void ValidateDate()
+        {
+            if (Date < DateTime.Now)
+            {
+                ShowDateError = true;
+                DateError = "Date must be in the future.";
+            }
+            else
+            {
+                ShowDateError = false;
+                DateError = "";
+            }
+        }
+
+        private void ValidateDuration()
+        {
+            if (string.IsNullOrEmpty(SelectedDuration) || SelectedDuration == "Select Duration")
+            {
+                ShowDurationError = true;
+                DurationError = "Please select a valid duration.";
+            }
+            else
+            {
+                ShowDurationError = false;
                 DurationError = "";
             }
         }
 
 
-        #endregion
-
-        //need to add picture and upload photo
-
-        #endregion
-
-        #region logic
-        public Command CreateTrainingCommand { get; }
-        public Command CancelCommand { get; }
-       // public Command UploadPhotoCommand { get; }
-
         public async void OnCreateTraining()
         {
-            validateTrainer();
-            validateParticipants();
-            validatePlace();
-            validateDate();
-            validateDuration();
+            ValidateTrainer();
+            ValidateMaxParticipants();
+            ValidatePlace();
+            ValidateDate();
+            ValidateDuration();
 
             if (ShowTrainerError || ShowMaxParticipantsError || ShowPlaceError || ShowDateError || ShowDurationError)
             {
-                string errorMsg = "Creation failed. Please try again and make sure all fields are valid.";
+                await Application.Current.MainPage.DisplayAlert("Create Training", "Please fix the errors before proceeding.", "OK");
+                return;
+            }
 
-                await Application.Current.MainPage.DisplayAlert("Create Training", errorMsg, "ok");
+            Training training = new Training
+            {
+                TrainerId = int.Parse(SelectedTrainer.Id),
+                MaxParticipants = MaxParticipants,
+                Place = SelectedPlace,
+                Date = Date,
+                Duration = SelectedDuration,
+                Trainer = SelectedTrainer
+
+            };
+
+            var createdTraining = await proxy.CreateTrainingAsync(training);
+            if (createdTraining != null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Success", "Training created successfully!", "OK");
+                await Shell.Current.GoToAsync("EventsView");
             }
             else
             {
-                Training training = new Training
-                {
-                    TrainerId = TrainerId,
-                    MaxParticipants = MaxParticipants,
-                    Place = Place,
-                    Date = Date,
-                    Duration = Duration
-                };
-
-                InServerCall = true;
-                training = await proxy.CreateTrainingAsync(training); //needs further imp after picture will be added
-                if (training != null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Create Training", "Training created successfully", "ok");
-                    InServerCall = false;
-                    await Shell.Current.GoToAsync("EventsView");
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Create Training", "No such Trainer", "ok");
-                    InServerCall = false;
-                }
-                InServerCall = false;
-
+                await Application.Current.MainPage.DisplayAlert("Error", "Could not create training.", "OK");
             }
-          
         }
 
-        public async void OnCancel()
+        public void OnCancel()
         {
-            TrainerId = 0;
+            SelectedTrainer = null;
             MaxParticipants = 0;
-            Place = "";
+            Place = null;
             Date = DateTime.Now;
-            duration = "";
+            Duration = string.Empty;
         }
-        #endregion
-
-
-
-
-
     }
 }

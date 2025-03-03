@@ -1,3 +1,4 @@
+
 using TrainingHelperApp.ViewModels;
 
 namespace TrainingHelperApp.Views;
@@ -8,5 +9,6 @@ public partial class CreateTrainingView : ContentPage
 	{
         this.BindingContext = vm;
         InitializeComponent();
-	}
+       
+    }
 }

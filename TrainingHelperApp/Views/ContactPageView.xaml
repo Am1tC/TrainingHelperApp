@@ -1,73 +1,78 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TrainingHelperApp.Views.ContactPageView"
-             Title="Contact Us">
+<ContentPage
+    x:Class="TrainingHelperApp.Views.ContactPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Contact Us">
 
-      
+
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="10">
 
-            <!-- Page Title -->
-            <Label Text="Contact us and we will reach back as soon as we can!" 
-                   FontSize="24" 
-                   HorizontalOptions="Center" 
-                   FontAttributes="Bold" 
-                  />
+            <!--  Page Title  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="Contact us and we will reach back as soon as we can!" />
 
-            <!-- From Field --><!--
+            <!--  From Field  -->
+            <!--
             <Label Text="From:" />
-            <Entry Text="{Binding From}" 
-                   Placeholder="Enter your name" 
+            <Entry Text="{Binding From}"
+                   Placeholder="Enter your name"
                    Keyboard="Email" />-->
 
-             <!--To Field-->
+            <!--  To Field  -->
             <!--<Label Text="To:" IsEnabled="{Binding OwnerIn}" />
             <Entry Text="{Binding To}"  Placeholder="Enter recipient"  IsEnabled="{Binding OwnerIn}  "
                     />-->
 
-            <!-- Subject Field -->
+            <!--  Subject Field  -->
             <Label Text="Subject:" />
-            <Entry Text="{Binding Subject}" 
-                   Placeholder="Enter message subject" />
+            <Entry Placeholder="Enter message subject" Text="{Binding Subject}" />
 
-            <!-- Body Field -->
+            <!--  Body Field  -->
             <Label Text="Body:" />
-            <Editor Text="{Binding Body}" 
-                    Placeholder="Enter message body" 
-                    AutoSize="TextChanges" 
-                    HeightRequest="100" />
+            <Editor
+                AutoSize="TextChanges"
+                HeightRequest="100"
+                Placeholder="Enter message body"
+                Text="{Binding Body}" />
 
-            <!-- Status Message -->
-            <Label Text="{Binding StatusMessage}" 
-                   TextColor="Red" 
-                   FontAttributes="Italic" />
+            <!--  Status Message  -->
+            <Label
+                FontAttributes="Italic"
+                Text="{Binding StatusMessage}"
+                TextColor="Red" />
 
-            <!-- Buttons -->
-          
-                <Button Text="Send " 
-                        HorizontalOptions="FillAndExpand"
-                        IsEnabled="{Binding InServerCall}"
-                        Command="{Binding SendEmailCommand}" 
-                        WidthRequest="100" />
-            
-                <!--<Button Text="Load Emails" 
-                        Command="{Binding LoadEmailsCommand}" 
+            <!--  Buttons  -->
+
+            <Button
+                Command="{Binding SendEmailCommand}"
+                HorizontalOptions="FillAndExpand"
+                IsEnabled="{Binding NotInServerCall}"
+                Text="Send "
+                WidthRequest="100" />
+
+            <!--<Button Text="Load Emails"
+                        Command="{Binding LoadEmailsCommand}"
                         WidthRequest="100" />-->
-           
 
-            <!-- Sent Emails List --><!--
-            <Label Text="Sent Emails:" 
+
+            <!--  Sent Emails List  -->
+            <!--
+            <Label Text="Sent Emails:"
                    FontAttributes="Bold" />
             <CollectionView ItemsSource="{Binding SentEmails}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Padding="5">
-                            <Label Text="{Binding Subject}" 
+                            <Label Text="{Binding Subject}"
                                    FontAttributes="Bold" />
-                            <Label Text="{Binding Body}" 
-                                   FontSize="12" 
+                            <Label Text="{Binding Body}"
+                                   FontSize="12"
                                    TextColor="Gray" />
                         </StackLayout>
                     </DataTemplate>

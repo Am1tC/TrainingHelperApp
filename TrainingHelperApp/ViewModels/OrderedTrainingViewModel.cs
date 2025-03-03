@@ -63,5 +63,10 @@ namespace TrainingHelperApp.ViewModels
                 Trainings.Add(training);
             }
         }
+
+        public override void Refresh()
+        {
+            ReadTrainingsAsync();
+        }
     }
 }

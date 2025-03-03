@@ -88,6 +88,7 @@ namespace TrainingHelperApp.ViewModels
 
                 if (success)
                 {
+                    ((AppShell)Shell.Current).Refresh(typeof(OrderedTrainingViewModel));
                     await App.Current.MainPage.DisplayAlert("Success", "You have successfully signed up for the training.", "OK");
                 }
                 else

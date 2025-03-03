@@ -54,11 +54,11 @@ namespace TrainingHelperApp.ViewModels
             if (success)
             {
                 Trainers.Remove(trainer);
-                await App.Current.MainPage.DisplayAlert("Success", "Trainer deleted!", "OK");
+                await App.Current.MainPage.DisplayAlert("Success", "Trainer deactivated!", "OK");
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Failed to delete trainer!", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Failed to deactivate trainer!", "OK");
             }
         }
     }

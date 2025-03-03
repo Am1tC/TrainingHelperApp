@@ -5,19 +5,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="ShowTrainersView">
     <ContentPage.Content>
-        <CollectionView Margin="0,10" ItemsSource="{Binding Trainers}" SelectionMode="Single">
+        <CollectionView
+            x:Name="cv"
+            Margin="0,10"
+            ItemsSource="{Binding Trainers}"
+            SelectionMode="Single">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="DeActivate" BackgroundColor="Red" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}" />
+                                <SwipeItem
+                                    BackgroundColor="Red"
+                                    Command="{Binding Source={x:Reference cv}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Deactivate" />
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <StackLayout Padding="10" Orientation="Vertical">
-                            <Label FontAttributes="Bold" FontSize="18" Text="{Binding FirstName}" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding FirstName}" />
                             <Label FontSize="18" Text="{Binding LastName}" />
-                            <Label FontSize="14" Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}" TextColor="Gray" />
+                            <Label
+                                FontSize="14"
+                                Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}"
+                                TextColor="Gray" />
                             <Label FontSize="14" Text="{Binding Gender, StringFormat='Gender: {0}'}" />
                             <Label FontSize="14" Text="{Binding PhoneNum, StringFormat='Phone: {0}'}" />
                             <Label FontSize="14" Text="{Binding Email, StringFormat='Email: {0}'}" />

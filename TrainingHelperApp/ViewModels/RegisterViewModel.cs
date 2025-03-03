@@ -354,7 +354,7 @@ namespace TrainingHelperApp.ViewModels
         private void ValidatePhone()
         {
 
-            if (phone.StartsWith("05") && phone.Length == 10 && phone.All(char.IsDigit))
+            if ( !string.IsNullOrEmpty(phone) && phone.StartsWith("05") && phone.Length == 10 && phone.All(char.IsDigit))
             {
                 ShowPhoneError = false;
             }
@@ -416,7 +416,7 @@ namespace TrainingHelperApp.ViewModels
         private void ValidateId()
         {
             // Validate the ID number
-            if (string.IsNullOrEmpty(id) || id.Length != 9 || !id.All(char.IsDigit) || !IsIsraeliIdNumberValid(id))
+            if (string.IsNullOrEmpty(id) || !IsIsraeliIdNumberValid(id))
             {
                 // If the ID is invalid (empty, wrong length, contains non-digits, or fails checksum validation)
                 ShowIdError = true;
@@ -492,10 +492,13 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateGender()
         {
+           
             if (gender == null)
                 this.ShowGenderError = true;
             else
                 this.ShowGenderError = false;
+
+            this.showGenderError = false;
 
         }
 
@@ -543,7 +546,7 @@ namespace TrainingHelperApp.ViewModels
         {
             DateTime currentDate = DateTime.Now;
             DateTime tenYearsAgo = currentDate.AddYears(-10);
-            if (birthDate == null || !(tenYearsAgo >= birthDate))
+            if (birthDate == DateTime.Today || !(tenYearsAgo >= birthDate))
                 this.ShowBirthDateError = true;
             else
                 this.showBirthDateError = false;
@@ -655,7 +658,7 @@ namespace TrainingHelperApp.ViewModels
             ValidateBirthDate();
             ValidateGender();
 
-            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError&& !showGenderError&&!showGenderError)
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError&& !ShowGenderError)
             {
                 //Create a new AppUser object with the data from the registration form
                 var newUser = new Models.Trainee()
@@ -669,6 +672,7 @@ namespace TrainingHelperApp.ViewModels
                     SubscriptionStartDate = DateTime.Now,
                     SubscriptionEndDate = DateTime.Now.AddYears(1),
                     BirthDate = DateTime.Now.AddYears(-20),
+                    IsActive = true,    
                 };
 
                 //Call the Register method on the proxy to register the new user

@@ -18,6 +18,16 @@ namespace TrainingHelperApp.ViewModels
             AddTrainerCommand = new Command(OnAddTrainer);
             ClearCommand = new Command(OnClear);
             UploadPhotoCommand = new Command(OnUploadPhoto);
+            
+
+            IdError = "Invalid Id";
+            BirthDateError = "must be older than 10 years";
+            NameError = "Invalid Name";
+            LastNameError = "Invalid Last name ";
+            EmailError = "Email must be in the correct format";
+            PasswordError = "Password must contain letters and numbers";
+            PhoneError = "Phone must starts with 05 and have 10 digits";
+            //GenderError = "Please select a gender.";
         }
 
         #region properties

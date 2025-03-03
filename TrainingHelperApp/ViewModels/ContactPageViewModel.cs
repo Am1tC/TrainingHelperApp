@@ -111,7 +111,8 @@ namespace TrainingHelperApp.ViewModels
             var emailData = new EmailData
             {
                 From = From,
-                To = "traininghelperofficial@gmail.com",
+                //traininghelperofficial@gmail.com
+                To = "theaceofhearts52@gmail.com",
                 Subject = Subject,
                 Body = Body
             };

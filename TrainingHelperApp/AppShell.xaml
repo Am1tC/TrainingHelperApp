@@ -69,7 +69,7 @@
             Title="AddTrainer"
             ContentTemplate="{DataTemplate Views:AddTrainerView}"
             Icon="trainer_icon.png"
-            IsVisible="{Binding IsOwner}"
+            
             Route="AddTrainer" />  
         <!--  This is the binding that will show the OwnerPage only if the user is an owner  -->
 

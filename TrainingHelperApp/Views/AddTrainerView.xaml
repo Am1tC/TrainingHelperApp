@@ -1,95 +1,99 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TrainingHelperApp.Views"
+             xmlns:vm="clr-namespace:TrainingHelperApp.ViewModels"
              x:Class="TrainingHelperApp.Views.AddTrainerView"
              Title="Add Trainer">
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
-            <!-- Name -->
-            <Entry Placeholder="First Name"
-                   Text="{Binding Name}"
-                   Keyboard="Text" />
-            <Label Text="{Binding NameError}" 
-                   IsVisible="{Binding ShowNameError}" 
-                   TextColor="Red" />
 
-            <!-- Last Name -->
-            <Entry Placeholder="Last Name"
-                   Text="{Binding LastName}"
-                   Keyboard="Text" />
-            <Label Text="{Binding LastNameError}" 
-                   IsVisible="{Binding ShowLastNameError}" 
-                   TextColor="Red" />
+    <!-- ContentPage binding to ViewModel -->
+    
 
-            <!-- Email -->
-            <Entry Placeholder="Email"
-                   Text="{Binding Email}"
-                   Keyboard="Email" />
-            <Label Text="{Binding EmailError}" 
-                   IsVisible="{Binding ShowEmailError}" 
-                   TextColor="Red" />
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
 
-            <!-- Password -->
-            <Entry Placeholder="Password"
-                   Text="{Binding Password}"
-                   IsPassword="{Binding IsPassword}" />
-            <Label Text="{Binding PasswordError}" 
-                   IsVisible="{Binding ShowPasswordError}" 
-                   TextColor="Red" />
+            <!-- Photo -->
+            <Frame BorderColor="Black" Padding="5" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="theImageBug" Source="{Binding PhotoURL}"  HeightRequest="150"/>
+                    <Label Grid.Row="1"
+Text="Click Here To Upload Photo!"
+TextColor="DodgerBlue"
+HorizontalOptions="Center"
+VerticalOptions="End">
 
-            <!-- Phone -->
-            <Entry Placeholder="Phone (e.g., 05XXXXXXXX)"
-                   Text="{Binding Phone}"
-                   Keyboard="Telephone" />
-            <Label Text="{Binding PhoneError}" 
-                   IsVisible="{Binding ShowPhoneError}" 
-                   TextColor="Red" />
 
-            <!-- ID -->
-            <Entry Placeholder="ID"
-                   Text="{Binding Id}" 
-                   Keyboard="Numeric" />
-            <Label Text="{Binding IdError}" 
-                   IsVisible="{Binding ShowIdError}" 
-                   TextColor="Red" />
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
-            <!-- Gender -->
-            <Label Text="Gender" 
-           FontSize="Medium" 
-           HorizontalOptions="Start" />
-            <RadioButton GroupName="Gender" 
-                 Content="Male" 
-                 IsChecked="{Binding IsMale, Mode=TwoWay}" />
-            <RadioButton GroupName="Gender" 
-                 Content="Female" 
-                 IsChecked="{Binding IsFemale, Mode=TwoWay}" />
+                    <Label Grid.Row="2"
+Text="Click Here To Take a Photo!"
+TextColor="DodgerBlue"
+HorizontalOptions="Center"
+VerticalOptions="End">
 
-            <!-- Birth Date -->
-            <DatePicker Date="{Binding BirthDate}" 
-                        />
-            <Label Text="{Binding BirthDateError}" 
-                   IsVisible="{Binding ShowBirthDateError}" 
-                   TextColor="Red" />
 
-            <!-- Photo Upload --><!--
-            <Button Text="Upload Photo" 
-                    Command="{Binding UploadPhotoCommand}" />
-            <Image Source="{Binding LocalPhotoPath}" 
-                   HeightRequest="150" 
-                   Aspect="AspectFill" 
-                   IsVisible="{Binding LocalPhotoPath, }" />-->
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding UploadTakePhotoCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Frame>
+            
+            <!-- Name Field -->
+            <Entry Text="{Binding Name}" Placeholder="First Name" />
+            <Label Text="{Binding NameError}" TextColor="Red" IsVisible="{Binding ShowNameError}" />
 
-            <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10">
-                <Button Text="Add"
-                        Command="{Binding AddTrainerCommand}"
+            <!-- Last Name Field -->
+            <Entry Text="{Binding LastName}" Placeholder="Last Name" />
+            <Label Text="{Binding LastNameError}" TextColor="Red" IsVisible="{Binding ShowLastNameError}" />
 
-                        TextColor="White" />
-                <Button Text="Clear"
-                        Command="{Binding ClearCommand}"
-                        BackgroundColor="Gray"
-                        TextColor="White" />
-            </HorizontalStackLayout>
+            <!-- Email Field -->
+            <Entry Text="{Binding Email}" Placeholder="Email" Keyboard="Email" />
+            <Label Text="{Binding EmailError}" TextColor="Red" IsVisible="{Binding ShowEmailError}" />
+
+            <!-- Password Field -->
+            <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="{Binding IsPassword}" />
+            <Label Text="{Binding PasswordError}" TextColor="Red" IsVisible="{Binding ShowPasswordError}" />
+
+            <!-- Phone Field -->
+            <Entry Text="{Binding Phone}" Placeholder="Phone" Keyboard="Telephone" />
+            <Label Text="{Binding PhoneError}" TextColor="Red" IsVisible="{Binding ShowPhoneError}" />
+
+            <!-- ID Field -->
+            <Entry Text="{Binding Id}" Placeholder="ID" Keyboard="Numeric" />
+            <Label Text="{Binding IdError}" TextColor="Red" IsVisible="{Binding ShowIdError}" />
+
+            <!-- BirthDate Field -->
+            <DatePicker Date="{Binding BirthDate}" />
+            <Label Text="{Binding BirthDateError}" TextColor="Red" IsVisible="{Binding ShowBirthDateError}" />
+
+            <!-- Gender Field -->
+            <Picker SelectedItem="{Binding Gender}" ItemsSource="{Binding GenderOptions} " Title="Select gender" />
+            <Label Text="{Binding GenderError}" TextColor="Red" IsVisible="{Binding ShowGenderError}" />
+
+            <!-- Photo upload --><!--
+            <Button Text="Upload Photo" Command="{Binding UploadPhotoCommand}" />
+            <Image Source="{Binding PhotoURL}" HeightRequest="150" />
+            <Button Text="Take Photo" Command="{Binding UploadTakePhotoCommand}" />-->
+
+            <!-- Add Trainer and Clear Buttons -->
+            <Grid ColumnDefinitions="*,*">
+                <Button Text="Add Trainer" Command="{Binding AddTrainerCommand}" Grid.Column="0" BackgroundColor="Green" />
+                <Button Text="Clear" Command="{Binding ClearCommand}" Grid.Column="1" BackgroundColor="Red" />
+            </Grid>
+
+            <!-- Loader (Activity Indicator) -->
+            <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red" VerticalOptions="Center" HorizontalOptions="Center" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

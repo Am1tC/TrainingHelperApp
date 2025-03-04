@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Java.Security.Acl;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,13 +14,24 @@ namespace TrainingHelperApp.ViewModels
     public class AddTrainerViewModel : ViewModelBase
     {
         private TrainingHelperWebAPIProxy proxy;
-        public AddTrainerViewModel()
+        private IServiceProvider serviceProvider;
+
+        public AddTrainerViewModel(TrainingHelperWebAPIProxy proxy, IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
             this.proxy = proxy;
             AddTrainerCommand = new Command(OnAddTrainer);
             ClearCommand = new Command(OnClear);
+          
+       
+
+
             UploadPhotoCommand = new Command(OnUploadPhoto);
-            
+            UploadTakePhotoCommand = new Command(OnUploadTakePhoto);
+            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+            LocalPhotoPath = "";
+            IsPassword = true;
+            GenderOptions = new List<string> { "Male", "Female", "Other" };
 
             IdError = "Invalid Id";
             BirthDateError = "must be older than 10 years";
@@ -27,11 +40,8 @@ namespace TrainingHelperApp.ViewModels
             EmailError = "Email must be in the correct format";
             PasswordError = "Password must contain letters and numbers";
             PhoneError = "Phone must starts with 05 and have 10 digits";
-            //GenderError = "Please select a gender.";
+            GenderError = "Please select a gender.";
         }
-
-        #region properties
-
         #region Name
         private string name;
         public string Name
@@ -81,7 +91,14 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateName()
         {
-            this.ShowNameError = name.Any(char.IsDigit);
+            if (string.IsNullOrEmpty(this.name) || name.Any(char.IsDigit))
+            {
+                this.ShowNameError = true;
+            }
+            else
+            {
+                this.ShowNameError = false;
+            }
         }
         #endregion
 
@@ -125,7 +142,14 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateLastName()
         {
-            this.ShowLastNameError = lastName.Any(char.IsDigit);
+            if (string.IsNullOrEmpty(this.lastName) || lastName.Any(char.IsDigit))
+            {
+                this.ShowLastNameError = true;
+            }
+            else
+            {
+                this.ShowLastNameError = false;
+            }
         }
         #endregion
 
@@ -180,25 +204,20 @@ namespace TrainingHelperApp.ViewModels
         private void ValidateEmail()
         {
 
-            if (!ShowEmailError)
+
+            // Check if email is in the correct format using regular expression
+            if (string.IsNullOrEmpty(this.lastName) || !System.Text.RegularExpressions.Regex.IsMatch(Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
             {
-                // check if email is in the correct format using regular expression
-                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
-                {
-                    EmailError = "Email is not valid";
-                    ShowEmailError = true;
-                }
-                else
-                {
-                    EmailError = "";
-                    ShowEmailError = false;
-                }
-                ShowEmailError = false;
+
+                ShowEmailError = true;
             }
             else
             {
-                EmailError = "Email is required";
+                ShowEmailError = false;
             }
+
+
+
         }
         #endregion
 
@@ -333,7 +352,7 @@ namespace TrainingHelperApp.ViewModels
         private void ValidatePhone()
         {
 
-            if (phone.StartsWith("05") && phone.Length == 10 && phone.All(char.IsDigit))
+            if (!string.IsNullOrEmpty(phone) && phone.StartsWith("05") && phone.Length == 10 && phone.All(char.IsDigit))
             {
                 ShowPhoneError = false;
             }
@@ -394,59 +413,92 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateId()
         {
-            if (string.IsNullOrEmpty(id) ||
-                  id.Length != 9 ||
-                  !id.All(char.IsDigit))
+            // Validate the ID number
+            if (string.IsNullOrEmpty(id) || !IsIsraeliIdNumberValid(id))
             {
-                this.ShowIdError = true;
+                // If the ID is invalid (empty, wrong length, contains non-digits, or fails checksum validation)
+                ShowIdError = true;
+                IdError = "Invalid ID number"; // Set the error message
             }
             else
             {
-                this.ShowIdError = false;
+                // If the ID is valid, hide the error
+                ShowIdError = false;
+                IdError = "";
             }
 
+
         }
+        private bool IsIsraeliIdNumberValid(string id)
+        {
+            // Ensure the ID is 9 digits (prepend zeros if necessary)
+            id = id.PadLeft(9, '0');
+
+            // Checksum validation logic for Israeli ID number
+            int sum = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                int digit = int.Parse(id[i].ToString());
+                if (i % 2 == 1) // Multiply digits at odd positions by 2
+                {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9; // If the result is greater than 9, subtract 9
+                }
+                sum += digit;
+            }
+
+            return sum % 10 == 0; // Valid ID if the sum is divisible by 10
+        }
+
+
         #endregion
 
         #region Gender
 
-        private bool isMale;
-        public bool IsMale
-        {
-            get => isMale;
-            set
-            {
-                isMale = value;
-                if (isMale)
-                    Gender = "Male"; // Update Gender property
-                OnPropertyChanged("IsMale");
-            }
-        }
-
-        private bool isFemale;
-        public bool IsFemale
-        {
-            get => isFemale;
-            set
-            {
-                isFemale = value;
-                if (isFemale)
-                    Gender = "Female"; // Update Gender property
-                OnPropertyChanged("IsFemale");
-            }
-        }
-
+        public List<string> GenderOptions { get; }
         private string gender;
         public string Gender
         {
             get => gender;
             set
             {
+                ValidateGender();
                 gender = value;
                 OnPropertyChanged("Gender");
             }
         }
+        private string genderError;
+        public string GenderError
+        {
+            get => genderError;
+            set
+            {
+                genderError = value;
+                OnPropertyChanged("GenderError");
+            }
+        }
+        private bool showGenderError;
+        public bool ShowGenderError
+        {
+            get => showGenderError;
+            set
+            {
+                showGenderError = value;
+                OnPropertyChanged("ShowGenderError");
+            }
+        }
 
+        private void ValidateGender()
+        {
+
+            if (gender == null)
+                this.ShowGenderError = true;
+            else
+                this.ShowGenderError = false;
+
+            this.showGenderError = false;
+
+        }
 
         #endregion
 
@@ -491,11 +543,15 @@ namespace TrainingHelperApp.ViewModels
         private void ValidateBirthDate()
         {
             DateTime currentDate = DateTime.Now;
-            DateTime YearsAgo = currentDate.AddYears(-18);
-            if (!(YearsAgo >= birthDate))
+            DateTime tenYearsAgo = currentDate.AddYears(-10);
+            if (birthDate == DateTime.Today || !(tenYearsAgo >= birthDate))
                 this.ShowBirthDateError = true;
+            else
+                this.showBirthDateError = false;
         }
         #endregion
+
+
 
         #region Photo
 
@@ -529,6 +585,31 @@ namespace TrainingHelperApp.ViewModels
         {
             try
             {
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Please select a photo",
+                });
+
+                if (result != null)
+                {
+                    // The user picked a file
+                    this.LocalPhotoPath = result.FullPath;
+                    this.PhotoURL = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public Command UploadTakePhotoCommand { get; }
+        //This method open the file picker to select a photo
+        private async void OnUploadTakePhoto()
+        {
+            try
+            {
                 var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
                 {
                     Title = "Please select a photo",
@@ -543,6 +624,7 @@ namespace TrainingHelperApp.ViewModels
             }
             catch (Exception ex)
             {
+
             }
 
         }
@@ -554,9 +636,12 @@ namespace TrainingHelperApp.ViewModels
             LocalPhotoPath = "";
         }
 
-        #endregion  //needs review /
-        //needs review 
         #endregion
+        public Command TrainerCommand { get; }
+        public Command OwnerCommand { get; }
+        public Command LogInCommand { get; }
+        public Command RegisterCommand { get; }
+        public Command CancelCommand { get; }
 
         #region logic
         public Command AddTrainerCommand { get; }
@@ -582,41 +667,54 @@ namespace TrainingHelperApp.ViewModels
                     Password = Password,
                     PhoneNum = Phone,
                     Id = Id,
+                    Gender = gender,
+                    IsActive = true,
+                    Picture = "",
                 };
 
                 InServerCall = true;
                 trainer = await proxy.RegisterTrainerAsync(trainer);
                 InServerCall = false;
 
+                //If the registration was successful, navigate to the login page
                 if (trainer != null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Add Trainer", "Trainer added successfully", "ok");
+                    //UPload profile imae if needed
+                    if (!string.IsNullOrEmpty(LocalPhotoPath))
+                    {
+                        await proxy.LoginAsync(new LoginInfo { Id = trainer.Email, Password = trainer.Password });
+                        Trainer? updatedUser = await proxy.UploadTrainerProfileImage(LocalPhotoPath);
+                        if (updatedUser == null)
+                        {
+                            InServerCall = false;
+                            await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                        }
+                    }
                     InServerCall = false;
-                    await Shell.Current.GoToAsync("TrainersView");
+
+                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Add Trainer", "Trainer not added", "ok");
-                    InServerCall = false;
-                }
 
+                    //If the registration failed, display an error message
+                    string errorMsg = "Registration failed. Please try again.";
+                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                }
             }
-            else
-            {
-                string errorMsg = "Creation failed. Please try again and make sure all fields are valid.";
-                await Application.Current.MainPage.DisplayAlert("Add Trainer", errorMsg, "ok");
-            }
+
         }
         public async void OnClear()
         {
-            Name = "";
-            LastName = "";
-            Email = "";
-            Password = "";
-            Phone = "";
-            Id = "";
-
+            id = "";
+            lastName = "";
+            email = "";
+            password = "";
+            phone = "";
+           
         }
+    }
+        
 #endregion
     }
-}
+

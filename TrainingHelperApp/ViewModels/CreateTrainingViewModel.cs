@@ -367,7 +367,8 @@ namespace TrainingHelperApp.ViewModels
                 Place = SelectedPlace,
                 Date = Date,
                 Duration = SelectedDuration,
-                Trainer = SelectedTrainer
+                Trainer = SelectedTrainer,
+                Picture =""
 
             };
 
@@ -375,7 +376,8 @@ namespace TrainingHelperApp.ViewModels
             if (createdTraining != null)
             {
                 await Application.Current.MainPage.DisplayAlert("Success", "Training created successfully!", "OK");
-                await Shell.Current.GoToAsync("EventsView");
+                await Shell.Current.GoToAsync("Events");
+                OnCancel();
             }
             else
             {

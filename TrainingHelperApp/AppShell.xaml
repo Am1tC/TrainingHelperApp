@@ -68,6 +68,7 @@
         <ShellContent
             Title="AddTrainer"
             ContentTemplate="{DataTemplate Views:AddTrainerView}"
+            IsVisible="{Binding IsOwner}"
             Icon="trainer_icon.png"
             
             Route="AddTrainer" />  

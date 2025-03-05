@@ -40,7 +40,7 @@ namespace TrainingHelperApp.ViewModels
             SaveCommand = new Command(OnSave);
             ShowPasswordCommand = new Command(OnShowPassword);
             UploadPhotoCommand = new Command(OnUploadPhoto);
-            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+            PhotoURL =theUser.PhotoUrl;
 
             LocalPhotoPath = "";
             IsPassword = true;
@@ -448,16 +448,44 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidateId()
         {
-            if (!string.IsNullOrEmpty(id) && id.Length == 9 && id.All(char.IsDigit))
+            // Validate the ID number
+            if (string.IsNullOrEmpty(id) || !IsIsraeliIdNumberValid(id))
             {
-                showIdError = id.Select((c, i) => (c - '0') * (1 + i % 2))
-                               .Sum(d => d > 9 ? d - 9 : d) % 10 != 0;
+                // If the ID is invalid (empty, wrong length, contains non-digits, or fails checksum validation)
+                ShowIdError = true;
+                IdError = "Invalid ID number"; // Set the error message
             }
             else
             {
-                showIdError = true;
+                // If the ID is valid, hide the error
+                ShowIdError = false;
+                IdError = "";
             }
+
+
         }
+        private bool IsIsraeliIdNumberValid(string id)
+        {
+            // Ensure the ID is 9 digits (prepend zeros if necessary)
+            id = id.PadLeft(9, '0');
+
+            // Checksum validation logic for Israeli ID number
+            int sum = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                int digit = int.Parse(id[i].ToString());
+                if (i % 2 == 1) // Multiply digits at odd positions by 2
+                {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9; // If the result is greater than 9, subtract 9
+                }
+                sum += digit;
+            }
+
+            return sum % 10 == 0; // Valid ID if the sum is divisible by 10
+        }
+
+
         #endregion
 
         #region Gender
@@ -619,8 +647,8 @@ namespace TrainingHelperApp.ViewModels
                         }
                         else
                         {
-                            //theUser.ProfileImagePath = updatedUser.ProfileImagePath;
-                            //UpdatePhotoURL(theUser.ProfileImagePath);
+                            theUser.Picture = updatedUser.Picture;
+                            UpdatePhotoURL(theUser.Picture);
                         }
 
                     }
@@ -636,6 +664,10 @@ namespace TrainingHelperApp.ViewModels
                 }
 
 
+            }
+            else 
+            {
+                await Shell.Current.DisplayAlert("Save Profile", "Invalid fields, pls try again", "ok");
             }
         }
     }

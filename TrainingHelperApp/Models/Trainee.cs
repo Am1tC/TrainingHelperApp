@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using TrainingHelper.Services;
 //using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace TrainingHelperApp.Models
@@ -27,6 +28,13 @@ namespace TrainingHelperApp.Models
 
         public string Password { get; set; } = null!;
         public string? Picture { get; set; }
+        public string PhotoUrl
+        {
+            get
+            {
+                return TrainingHelperWebAPIProxy.ImageBaseAddress + Picture;
+            }
+        }
         public bool IsActive { get; set; }
 
         public Trainee() { }

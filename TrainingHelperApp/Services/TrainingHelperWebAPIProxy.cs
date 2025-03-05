@@ -25,7 +25,7 @@ namespace TrainingHelper.Services
         private string baseUrl;
         public static string BaseAddress = (DeviceInfo.Platform == DevicePlatform.Android &&
             DeviceInfo.DeviceType == DeviceType.Virtual) ? "http://10.0.2.2:5110/api/" : $"http://{serverIP}:5110/api/";
-        private static string ImageBaseAddress = (DeviceInfo.Platform == DevicePlatform.Android &&
+        public static string ImageBaseAddress = (DeviceInfo.Platform == DevicePlatform.Android &&
             DeviceInfo.DeviceType == DeviceType.Virtual) ? "http://10.0.2.2:5110" : $"http://{serverIP}:5110";
         */
         #endregion
@@ -36,7 +36,7 @@ namespace TrainingHelper.Services
         private HttpClient client;
         private string baseUrl;
         public static string BaseAddress = "https://h1n9t3bp-5252.euw.devtunnels.ms/api/";
-        private static string ImageBaseAddress = "https://h1n9t3bp-5252.euw.devtunnels.ms/";
+        public static string ImageBaseAddress = "https://h1n9t3bp-5252.euw.devtunnels.ms/";
         #endregion
 
         public TrainingHelperWebAPIProxy()
@@ -300,7 +300,7 @@ namespace TrainingHelper.Services
         public async Task<Trainer?> UploadTrainerProfileImage(string imagePath)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}uploadprofileimage";
+            string url = $"{this.baseUrl}uploadtrainerprofileimage";
             try
             {
                 //Create the form data

@@ -1,4 +1,4 @@
-﻿using Java.Security.Acl;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -496,7 +496,6 @@ namespace TrainingHelperApp.ViewModels
             else
                 this.ShowGenderError = false;
 
-            this.showGenderError = false;
 
         }
 
@@ -680,14 +679,18 @@ namespace TrainingHelperApp.ViewModels
                 if (trainer != null)
                 {
                     //UPload profile imae if needed
-                    if (!string.IsNullOrEmpty(LocalPhotoPath))
+                    if (!string.IsNullOrEmpty(LocalPhotoPath) || LocalPhotoPath == "")
                     {
-                        await proxy.LoginAsync(new LoginInfo { Id = trainer.Email, Password = trainer.Password });
+                        await proxy.TrainerLoginAsync(new LoginInfo { Id = trainer.Id, Password = trainer.Password });
                         Trainer? updatedUser = await proxy.UploadTrainerProfileImage(LocalPhotoPath);
                         if (updatedUser == null)
                         {
                             InServerCall = false;
                             await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Registration", "", "ok");
                         }
                     }
                     InServerCall = false;

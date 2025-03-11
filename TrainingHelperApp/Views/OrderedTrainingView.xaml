@@ -4,41 +4,49 @@
              x:Class="TrainingHelperApp.Views.OrderedTrainingView"
              Title="My Trainings">
 
-
     <ContentPage.Content>
         <StackLayout Padding="20">
-            <!--<Label Text="Ordered Trainings"
-                   FontSize="24"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Start"
-                   Margin="0,20" />-->
+            <Label Text="{Binding Error}" TextColor="Red" HorizontalOptions="Center" />
 
             <!-- CollectionView to display the trainings -->
-            <Label Text="{Binding Error}"></Label>
-               
             <CollectionView ItemsSource="{Binding Trainings}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BorderColor="LightGray" Padding="10" Margin="0,10" CornerRadius="12" HasShadow="True">
                             <StackLayout Orientation="Vertical">
+                                <!-- Training Date -->
                                 <Label Text="{Binding Date, StringFormat='{0:MMMM dd, yyyy}'}"
                                        FontSize="18"
                                        FontAttributes="Bold"
                                        HorizontalOptions="Start"
                                        TextColor="Black" />
-    
+
+                                <!-- Training Place -->
                                 <Label Text="{Binding Place}"
                                        FontSize="16"
                                        HorizontalOptions="Start"
                                        TextColor="Gray" />
 
+                                <!-- Training Duration -->
+                                <Label Text="{Binding Duration}"
+                                       FontSize="14"
+                                       HorizontalOptions="Start"
+                                       TextColor="DarkGray" />
+
+                                <!-- Start Hour -->
+                                <Label Text="{Binding Date, StringFormat='Start Time: {0:HH:mm tt}'}"
+                                       FontSize="14"
+                                       HorizontalOptions="Start"
+                                       TextColor="DarkGray" />
+
+                                <!-- Trainer Info and Picture -->
                                 <StackLayout Orientation="Horizontal" Spacing="10">
                                     <Image Source="{Binding Picture}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" 
                                            HorizontalOptions="Start" />
                                     <StackLayout>
                                         <Label Text="{Binding Trainer.FirstName}" FontSize="16" FontAttributes="Italic" 
                                                HorizontalOptions="Start" TextColor="Black"/>
-                                        <Label Text="{Binding MaxParticipants}" FontSize="14" 
+                                        <Label Text="{Binding MaxParticipants, StringFormat='Max Participants: {0}'}" FontSize="14" 
                                                HorizontalOptions="Start" TextColor="Gray" />
                                     </StackLayout>
                                 </StackLayout>
@@ -58,7 +66,3 @@
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
-
-
-
-    

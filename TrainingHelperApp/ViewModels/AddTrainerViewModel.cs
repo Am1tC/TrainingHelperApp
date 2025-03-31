@@ -675,6 +675,13 @@ namespace TrainingHelperApp.ViewModels
                 trainer = await proxy.RegisterTrainerAsync(trainer);
                 InServerCall = false;
 
+                AppShell shell = (AppShell)(Shell.Current);
+                EventsView? refreshV = shell.GetTabPage<EventsView>("Events");
+                if (refreshV != null)
+                {
+                    EventsViewModel vm = (EventsViewModel)refreshV.BindingContext;
+                    //Call Refresh
+                }
                 //If the registration was successful, navigate to the login page
                 if (trainer != null)
                 {

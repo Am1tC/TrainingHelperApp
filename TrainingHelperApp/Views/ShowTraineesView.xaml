@@ -3,45 +3,100 @@
     x:Class="TrainingHelperApp.Views.ShowTraineesView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="ShowTraineesView">
+    Title="Trainees"
+    BackgroundColor="#f2f2f2">
+    <ScrollView>
+    <VerticalStackLayout Padding="15" Spacing="10">
 
+        <!-- Search -->
+        <SearchBar
+            BackgroundColor="White"
+            FontSize="16"
+            HeightRequest="45"
+            Placeholder="Search by full name..."
+            Text="{Binding SearchText, Mode=TwoWay}"
+            SearchCommand="{Binding FilterCommand}" />
 
+        <!-- Trainees List -->
+        <CollectionView
+            x:Name="cv"
+            Margin="0,10"
+            ItemsSource="{Binding FilteredTrainees}"
+            SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem
+                                    BackgroundColor="Crimson"
+                                    Text="Deactivate"
+                                    Command="{Binding Source={x:Reference cv}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
 
-    <CollectionView
-        x:Name="cv"
-        Margin="0,10"
-        ItemsSource="{Binding Trainees}"
-        SelectionMode="Single">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <SwipeView>
-                    <SwipeView.RightItems>
-                        <SwipeItems>
-                            <SwipeItem
-                                Command="{Binding Source={x:Reference cv}, Path=BindingContext.DeleteCommand}"
-                                CommandParameter="{Binding .}"
-                                Text="Deactivate" />
-                        </SwipeItems>
-                    </SwipeView.RightItems>
-                    <StackLayout Padding="10" Orientation="Vertical">
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            Text="{Binding FirstName}" />
-                        <Label FontSize="18" Text="{Binding LastName}" />
-                        <Label
-                            FontSize="14"
-                            Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}"
-                            TextColor="Gray" />
-                        <Label FontSize="14" Text="{Binding Gender, StringFormat='Gender: {0}'}" />
-                        <Label FontSize="14" Text="{Binding PhoneNum, StringFormat='Phone: {0}'}" />
-                        <Label FontSize="14" Text="{Binding Email, StringFormat='Email: {0}'}" />
-                        <Label FontSize="14" Text="{Binding SubscriptionStartDate, StringFormat='Start Date: {0:yyyy-MM-dd}'}" />
-                        <Label FontSize="14" Text="{Binding SubscriptionEndDate, StringFormat='End Date: {0:yyyy-MM-dd}'}" />
-                    </StackLayout>
-                </SwipeView>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+                        <Frame
+                            Margin="5"
+                            Padding="10"
+                            BackgroundColor="White"
+                            CornerRadius="12"
+                            HasShadow="True">
 
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <!-- Image Column -->
+                                <Image
+                                    Source="{Binding PhotoUrl}"
+                                    WidthRequest="100"
+                                    HeightRequest="100"
+                                    Aspect="AspectFill"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Start"
+                                    Margin="0,5" />
+
+                                <!-- Info Column -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label
+                                        Text="{Binding FirstName}"
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        TextColor="#222" />
+                                    <Label
+                                        Text="{Binding LastName}"
+                                        FontSize="16"
+                                        TextColor="#444" />
+                                    <Label
+                                        Text="{Binding BirthDate, StringFormat='Birth Date: {0:yyyy-MM-dd}'}"
+                                        FontSize="14"
+                                        TextColor="#666" />
+                                    <Label
+                                        Text="{Binding Gender, StringFormat='Gender: {0}'}"
+                                        FontSize="14"
+                                        TextColor="#666" />
+                                    <Label
+                                        Text="{Binding PhoneNum, StringFormat='Phone: {0}'}"
+                                        FontSize="14"
+                                        TextColor="#666" />
+                                    <Label
+                                        Text="{Binding Email, StringFormat='Email: {0}'}"
+                                        FontSize="14"
+                                        TextColor="#666" />
+                                    <Label
+                                        Text="{Binding SubscriptionStartDate, StringFormat='Start Date: {0:yyyy-MM-dd}'}"
+                                        FontSize="14"
+                                        TextColor="#666" />
+                                    <Label
+                                        Text="{Binding SubscriptionEndDate, StringFormat='End Date: {0:yyyy-MM-dd}'}"
+                                        FontSize="14"
+                                        TextColor="#666" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

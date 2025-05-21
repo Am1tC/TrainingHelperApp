@@ -32,11 +32,11 @@ namespace TrainingHelper.Services
 
         #region with tunnel
         //Define the serevr IP address! (should be realIP address if you are using a device that is not running on the same machine as the server)
-        private static string serverIP = "h1n9t3bp-5252.euw.devtunnels.ms";
+        private static string serverIP = "3ntr6p01-5252.euw.devtunnels.ms";
         private HttpClient client;
         private string baseUrl;
-        public static string BaseAddress = "https://h1n9t3bp-5252.euw.devtunnels.ms/api/";
-        public static string ImageBaseAddress = "https://h1n9t3bp-5252.euw.devtunnels.ms/";
+        public static string BaseAddress = "https://3ntr6p01-5252.euw.devtunnels.ms/api/";
+        public static string ImageBaseAddress = "https://3ntr6p01-5252.euw.devtunnels.ms/";
         #endregion
 
         public TrainingHelperWebAPIProxy()

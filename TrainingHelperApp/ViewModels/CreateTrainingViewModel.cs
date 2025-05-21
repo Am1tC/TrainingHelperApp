@@ -238,6 +238,41 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
+        private TimeSpan time = DateTime.Now.TimeOfDay;
+        public TimeSpan Time
+        {
+            get => time;
+            set
+            {
+                if (time != value)
+                {
+                    time = value;
+                    OnPropertyChanged(nameof(Time));
+                }
+            }
+        }
+        private string timeError;
+        public string TimeError
+        {
+            get => timeError;
+            set
+            {
+                durationError = value;
+                OnPropertyChanged(nameof(TimeError));
+            }
+        }
+
+        private bool showTimeError;
+        public bool ShowTimeError
+        {
+            get => showTimeError;
+            set
+            {
+                showTimeError = value;
+                OnPropertyChanged(nameof(ShowTimeError));
+            }
+        }
+
         private string duration;
         public string Duration
         {
@@ -273,6 +308,71 @@ namespace TrainingHelperApp.ViewModels
                 OnPropertyChanged(nameof(ShowDurationError));
             }
         }
+
+        private bool repeatWeekly;
+        public bool RepeatWeekly
+        {
+            get => repeatWeekly;
+            set
+            {
+                if (repeatWeekly != value)
+                {
+                    repeatWeekly = value;
+                    OnPropertyChanged(nameof(RepeatWeekly));
+                }
+            }
+        }
+
+        private int repetitionCount = 1;
+        public int RepetitionCount
+        {
+            get => repetitionCount;
+            set
+            {
+                if (repetitionCount != value)
+                {
+                    repetitionCount = value;
+                    OnPropertyChanged(nameof(RepetitionCount));
+                }
+            }
+        }
+
+        private string repetitionCountError;
+        public string RepetitionCountError
+        {
+            get => repetitionCountError;
+            set
+            {
+                repetitionCountError = value;
+                OnPropertyChanged(nameof(RepetitionCountError));
+            }
+        }
+
+        private bool showRepetitionCountError;
+        public bool ShowRepetitionCountError
+        {
+            get => showRepetitionCountError;
+            set
+            {
+                showRepetitionCountError = value;
+                OnPropertyChanged(nameof(ShowRepetitionCountError));
+            }
+        }
+
+        private void ValidateRepetitionCount()
+        {
+            if (RepeatWeekly && (RepetitionCount < 1 || RepetitionCount > 52))
+            {
+                ShowRepetitionCountError = true;
+                RepetitionCountError = "Please enter a value between 1 and 52.";
+            }
+            else
+            {
+                ShowRepetitionCountError = false;
+                RepetitionCountError = "";
+            }
+        }
+
 
         private void ValidateTrainer()
         {
@@ -353,36 +453,73 @@ namespace TrainingHelperApp.ViewModels
             ValidatePlace();
             ValidateDate();
             ValidateDuration();
-
-            if (ShowTrainerError || ShowMaxParticipantsError || ShowPlaceError || ShowDateError || ShowDurationError)
+            ValidateRepetitionCount();
+            DateTime startDateTime = Date.Date + Time;
+            if (ShowTrainerError || ShowMaxParticipantsError || ShowPlaceError || ShowDateError || ShowDurationError ||ShowRepetitionCountError)
             {
                 await Application.Current.MainPage.DisplayAlert("Create Training", "Please fix the errors before proceeding.", "OK");
                 return;
             }
 
-            Training training = new Training
-            {
-                TrainerId = int.Parse(SelectedTrainer.Id),
-                MaxParticipants = MaxParticipants,
-                Place = SelectedPlace,
-                Date = Date,
-                Duration = SelectedDuration,
-                Trainer = SelectedTrainer,
-                Picture =""
+            //Training training = new Training
+            //{
+            //    TrainerId = int.Parse(SelectedTrainer.Id),
+            //    MaxParticipants = MaxParticipants,
+            //    Place = SelectedPlace,
+            //    Date = Date+Time,
+            //    Duration = SelectedDuration,
+            //    Trainer = SelectedTrainer,
+            //    Picture =""
 
-            };
+            //};
+            int repeat = RepeatWeekly ? RepetitionCount : 1;
+            bool anyFailed = false;
 
-            var createdTraining = await proxy.CreateTrainingAsync(training);
-            if (createdTraining != null)
+            for (int i = 0; i < repeat; i++)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Training created successfully!", "OK");
+                var training = new Training
+                {
+                    TrainerId = int.Parse(SelectedTrainer.Id),
+                    MaxParticipants = MaxParticipants,
+                    Place = SelectedPlace,
+                    Date = startDateTime.AddDays(i * 7),
+                    Duration = SelectedDuration,
+                    Trainer = SelectedTrainer,
+                    Picture = ""
+                };
+
+                var createdTraining = await proxy.CreateTrainingAsync(training);
+                if (createdTraining == null)
+                {
+                    anyFailed = true;
+                }
+            }
+
+            if (!anyFailed)
+            {
+                await Application.Current.MainPage.DisplayAlert("Success", "Trainings created successfully!", "OK");
                 await Shell.Current.GoToAsync("Events");
                 OnCancel();
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Could not create training.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Some trainings could not be created.", "OK");
             }
+
+
+
+            ////var createdTraining = await proxy.CreateTrainingAsync(training);
+            //if (createdTraining != null)
+            //{
+            //    await Application.Current.MainPage.DisplayAlert("Success", "Training created successfully!", "OK");
+            //    await Shell.Current.GoToAsync("Events");
+            //    OnCancel();
+            //}
+            //else
+            //{
+            //    await Application.Current.MainPage.DisplayAlert("Error", "Could not create training.", "OK");
+            //    anyFailed = true;
+            //}
         }
 
         public void OnCancel()

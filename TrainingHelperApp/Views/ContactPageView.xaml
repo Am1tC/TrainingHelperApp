@@ -3,82 +3,73 @@
     x:Class="TrainingHelperApp.Views.ContactPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Contact Us">
-
-
+    Title="Contact Us"
+    BackgroundColor="#f9f9f9">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="10">
+        <VerticalStackLayout Padding="25" Spacing="20">
 
-            <!--  Page Title  -->
+            <!-- Title -->
             <Label
+                Text="📬 Contact Us"
+                FontSize="30"
                 FontAttributes="Bold"
-                FontSize="24"
                 HorizontalOptions="Center"
-                Text="Contact us and we will reach back as soon as we can!" />
+                TextColor="#333" />
 
-            <!--  From Field  -->
-            <!--
-            <Label Text="From:" />
-            <Entry Text="{Binding From}"
-                   Placeholder="Enter your name"
-                   Keyboard="Email" />-->
-
-            <!--  To Field  -->
-            <!--<Label Text="To:" IsEnabled="{Binding OwnerIn}" />
-            <Entry Text="{Binding To}"  Placeholder="Enter recipient"  IsEnabled="{Binding OwnerIn}  "
-                    />-->
-
-            <!--  Subject Field  -->
-            <Label Text="Subject:" />
-            <Entry Placeholder="Enter message subject" Text="{Binding Subject}" />
-
-            <!--  Body Field  -->
-            <Label Text="Body:" />
-            <Editor
-                AutoSize="TextChanges"
-                HeightRequest="100"
-                Placeholder="Enter message body"
-                Text="{Binding Body}" />
-
-            <!--  Status Message  -->
             <Label
-                FontAttributes="Italic"
+                Text="We’ll get back to you as soon as possible!"
+                FontSize="16"
+                HorizontalOptions="Center"
+                TextColor="#666" />
+
+            <!-- Subject -->
+            <Label Text="Subject:" FontAttributes="Bold" TextColor="#444" />
+            <Entry
+                Placeholder="Enter your subject"
+                Text="{Binding Subject}"
+                BackgroundColor="White"
+                TextColor="Black"
+                HeightRequest="40"
+                Margin="0,0,0,10" />
+
+            <!-- Body -->
+            <Label Text="Message:" FontAttributes="Bold" TextColor="#444" />
+            <Editor
+                Placeholder="Type your message here..."
+                Text="{Binding Body}"
+                BackgroundColor="White"
+                TextColor="Black"
+                AutoSize="TextChanges"
+                HeightRequest="120"
+                Margin="0,0,0,10" />
+
+            <!-- Status Message -->
+            <Label
                 Text="{Binding StatusMessage}"
-                TextColor="Red" />
+                TextColor="Crimson"
+                FontAttributes="Italic"
+                FontSize="14"
+                HorizontalOptions="Center" />
 
-            <!--  Buttons  -->
-
+            <!-- Send Button -->
             <Button
+                Text="Send Message"
                 Command="{Binding SendEmailCommand}"
-                HorizontalOptions="FillAndExpand"
                 IsEnabled="{Binding NotInServerCall}"
-                Text="Send "
-                WidthRequest="100" />
+                BackgroundColor="#2196F3"
+                TextColor="White"
+                FontSize="16"
+                HeightRequest="45"
+                Margin="0,10,0,0" />
 
-            <!--<Button Text="Load Emails"
-                        Command="{Binding LoadEmailsCommand}"
-                        WidthRequest="100" />-->
+            <!-- Loading Indicator -->
+            <ActivityIndicator
+                IsRunning="{Binding InServerCall}"
+                Color="#E91E63"
+                HeightRequest="40"
+                HorizontalOptions="Center" />
 
-
-            <!--  Sent Emails List  -->
-            <!--
-            <Label Text="Sent Emails:"
-                   FontAttributes="Bold" />
-            <CollectionView ItemsSource="{Binding SentEmails}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="5">
-                            <Label Text="{Binding Subject}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding Body}"
-                                   FontSize="12"
-                                   TextColor="Gray" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
-            <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

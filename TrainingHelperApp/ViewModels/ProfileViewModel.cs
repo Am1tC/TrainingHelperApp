@@ -304,9 +304,9 @@ namespace TrainingHelperApp.ViewModels
 
         private void ValidatePassword()
         {
-            //Password must include characters and numbers and be longer than 4 characters
+            //Password must include characters and numbers 
             if (string.IsNullOrEmpty(password) ||
-                password.Length < 4 ||
+
                 !password.Any(char.IsDigit) ||
                 !password.Any(char.IsLetter))
             {
@@ -619,7 +619,7 @@ namespace TrainingHelperApp.ViewModels
             ValidateBirthDate();
             ValidatePhone();
 
-            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError)
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError  && !ShowBirthDateError && !ShowPhoneError)
             {
                 Trainee theUser = ((App)App.Current).LoggedInUser;
                 theUser.FirstName = Name;

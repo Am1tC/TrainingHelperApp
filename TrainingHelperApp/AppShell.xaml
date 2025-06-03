@@ -84,7 +84,7 @@
         <ShellContent
             Title="Trainees"
             ContentTemplate="{DataTemplate Views:ShowTraineesView}"
-            IsVisible="{Binding IsOwner}"
+            IsVisible="{Binding Both}"
             Icon="magnifying_icon.png"
             Route="ShowTraineesView" />
 

@@ -19,7 +19,7 @@ namespace TrainingHelperApp.ViewModels
             unfilteredTrainings = new List<Training>();
             ReadTrainingsAsync();
         }
-     //   public string Error = "No Trainings";
+        public string Error = "No Trainings";
        
         private List<Training> unfilteredTrainings;
 

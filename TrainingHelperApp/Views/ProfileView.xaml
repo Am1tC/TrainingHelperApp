@@ -144,7 +144,8 @@
                     <Label
                         Grid.Column="0"
                         Style="{StaticResource labelNameStyle}"
-                        Text="ID" />
+                        Text="ID" 
+                        />
                     <Label
                         Grid.Column="1"
                         IsVisible="{Binding ShowIdError}"
@@ -155,7 +156,8 @@
                 <Entry
                     Placeholder="Type ID"
                     Style="{StaticResource entryStyle}"
-                    Text="{Binding Id}" />
+                    Text="{Binding Id}"
+                    IsReadOnly="True"/>
 
                 <!--  Password  -->
                 <Grid>

@@ -88,22 +88,15 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAgAAAAAAgAAAAABAACGQAAAAkCAAgA=</HashCode>
+      <HashCode>AAACgAAAAIAAAAgAIAABAgAAAQABCACOQAQAAkCEAgA=</HashCode>
       <FileName>ViewModels\LoginViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrainingHelperApp.ViewModels.OrderedTrainingViewModel" Collapsed="true">
     <Position X="9.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAABAAAgAAAAAAAAAEIAIABAAAAAAAAAEAAA=</HashCode>
+      <HashCode>AAAAAAAAAABAAQgAAAAAAAAAEIAIABAAAAAAAAAEAAA=</HashCode>
       <FileName>ViewModels\OrderedTrainingViewModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="TrainingHelperApp.ViewModels.OwnerLoginViewModel" Collapsed="true">
-    <Position X="5.5" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAgAAAAAAgAAAAABAAACQAAAAkCAAgA=</HashCode>
-      <FileName>ViewModels\OwnerLoginViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrainingHelperApp.ViewModels.OwnerViewModel" Collapsed="true">
@@ -141,22 +134,15 @@
       <FileName>ViewModels\ShowTrainersViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TrainingHelperApp.ViewModels.TrainerLoginViewModel" Collapsed="true">
-    <Position X="5.5" Y="8" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAgAAAAAAgAAAAABAAACQAAAAkCAAgA=</HashCode>
-      <FileName>ViewModels\TrainerLoginViewModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="TrainingHelperApp.ViewModels.TrainerTrainingsViewModel" Collapsed="true">
-    <Position X="9.5" Y="9" Width="1.5" />
+    <Position X="5.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAEIAAABAAAAAAAAAEAQA=</HashCode>
       <FileName>ViewModels\TrainerTrainingsViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrainingHelperApp.ViewModels.TrainingViewModel" Collapsed="true">
-    <Position X="5.5" Y="9" Width="1.5" />
+    <Position X="5.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAgAQAAAAEAAAgAAIAAAAKAAAACAAAAAAQAAAAAAAA=</HashCode>
       <FileName>ViewModels\TrainingViewModel.cs</FileName>
@@ -204,13 +190,6 @@
       <FileName>Views\OrderedTrainingView.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TrainingHelperApp.Views.OwnerLoginView" Collapsed="true">
-    <Position X="3.75" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Views\OwnerLoginView.xaml.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="TrainingHelperApp.Views.OwnerView" Collapsed="true">
     <Position X="11.25" Y="6" Width="1.5" />
     <TypeIdentifier>
@@ -246,22 +225,15 @@
       <FileName>Views\ShowTrainersView.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TrainingHelperApp.Views.TrainerLoginView" Collapsed="true">
-    <Position X="3.75" Y="8" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Views\TrainerLoginView.xaml.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="TrainingHelperApp.Views.TrainerTrainingsView" Collapsed="true">
-    <Position X="11.25" Y="9" Width="1.5" />
+    <Position X="3.75" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\TrainerTrainingsView.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrainingHelperApp.Views.TrainingView" Collapsed="true">
-    <Position X="3.75" Y="9" Width="1.5" />
+    <Position X="3.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\TrainingView.xaml.cs</FileName>

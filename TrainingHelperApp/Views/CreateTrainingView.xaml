@@ -7,92 +7,100 @@
     Title="Create Training">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-            <!--  Trainer  -->
-            <Label Text="Trainer" />
-            <Picker
-                x:Name="TrainerPicker"
-                Title="Select a Trainer"
-                ItemDisplayBinding="{Binding FirstName}"
-                ItemsSource="{Binding Trainers}"
-                SelectedItem="{Binding SelectedTrainer, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowTrainerError}"
-                Text="{Binding TrainerError}"
-                TextColor="Red" />
+            <!-- Training Details Frame -->
+            <Frame BorderColor="Gray" BackgroundColor="#F9F9F9" CornerRadius="10" Padding="15">
+                <VerticalStackLayout Spacing="15">
 
-            <!--  Max Participants  -->
-            <Label Text="Max Participants" />
-            <Entry Keyboard="Numeric" Text="{Binding MaxParticipants, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowMaxParticipantsError}"
-                Text="{Binding MaxParticipantsError}"
-                TextColor="Red" />
+                    <!-- Trainer -->
+                    <Label Text="Trainer" />
+                    <Picker
+                        x:Name="TrainerPicker"
+                        Title="Select a Trainer"
+                        ItemDisplayBinding="{Binding FirstName}"
+                        ItemsSource="{Binding Trainers}"
+                        SelectedItem="{Binding SelectedTrainer, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowTrainerError}"
+                        Text="{Binding TrainerError}"
+                        TextColor="Red" />
 
-            <!--  Place  -->
-            <Label Text="Place" />
-            <Picker
-                Title="Select Studio"
-                ItemsSource="{Binding Places}"
-                SelectedItem="{Binding SelectedPlace, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowPlaceError}"
-                Text="{Binding PlaceError}"
-                TextColor="Red" />
+                    <!-- Max Participants -->
+                    <Label Text="Max Participants" />
+                    <Entry Keyboard="Numeric" Text="{Binding MaxParticipants, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowMaxParticipantsError}"
+                        Text="{Binding MaxParticipantsError}"
+                        TextColor="Red" />
 
-            <!--  Date  -->
-            <Label Text="Date" />
-            <DatePicker Date="{Binding Date, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowDateError}"
-                Text="{Binding DateError}"
-                TextColor="Red" />
+                    <!-- Place -->
+                    <Label Text="Place" />
+                    <Picker
+                        Title="Select Studio"
+                        ItemsSource="{Binding Places}"
+                        SelectedItem="{Binding SelectedPlace, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowPlaceError}"
+                        Text="{Binding PlaceError}"
+                        TextColor="Red" />
 
-            <!--  Time  -->
-            <Label Text="Start Time" />
-            <TimePicker Time="{Binding Time, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowTimeError}"
-                Text="{Binding TimeError}"
-                TextColor="Red" />
+                    <!-- Date -->
+                    <Label Text="Date" />
+                    <DatePicker Date="{Binding Date, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowDateError}"
+                        Text="{Binding DateError}"
+                        TextColor="Red" />
 
+                    <!-- Time -->
+                    <Label Text="Start Time" />
+                    <TimePicker Time="{Binding Time, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowTimeError}"
+                        Text="{Binding TimeError}"
+                        TextColor="Red" />
 
-            <!--  Duration  -->
-            <Label Text="Duration" />
-            <Picker
-                Title="Select Duration"
-                ItemsSource="{Binding Durations}"
-                SelectedItem="{Binding SelectedDuration, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowDurationError}"
-                Text="{Binding DurationError}"
-                TextColor="Red" />
+                    <!-- Duration -->
+                    <Label Text="Duration" />
+                    <Picker
+                        Title="Select Duration"
+                        ItemsSource="{Binding Durations}"
+                        SelectedItem="{Binding SelectedDuration, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowDurationError}"
+                        Text="{Binding DurationError}"
+                        TextColor="Red" />
 
-            <!--  Repeat Training Weekly  -->
-            <Label Text="Repeat Weekly?" />
-            <Switch IsToggled="{Binding RepeatWeekly, Mode=TwoWay}" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <!--  Number of Weeks  -->
-            <Label Text="Number of Weeks" />
-            <Entry
-                IsEnabled="{Binding RepeatWeekly}"
-                Keyboard="Numeric"
-                Text="{Binding RepetitionCount, Mode=TwoWay}" />
-            <Label
-                IsVisible="{Binding ShowRepetitionCountError}"
-                Text="{Binding RepetitionCountError}"
-                TextColor="Red" />
+            <!-- Repeat Options Frame -->
+            <Frame BorderColor="Gray" BackgroundColor="#F9F9F9" CornerRadius="10" Padding="15">
+                <VerticalStackLayout Spacing="15">
 
+                    <!-- Repeat Weekly -->
+                    <Label Text="Repeat Weekly?" />
+                    <Switch IsToggled="{Binding RepeatWeekly, Mode=TwoWay}" />
 
+                    <!-- Number of Weeks -->
+                    <Label Text="Number of Weeks" />
+                    <Entry
+                        IsEnabled="{Binding RepeatWeekly}"
+                        Keyboard="Numeric"
+                        Text="{Binding RepetitionCount, Mode=TwoWay}" />
+                    <Label
+                        IsVisible="{Binding ShowRepetitionCountError}"
+                        Text="{Binding RepetitionCountError}"
+                        TextColor="Red" />
 
-            <!--  Buttons  -->
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Buttons -->
             <HorizontalStackLayout Spacing="15">
-                <Button Command="{Binding CreateTrainingCommand}" Text="Create" />
-                <Button
-                    BackgroundColor="Red"
-                    Command="{Binding CancelCommand}"
-                    Text="Clear" />
+                <Button Command="{Binding CreateTrainingCommand}" Text="Create" BackgroundColor="Green" TextColor="White" />
+                <Button Command="{Binding CancelCommand}" Text="Clear" BackgroundColor="Red" TextColor="White" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

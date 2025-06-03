@@ -1,192 +1,136 @@
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrainingHelperApp.Views.RegisterView"
-             Title="Register">
+             Title="Register"
+             BackgroundColor="#f8f9fa">
+
     <ScrollView>
-    <Grid>
+        <VerticalStackLayout Padding="20" Spacing="25">
 
+            <!-- Photo Upload Section -->
+            <Frame BorderColor="#ccc" BackgroundColor="White" CornerRadius="15" HasShadow="True" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Image x:Name="theImageBug"
+                           Source="{Binding PhotoURL}"
+                           HeightRequest="150"
+                           Aspect="AspectFill"
+                           Margin="0,0,0,10"
+                           BackgroundColor="#eee"
+                           HorizontalOptions="Center" />
 
-        <!-- Main Content -->
-        <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
-            <!-- Photo -->
-            <Frame BorderColor="Black" Padding="5" Margin="10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Image x:Name="theImageBug" Source="{Binding PhotoURL}"  HeightRequest="150"/>
-                    <Label Grid.Row="1"
-Text="Click Here To Upload Photo!"
-TextColor="DodgerBlue"
-HorizontalOptions="Center"
-VerticalOptions="End">
-
-
+                    <Label Text="Click to Upload Photo"
+                           TextColor="DodgerBlue"
+                           HorizontalOptions="Center">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}"/>
+                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <Label Grid.Row="2"
-Text="Click Here To Take a Photo!"
-TextColor="DodgerBlue"
-HorizontalOptions="Center"
-VerticalOptions="End">
-
-
+                    <Label Text="Click to Take a Photo"
+                           TextColor="DodgerBlue"
+                           HorizontalOptions="Center">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding UploadTakePhotoCommand}"/>
+                            <TapGestureRecognizer Command="{Binding UploadTakePhotoCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
-                </Grid>
+                </VerticalStackLayout>
             </Frame>
 
+            <!-- Personal Details Section -->
+            <Frame BorderColor="#ccc" BackgroundColor="White" CornerRadius="15" HasShadow="True" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Personal Information" FontAttributes="Bold" FontSize="18" />
 
+                    <!-- First Name -->
+                    <Label Text="First Name" />
+                    <Entry Placeholder="Enter first name" Text="{Binding Name}" />
+                    <Label Text="{Binding NameError}" TextColor="Red" IsVisible="{Binding ShowNameError}" FontSize="12" />
 
-            <!-- First Name -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="First Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
-            </Grid>
-            <Entry Placeholder="Type First Name" Text="{Binding Name}" Style="{StaticResource entryStyle}" />
+                    <!-- Last Name -->
+                    <Label Text="Last Name" />
+                    <Entry Placeholder="Enter last name" Text="{Binding LastName}" />
+                    <Label Text="{Binding LastNameError}" TextColor="Red" IsVisible="{Binding ShowLastNameError}" FontSize="12" />
 
-            <!-- Last Name -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Last Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
-            </Grid>
-            <Entry Placeholder="Type Last Name" Text="{Binding LastName}" Style="{StaticResource entryStyle}" />
+                    <!-- Email -->
+                    <Label Text="Email" />
+                    <Entry Placeholder="Enter email" Text="{Binding Email}" Keyboard="Email" />
+                    <Label Text="{Binding EmailError}" TextColor="Red" IsVisible="{Binding ShowEmailError}" FontSize="12" />
 
-            <!-- Email -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Email" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
-            </Grid>
-            <Entry Placeholder="Type Email" Text="{Binding Email}" Style="{StaticResource entryStyle}" />
+                    <!-- Phone -->
+                    <Label Text="Phone" />
+                    <Entry Placeholder="Enter phone number" Text="{Binding Phone}" Keyboard="Telephone" />
+                    <Label Text="{Binding PhoneError}" TextColor="Red" IsVisible="{Binding ShowPhoneError}" FontSize="12" />
 
-            <!-- Phone -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Phone" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding PhoneError}" IsVisible="{Binding ShowPhoneError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red"/>
-            </Grid>
-            <Entry Placeholder="Type Phone" Text="{Binding Phone}" Style="{StaticResource entryStyle}" />
-
-            <!-- Id -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Id" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding IdError}" IsVisible="{Binding ShowIdError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
-            </Grid>
-            <Entry Placeholder="Type ID " Text="{Binding Id}" Style="{StaticResource entryStyle}" />
-
-
-
-            <!-- Password -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Password" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
+                    <!-- ID -->
+                    <Label Text="ID" />
+                    <Entry Placeholder="Enter ID" Text="{Binding Id}" />
+                    <Label Text="{Binding IdError}" TextColor="Red" IsVisible="{Binding ShowIdError}" FontSize="12" />
                 
-                <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="True" Style="{StaticResource entryStyle}" />
-                <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
-            </Grid>
-            <!-- Gender Selection -->
-            <Grid>
+          
+                  
+                    <!-- Password -->
+                    <Label Text="Password" />
+                    <Entry Placeholder="Enter password" Text="{Binding Password}" IsPassword="True" />
+                    <Label Text="{Binding PasswordError}" TextColor="Red" IsVisible="{Binding ShowPasswordError}" FontSize="12" />
+
+                    <!-- Gender -->
+                    <Label Text="Gender" />
+                    <Picker ItemsSource="{Binding GenderOptions}"
+                            SelectedItem="{Binding SelectedGender}"
+                            Title="Select Gender" />
+                    <Label Text="{Binding GenderError}" TextColor="Red" IsVisible="{Binding ShowGenderError}" FontSize="12" />
+
+                    <!-- Birthdate -->
+                    <Label Text="Birthdate" />
+                    <DatePicker Date="{Binding Birthdate}" Format="dd/MM/yyyy" />
+                    <Label Text="{Binding BirthdateError}" TextColor="Red" IsVisible="{Binding ShowBirthdateError}" FontSize="12" />
+             </VerticalStackLayout>
+            </Frame>
+
+            <!-- Buttons -->
+            <Grid ColumnSpacing="15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Text="Gender" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding GenderError}" IsVisible="{Binding ShowGenderError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
+
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="#dc3545"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Grid.Column="0"
+                        IsEnabled="{Binding NotInServerCall}" />
+
+                <Button Text="Register"
+                        Command="{Binding RegisterCommand}"
+                        BackgroundColor="#28a745"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Grid.Column="1"
+                        IsEnabled="{Binding NotInServerCall}" />
             </Grid>
-            <Picker ItemsSource="{Binding GenderOptions}" 
-        SelectedItem="{Binding SelectedGender}" 
-        Title="Select Gender" 
-        Style="{StaticResource entryStyle}" />
 
-            <!-- Birthdate Selection -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Birthdate" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding BirthdateError}" IsVisible="{Binding ShowBirthdateError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" TextColor="Red" />
-            </Grid>
-            <DatePicker Date="{Binding Birthdate}"           
-            Format="dd/MM/yyyy"
-            Style="{StaticResource entryStyle}" />
+            <!-- Links --><!--
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+                <Label Text="Owner?" TextColor="Blue">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OwnerCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
 
+                <Label Text="Trainer?" TextColor="Blue">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TrainerCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>-->
 
-
-
-            <!-- Register and Cancel Buttons -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" BackgroundColor="Green"/>
-                <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0"  BackgroundColor="Red" />
-            </Grid>
-            <Label 
-  Text="Owner?"
-  TextColor="Blue"
-  HorizontalOptions="Center"
-  VerticalOptions="End" IsEnabled="{Binding NotInServerCall}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding OwnerCommand}"/>
-                </Label.GestureRecognizers>
-            </Label>
-            <Label 
-  Text="Trainer?"
-  TextColor="Blue"
-  HorizontalOptions="Center"
-  VerticalOptions="End" IsEnabled="{Binding NotInServerCall}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding TrainerCommand}"/>
-                </Label.GestureRecognizers>
-            </Label>
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding InServerCall}"
+                               Color="#ff4444"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
         </VerticalStackLayout>
-        <!-- Centered ActivityIndicator -->
-        <ActivityIndicator IsRunning="{Binding InServerCall}" 
-                   Color="Red" 
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
-    </Grid>
     </ScrollView>
 </ContentPage>

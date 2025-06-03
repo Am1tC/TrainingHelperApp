@@ -4,38 +4,79 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Login">
-    <VerticalStackLayout Padding="20" Spacing="15">
 
-        <Entry
-            IsEnabled="{Binding NotInServerCall}"
-            Keyboard="Numeric"
-            Placeholder="Id"
-            Text="{Binding Id}" />
+    <ScrollView>
+        <VerticalStackLayout Padding="25" Spacing="20" VerticalOptions="Center">
 
-        <Entry
-            IsEnabled="{Binding NotInServerCall}"
-            IsPassword="True"
-            Placeholder="Password"
-            Text="{Binding Password}" />
+            <Label Text="Welcome Back!" FontSize="32" FontAttributes="Bold" HorizontalOptions="Center" />
 
-        <Button
-            Command="{Binding LoginCommand}"
-            IsEnabled="{Binding NotInServerCall}"
-            Text="Login" />
-        <Label
-            HorizontalOptions="Center"
-            Text="{Binding ErrorMsg}"
-            TextColor="Red" />
-        <Label
-            HorizontalOptions="Center"
-            IsEnabled="{Binding NotInServerCall}"
-            Text="Don't have an account? Register"
-            TextColor="Blue"
-            VerticalOptions="End">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RegisterCommand}" />
-            </Label.GestureRecognizers>
-        </Label>
-        <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red" />
-    </VerticalStackLayout>
+            <!-- User Type Selection -->
+            <Frame BorderColor="LightGray" BackgroundColor="#F0F0F0" CornerRadius="12" Padding="10" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Login as:" FontAttributes="Bold" FontSize="18" />
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                        <RadioButton
+                            Content="Trainee"
+                            GroupName="UserType"
+                            IsChecked="{Binding IsTrainee}" />
+                        <RadioButton
+                            Content="Trainer"
+                            GroupName="UserType"
+                            IsChecked="{Binding IsTrainer}" />
+                        <RadioButton
+                            Content="Owner"
+                            GroupName="UserType"
+                            IsChecked="{Binding IsOwner}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Entry
+                IsEnabled="{Binding NotInServerCall}"
+                Keyboard="Numeric"
+                Placeholder="ID"
+                Text="{Binding Id}"
+                BackgroundColor="#FFFFFF"              
+                HeightRequest="45" />
+
+            <Entry
+                IsEnabled="{Binding NotInServerCall}"
+                IsPassword="True"
+                Placeholder="Password"
+                Text="{Binding Password}"
+                BackgroundColor="#FFFFFF"
+            
+                HeightRequest="45" />
+
+            <Button
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding NotInServerCall}"
+                Text="Login"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HeightRequest="45" />
+
+            <Label
+                HorizontalOptions="Center"
+                Text="{Binding ErrorMsg}"
+                TextColor="Red"
+                FontSize="14" />
+
+            <Label
+                HorizontalOptions="Center"
+                IsEnabled="{Binding NotInServerCall}"
+                Text="Don't have an account? Register"
+                TextColor="Blue"
+                FontSize="14">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RegisterCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

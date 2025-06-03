@@ -23,10 +23,17 @@ namespace TrainingHelperApp.ViewModels
         private bool isOwner = ((App)Application.Current).OwnerIn;
         private bool isTrainer = ((App)Application.Current).TrainerIn;
         private bool isTrainee = ((App)Application.Current).TraineeIn;
-        private bool both;
+        private bool both = ((App)Application.Current).TrainerIn || ((App)Application.Current).OwnerIn;
         
         
-
+        public bool Both
+        {
+            get
+            {
+                return this.both;
+            }
+            set { this.both = value; }
+        }
         public bool IsOwner
         {
             get
@@ -53,17 +60,7 @@ namespace TrainingHelperApp.ViewModels
             }
             set { this.isTrainee = value; }
         }
-        public bool Both
-        {
-            get
-            {
-                if (IsTrainee || IsTrainer)
-                    return true;
-                else
-                    return false;
-            }
-            set { this.both = value; }
-        }
+    
 
 
 

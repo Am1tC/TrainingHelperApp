@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TrainingHelper.Services;
 using TrainingHelperApp.Models;
@@ -12,25 +8,26 @@ namespace TrainingHelperApp.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        private TrainingHelperWebAPIProxy proxy;
-        private IServiceProvider serviceProvider;
-       
+        private readonly TrainingHelperWebAPIProxy proxy;
+        private readonly IServiceProvider serviceProvider;
+
         public LoginViewModel(TrainingHelperWebAPIProxy proxy, IServiceProvider serviceProvider)
         {
-            this.serviceProvider = serviceProvider;
             this.proxy = proxy;
+            this.serviceProvider = serviceProvider;
             LoginCommand = new Command(OnLogin);
             RegisterCommand = new Command(OnRegister);
-            id = "";
-            password = "";
+
+            Id = "";
+            Password = "";
             InServerCall = false;
-            errorMsg = "";
+            ErrorMsg = "";
+            IsTrainee = true; // default selected
         }
 
-        #region Validation
-        private string id;
-        private string password;
+        #region Properties
 
+        private string id;
         public string Id
         {
             get => id;
@@ -39,11 +36,12 @@ namespace TrainingHelperApp.ViewModels
                 if (id != value)
                 {
                     id = value;
-                    OnPropertyChanged(nameof(Id));
+                    OnPropertyChanged();
                 }
             }
         }
 
+        private string password;
         public string Password
         {
             get => password;
@@ -52,11 +50,11 @@ namespace TrainingHelperApp.ViewModels
                 if (password != value)
                 {
                     password = value;
-                    OnPropertyChanged(nameof(Password));
+                    OnPropertyChanged();
                 }
             }
         }
-    
+
         private string errorMsg;
         public string ErrorMsg
         {
@@ -66,49 +64,148 @@ namespace TrainingHelperApp.ViewModels
                 if (errorMsg != value)
                 {
                     errorMsg = value;
-                    OnPropertyChanged(nameof(ErrorMsg));
+                    OnPropertyChanged();
                 }
             }
         }
 
+        private bool inServerCall;
+        public bool InServerCall
+        {
+            get => inServerCall;
+            set
+            {
+                if (inServerCall != value)
+                {
+                    inServerCall = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(NotInServerCall));
+                }
+            }
+        }
 
+        public bool NotInServerCall => !InServerCall;
+
+        // Radio button logic (no converter)
+        private bool isTrainee;
+        public bool IsTrainee
+        {
+            get => isTrainee;
+            set
+            {
+                if (isTrainee != value)
+                {
+                    isTrainee = value;
+                    if (value) SelectedUserType = "trainee";
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool isTrainer;
+        public bool IsTrainer
+        {
+            get => isTrainer;
+            set
+            {
+                if (isTrainer != value)
+                {
+                    isTrainer = value;
+                    if (value) SelectedUserType = "trainer";
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool isOwner;
+        public bool IsOwner
+        {
+            get => isOwner;
+            set
+            {
+                if (isOwner != value)
+                {
+                    isOwner = value;
+                    if (value) SelectedUserType = "owner";
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private string selectedUserType;
+        public string SelectedUserType
+        {
+            get => selectedUserType;
+            set
+            {
+                if (selectedUserType != value)
+                {
+                    selectedUserType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Commands
 
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        #endregion
-
         private async void OnLogin()
         {
-            //Choose the way you want to blobk the page while indicating a server call
             InServerCall = true;
             ErrorMsg = "";
-            //Call the server to login
-            LoginInfo loginInfo = new LoginInfo {  Id = Id , Password = Password };
-            Trainee? u = await this.proxy.LoginAsync(loginInfo);
-            ((App)Application.Current).OwnerIn = false;//set owner user false
-            ((App)Application.Current).TraineeIn = true;//
 
+            LoginInfo loginInfo = new LoginInfo { Id = Id, Password = Password };
+
+            ((App)Application.Current).LoggedInUser = null;
+            ((App)Application.Current).TraineeIn = false;
+            ((App)Application.Current).TrainerIn = false;
+            ((App)Application.Current).OwnerIn = false;
+
+            if (SelectedUserType == "trainee")
+            {
+                var trainee = await proxy.LoginAsync(loginInfo);
+                if (trainee != null)
+                {
+                    ((App)Application.Current).LoggedInUser = trainee;
+                    ((App)Application.Current).TraineeIn = true;
+                }
+            }
+            else if (SelectedUserType == "trainer")
+            {
+                var trainer = await proxy.TrainerLoginAsync(loginInfo);
+                if (trainer != null)
+                {
+                    ((App)Application.Current).LoggedInTrainer = trainer;
+                    ((App)Application.Current).TrainerIn = true;
+                }
+            }
+            else if (SelectedUserType == "owner")
+            {
+                var owner = await proxy.OwnerLoginAsync(loginInfo);
+                if (owner != null)
+                {
+                    ((App)Application.Current).LoggedInOwner = owner;
+                    ((App)Application.Current).OwnerIn = true;
+                }
+            }
+
+            if (((App)Application.Current).LoggedInUser  == null && ((App)Application.Current).LoggedInOwner == null && ((App)Application.Current).LoggedInTrainer == null)
+            {
+                ErrorMsg = "Invalid ID or password";
+                InServerCall = false;
+                return;
+            }
+
+            ErrorMsg = "";
             InServerCall = false;
 
-            //Set the application logged in user to be whatever user returned (null or real user)
-            ((App)Application.Current).LoggedInUser = u;
-            if (u == null)
-            {
-                ErrorMsg = "Invalid Id or password";
-            }
-            else
-            {
-                ErrorMsg = "";
-                //Navigate to the main page
-               AppShell? shell = serviceProvider.GetService<AppShell>();
-                // tasksViewModel = serviceProvider.GetService<TasksViewModel>();
-                //tasksViewModel.Refresh(); //Refresh data and user in the tasksview model as it is a singleton
-               
-                ((App)Application.Current).MainPage = shell;
-                Shell.Current.FlyoutIsPresented = false; //close the flyout
-                //Shell.Current.GoToAsync(""); //Navigate to the wanted tab page
-            }     
+            AppShell shell = serviceProvider.GetService<AppShell>();
+            ((App)Application.Current).MainPage = shell;
+            Shell.Current.FlyoutIsPresented = false;
         }
 
         private void OnRegister()
@@ -116,8 +213,9 @@ namespace TrainingHelperApp.ViewModels
             ErrorMsg = "";
             Id = "";
             Password = "";
-            // Navigate to the Register View page
             ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<RegisterView>());
         }
+
+        #endregion
     }
 }

@@ -668,7 +668,7 @@ namespace TrainingHelperApp.ViewModels
                     Id = Id,
                     Gender = gender,
                     IsActive = true,
-                    Picture = "",
+                    
                 };
 
                 InServerCall = true;
@@ -697,11 +697,11 @@ namespace TrainingHelperApp.ViewModels
                         }
                         else
                         {
-                            await Application.Current.MainPage.DisplayAlert("Registration", "", "ok");
+                            await Application.Current.MainPage.DisplayAlert("Registration", "success", "ok");
                         }
                     }
                     InServerCall = false;
-
+                    OnClear();
                     ((App)(Application.Current)).MainPage.Navigation.PopAsync();
                 }
                 else

@@ -464,7 +464,7 @@ namespace TrainingHelperApp.ViewModels
             get => gender;
             set
             {
-                ValidateGender();
+                //ValidateGender();
                 gender = value;
                 OnPropertyChanged("Gender");
             }
@@ -656,7 +656,7 @@ namespace TrainingHelperApp.ViewModels
             ValidatePhone();
             ValidateId();
             ValidateBirthDate();
-            ValidateGender();
+            
 
             if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowIdError && !ShowBirthDateError && !ShowPhoneError&& !ShowGenderError)
             {

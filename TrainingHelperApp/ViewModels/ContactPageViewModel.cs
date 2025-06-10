@@ -1,68 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrainingHelper.Services;
-using TrainingHelperApp.Services;
-using TrainingHelperApp.ViewModels;
 using System.Collections.ObjectModel;
-using TrainingHelperApp.Models;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Extensions.DependencyInjection;
-
+using TrainingHelper.Services;
+using TrainingHelperApp.Models;
+using TrainingHelperApp.Services;
 
 namespace TrainingHelperApp.ViewModels
 {
     public class ContactPageViewModel : ViewModelBase
     {
-        private TrainingHelperWebAPIProxy proxy;
-        private SendEmailService sendEmailService;
-        public bool OwnerIn = ((App)Application.Current).OwnerIn;
-        public bool TrainerIn = ((App)Application.Current).TrainerIn;
+        private readonly TrainingHelperWebAPIProxy proxy;
+        private readonly SendEmailService sendEmailService;
 
-        public ContactPageViewModel (TrainingHelperWebAPIProxy proxy, SendEmailService sendEmailService)
+        public ContactPageViewModel(TrainingHelperWebAPIProxy proxy, SendEmailService sendEmailService)
         {
             this.proxy = proxy;
             this.sendEmailService = sendEmailService;
-            //if(!OwnerIn)
-            // To = ((App)Application.Current).LoggedInUser.Email;
-            //else if(TrainerIn)
-            //    To = ((App)Application.Current).LoggedInTrainer.Email;
+
+            OwnerIn = ((App)Application.Current).OwnerIn;
+            TrainerIn = ((App)Application.Current).TrainerIn;
+
             if (OwnerIn)
-                from = "Owner"; // Always enforce "Owner" when OwnerIn is true.
+                From = "Owner";
             else if (!TrainerIn)
-                from = $"{((App)Application.Current).LoggedInUser.FirstName} {((App)Application.Current).LoggedInUser.LastName}";
+                From = $"{((App)Application.Current).LoggedInUser.FirstName} {((App)Application.Current).LoggedInUser.LastName}";
             else
-                from = $"{((App)Application.Current).LoggedInTrainer.FirstName} {((App)Application.Current).LoggedInTrainer.LastName}";
+                From = $"{((App)Application.Current).LoggedInTrainer.FirstName} {((App)Application.Current).LoggedInTrainer.LastName}";
+
             InServerCall = false;
-          //  sentEmails = new ObservableCollection<EmailData>();
         }
 
+        #region Fields and Properties
+
+        private bool ownerIn;
+        public bool OwnerIn
+        {
+            get => ownerIn;
+            set
+            {
+                ownerIn = value;
+                OnPropertyChanged(nameof(OwnerIn));
+                OnPropertyChanged(nameof(IsToFieldVisible));
+            }
+        }
+
+        private bool trainerIn;
+        public bool TrainerIn
+        {
+            get => trainerIn;
+            set
+            {
+                trainerIn = value;
+                OnPropertyChanged(nameof(TrainerIn));
+            }
+        }
+
+        public bool IsToFieldVisible => OwnerIn;
+
         private string from;
-   
-        private string subject;
-        private string body;
-        private string statusMessage;
-        private ObservableCollection<EmailData> sentEmails; //if i want to see history
-
-        #region properties
-
         public string From
         {
             get => from;
             set
-            {             
-
+            {
+                from = value;
                 OnPropertyChanged(nameof(From));
             }
         }
 
+        private string to;
+        public string To
+        {
+            get => to;
+            set
+            {
+                to = value;
+                OnPropertyChanged(nameof(To));
+            }
+        }
 
-
-
-       
-
+        private string subject;
         public string Subject
         {
             get => subject;
@@ -73,6 +91,7 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
+        private string body;
         public string Body
         {
             get => body;
@@ -83,6 +102,7 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
+        private string statusMessage;
         public string StatusMessage
         {
             get => statusMessage;
@@ -92,27 +112,32 @@ namespace TrainingHelperApp.ViewModels
                 OnPropertyChanged(nameof(StatusMessage));
             }
         }
-        #endregion
-      
 
-        // Commands or Actions
+        #endregion
+
+        #region Command
+
         private ICommand sendEmailCommand;
         public ICommand SendEmailCommand => sendEmailCommand ??= new Command(async () => await SendEmailAsync());
 
+        #endregion
+
+        #region Methods
+
         public async Task SendEmailAsync()
         {
-
-            if ( string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
+            if (string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
             {
                 StatusMessage = "All fields are required to send an email.";
                 return;
             }
 
+            string targetEmail = OwnerIn ? To : "theaceofhearts52@gmail.com";
+
             var emailData = new EmailData
             {
                 From = From,
-                //traininghelperofficial@gmail.com
-                To = "theaceofhearts52@gmail.com",
+                To = targetEmail,
                 Subject = Subject,
                 Body = Body
             };
@@ -121,19 +146,17 @@ namespace TrainingHelperApp.ViewModels
             {
                 InServerCall = true;
                 bool isSent = await sendEmailService.Send(emailData);
+                InServerCall = false;
+
                 if (isSent)
                 {
-                    InServerCall = false;
                     await App.Current.MainPage.DisplayAlert("Success", "You have successfully sent the message.", "OK");
-                    StatusMessage = "";
-                    //sentEmails.Add(emailData);
-                   // From = "";
-                    Subject = "";
-                    Body = "";
+                    Subject = string.Empty;
+                    Body = string.Empty;
+                    StatusMessage = string.Empty;
                 }
                 else
                 {
-                    InServerCall = false;
                     StatusMessage = "Failed to send email.";
                 }
             }
@@ -143,24 +166,6 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
-        //public async Task LoadEmailsAsync()
-        //{
-        //    try
-        //    {
-        //        // Assuming `proxy` has a method to fetch email data.
-        //        var emails = await proxy.GetEmailsAsync();
-        //        foreach (var email in emails)
-        //        {
-        //            SentEmails.Add(email);
-        //        }
-
-        //        StatusMessage = "Emails loaded successfully.";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        StatusMessage = $"Error loading emails: {ex.Message}";
-        //    }
-        //}
+        #endregion
     }
 }
-

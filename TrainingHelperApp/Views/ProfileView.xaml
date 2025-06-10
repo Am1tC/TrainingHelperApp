@@ -153,11 +153,12 @@
                         Text="{Binding IdError}"
                         TextColor="Red" />
                 </Grid>
-                <Entry
-                    Placeholder="Type ID"
-                    Style="{StaticResource entryStyle}"
-                    Text="{Binding Id}"
-                    IsReadOnly="True"/>
+                <Label Style="{StaticResource entryStyle}"
+Text="{Binding Id}">
+                    
+                </Label>
+              
+                  
 
                 <!--  Password  -->
                 <Grid>

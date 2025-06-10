@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using TrainingHelperApp.Models;
+using TrainingHelper.Services;
 
 namespace TrainingHelperApp.Models
 {
@@ -29,6 +30,13 @@ namespace TrainingHelperApp.Models
         public string? Picture { get; set; }
         public bool IsActive { get; set; }
 
+        public string PhotoUrl
+        {
+            get
+            {
+                return TrainingHelperWebAPIProxy.ImageBaseAddress + Picture;
+            }
+        }
         //public virtual ICollection<Training> Training { get; set; } = new List<Training>();
 
         public Trainer() { }

@@ -22,6 +22,16 @@
                 FontSize="16"
                 HorizontalOptions="Center"
                 TextColor="#666" />
+            <!--To-(only if owner is logged in)-->
+            <Label Text="To:" FontAttributes="Bold" TextColor="#444" IsVisible="{Binding OwnerIn}"/>
+            <Entry
+                 IsVisible="{Binding OwnerIn}"
+                 Placeholder="Who do you want to contact?"
+                 Text="{Binding To}"
+                 BackgroundColor="White"
+                 TextColor="Black"
+                 HeightRequest="40"
+                 Margin="0,0,0,10" />
 
             <!-- Subject -->
             <Label Text="Subject:" FontAttributes="Bold" TextColor="#444" />

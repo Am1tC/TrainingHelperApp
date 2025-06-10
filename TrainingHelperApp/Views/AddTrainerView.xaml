@@ -62,7 +62,7 @@
                     <Label Text="{Binding BirthDateError}" TextColor="Red" IsVisible="{Binding ShowBirthDateError}" />
 
                     <!-- Gender -->
-                    <Picker SelectedItem="{Binding Gender}" ItemsSource="{Binding GenderOptions}" Title="Select gender" />
+                    <Picker SelectedItem="{Binding Gender}" ItemsSource="{Binding GenderOptions}"  />
                     <Label Text="{Binding GenderError}" TextColor="Red" IsVisible="{Binding ShowGenderError}" />
 
                 </VerticalStackLayout>

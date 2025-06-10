@@ -462,7 +462,7 @@ namespace TrainingHelperApp.ViewModels
             get => gender;
             set
             {
-                ValidateGender();
+                //ValidateGender();
                 gender = value;
                 OnPropertyChanged("Gender");
             }
@@ -488,16 +488,16 @@ namespace TrainingHelperApp.ViewModels
             }
         }
 
-        private void ValidateGender()
-        {
+        //private void ValidateGender()
+        //{
 
-            if (gender == null)
-                this.ShowGenderError = true;
-            else
-                this.ShowGenderError = false;
+        //    if (gender == null)
+        //        this.ShowGenderError = true;
+        //    else
+        //        this.ShowGenderError = false;
 
 
-        }
+        //}
 
         #endregion
 
